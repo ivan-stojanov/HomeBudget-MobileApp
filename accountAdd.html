@@ -47,8 +47,8 @@ $( document ).ready(function() {
 					    type: 'post',                   
 						url: 'accountAdd.php',
 						//data: /*$.parseJSON JSON.stringify(*/$('#formDetails').serialize(),
-						data: {accountName : JSON.stringify(theName)},
-						//dataType: 'json',
+						data: {accountName : theName},
+						dataType: 'text',
 						timeout: 5000,	
                        /* beforeSend: function() {
                             // This callback function will trigger before data is sent
@@ -71,7 +71,13 @@ $( document ).ready(function() {
 							
 							alert("5result.accountName: " + result.accountName);	
 							alert("6result: " + result);	
-							alert("7accountName: " + accountName);	
+							alert("7accountName: " + accountName);
+
+							alert("1eval('(' + result + ')'): " + eval('(' + result + ')'));
+							alert("2eval('(' + result.accountName + ')'): " + eval('(' + result.accountName + ')'));
+							alert("3eval('(' + (result).accountName + ')'): " + eval('(' + (result).accountName + ')'));
+							alert("4eval('(' + (result) + ')').accountName: " + eval('(' + (result) + ')').accountName);
+														
 							//alert("8JSON.parse(result.accountName): " + JSON.parse(result.accountName));	
 							//alert("9JSON.parse(result).accountName: " + JSON.parse(result).accountName);	
 							//alert("10JSON.parse(result): " + JSON.parse(result));	
@@ -79,7 +85,7 @@ $( document ).ready(function() {
 							//var response = JSON.stringify(result);
 							//var obj = eval ("(" + response + ")");
 							//alert(obj.accountName/*.accountName*/);
-							$("#resultLog").html("accountName: " + JSON.stringify(result.accountName)/* + result.accountType response.accountName*/);
+							$("#resultLog").html("accountName: " + eval('(' + (result) + ')').accountName/* + result.accountType response.accountName*/);
 							//alert("after success");
                         },
                         error: function (request,error) {
