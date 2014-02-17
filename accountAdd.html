@@ -64,7 +64,7 @@ $( document ).ready(function() {
                         },*/
                         success: function (result, status) {
 							//$.mobile.changePage("#second");
-							alert("before success, result: " + result.accountName + " ,status: " + status);							
+							alert("before success, result: " + JSON.stringify(result.accountName) + " ,status: " + status);							
 							//var response = JSON.stringify(result);
 							//var obj = eval ("(" + response + ")");
 							//alert(obj.accountName/*.accountName*/);
