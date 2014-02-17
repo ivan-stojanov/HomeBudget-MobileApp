@@ -19,6 +19,9 @@
 
 <script>
 $( document ).ready(function() {
+document.addEventListener("deviceready", myFunction, false);
+	
+function myFunction() {
 	/*$('body').addClass('ui-loading');
     $.mobile.showPageLoadingMsg('a', 'Searching......', false);
 	
@@ -76,6 +79,7 @@ $( document ).ready(function() {
             }           
             return false; // cancel original event to prevent form submitting
         });    
+}
 });
 </script>
 
