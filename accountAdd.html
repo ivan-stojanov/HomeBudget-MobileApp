@@ -64,11 +64,17 @@ $( document ).ready(function() {
                         },*/
                         success: function (result, status) {
 							//$.mobile.changePage("#second");
-							alert("before success, result: " + JSON.stringify(result.accountName) + " ,status: " + status);							
+							alert("1JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);		
+							alert("2JSON.stringify(result.accountName): " + JSON.stringify(result.accountName));	
+							alert("3JSON.stringify(result): " + JSON.stringify(result));								
+							alert("4JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);									
+							alert("5result.accountName: " + result.accountName);	
+							alert("6result: " + result);	
+							alert("7accountName: " + accountName);	
 							//var response = JSON.stringify(result);
 							//var obj = eval ("(" + response + ")");
 							//alert(obj.accountName/*.accountName*/);
-							$("#resultLog").html("accountName: " + result.accountName/* + result.accountType response.accountName*/);
+							$("#resultLog").html("accountName: " + JSON.stringify(result.accountName)/* + result.accountType response.accountName*/);
 							//alert("after success");
                         },
                         error: function (request,error) {
