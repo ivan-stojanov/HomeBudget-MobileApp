@@ -1,6 +1,6 @@
 <?php
-header('Access-Control-Allow-Origin: *');  
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
 
 $return['accountName'] = /*json_decode*/($_POST['accountName']);
 //$return['accountType'] = json_decode($_POST['accountType']);
@@ -8,7 +8,6 @@ $return['accountName'] = /*json_decode*/($_POST['accountName']);
 $return['accountDate'] = $_POST['accountDate'];*/
 
 echo json_encode($return);
-
 
 //echo json_encode($accountName);
 //$data="I am sending response to you";
