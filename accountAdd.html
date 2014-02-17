@@ -29,13 +29,16 @@ $( document ).ready(function() {
         $(document).on('submit', '#formDetails', function() { // catch the form's submit event
 			var theName = $.trim($("#accountName").val());
             if($('#accountName').val().length > 0){//alert(json_encode(JSON.stringify($('#formDetails').serialize())));
-				//alert(($.parseJSON($('#formDetails').serialize())));
+			/*	var test2 = {accountName : theName};
+				var test = JSON.stringify({accountName : theName});
+				alert((JSON.parse(test)).accountName);*/
 				//alert("serialize: " + $('#formDetails').serialize());
                 // Send data to server through the ajax call
                 // action is functionality we want to call and outputJSON is our data
                     $.ajax({
 						url: 'accountAdd.php',
-						data: /*$.parseJSON JSON.stringify(*/$('#formDetails').serialize(),
+						//data: /*$.parseJSON JSON.stringify(*/$('#formDetails').serialize(),
+						data: {accountName : theName},
                         type: 'post',                   
 						dataType: 'json',
 						timeout: 5000,	
