@@ -17,11 +17,14 @@
 <script src="js/accountDetails.js"></script>
 -->
 
-<script>
-$( document ).ready(function() {
-document.addEventListener("deviceready", myFunction, false);
+<script>/*
+$(function() {
+    document.addEventListener("deviceready", onDeviceReady, true);
+});
+//document.addEventListener("deviceready", myFunction, false);
 	
-function myFunction() {
+function onDeviceReady() {*/
+$( document ).ready(function() {
 	/*$('body').addClass('ui-loading');
     $.mobile.showPageLoadingMsg('a', 'Searching......', false);
 	
@@ -78,9 +81,9 @@ function myFunction() {
                 alert('Please fill all necessary fields');
             }           
             return false; // cancel original event to prevent form submitting
-        });    
-}
+        }); 
 });
+//}
 </script>
 
 </head>
