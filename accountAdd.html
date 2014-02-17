@@ -48,7 +48,7 @@ $( document ).ready(function() {
 						url: 'accountAdd.php',
 						//data: /*$.parseJSON JSON.stringify(*/$('#formDetails').serialize(),
 						data: {accountName : theName},
-						dataType: 'json',
+						//dataType: 'json',
 						//contentType: "application/json",
 						crossDomain: true,
 						timeout: 5000,	
@@ -66,14 +66,14 @@ $( document ).ready(function() {
                         },*/
                         success: function (result, status) {
 							//$.mobile.changePage("#second");
-							alert("1JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);		
+						/*	alert("1JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);		
 							alert("2JSON.stringify(result.accountName): " + JSON.stringify(result.accountName));	
 							alert("3JSON.stringify(result): " + JSON.parse(JSON.stringify(result)));								
 							alert("4JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);							
 							alert("5result.accountName: " + result.accountName);	
 							alert("6result: " + result);	
 							alert("7accountName: " + accountName);
-							alert("8JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);
+							alert("8JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);*/
 						/*
 							alert("1eval('(' + result + ')'): " + eval('(' + result + ')'));
 							alert("2eval('(' + result.accountName + ')'): " + eval('(' + result.accountName + ')'));
