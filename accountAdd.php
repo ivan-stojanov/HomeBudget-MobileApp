@@ -1,8 +1,9 @@
 <?php
-header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
-$return['accountName'] = /*json_decode*/($_GET['first']);
+
+$return['accountName'] = /*json_decode*/($_POST['accountName']);
 //$return['accountType'] = json_decode($_POST['accountType']);
 /*$return['accountBalance'] = $_POST['accountBalance'];
 $return['accountDate'] = $_POST['accountDate'];*/
