@@ -48,7 +48,7 @@ $( document ).ready(function() {
 						url: 'accountAdd.php',
 						//data: /*$.parseJSON JSON.stringify(*/$('#formDetails').serialize(),
 						data: {accountName : theName},
-						dataType: 'json',
+						//dataType: 'json',
 						timeout: 5000,	
                        /* beforeSend: function() {
                             // This callback function will trigger before data is sent
@@ -64,7 +64,7 @@ $( document ).ready(function() {
                         },*/
                         success: function (result, status) {
 							//$.mobile.changePage("#second");
-							//alert("before success, result: " + result);							
+							alert("before success, result: " + result.accountName + " ,status: " + status);							
 							//var response = JSON.stringify(result);
 							//var obj = eval ("(" + response + ")");
 							//alert(obj.accountName/*.accountName*/);
