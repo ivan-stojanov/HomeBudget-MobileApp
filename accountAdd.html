@@ -27,11 +27,12 @@ $( document ).ready(function() {
 	}, 1000);
 	*/
         $(document).on('submit', '#formDetails', function() { // catch the form's submit event
+			$.mobile.allowCrossDomainPages = true;
 			var theName = $.trim($("#accountName").val());
             if($('#accountName').val().length > 0){//alert(json_encode(JSON.stringify($('#formDetails').serialize())));
-			/*	var test2 = {accountName : theName};
+				var test2 = {accountName : theName};
 				var test = JSON.stringify({accountName : theName});
-				alert((JSON.parse(test)).accountName);*/
+				//alert((JSON.parse(test)).accountName);
 				//alert("serialize: " + $('#formDetails').serialize());
                 // Send data to server through the ajax call
                 // action is functionality we want to call and outputJSON is our data
