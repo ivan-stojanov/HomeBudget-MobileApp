@@ -35,6 +35,7 @@ $( document ).ready(function() {
 	*/
         $(document).on('submit', '#formDetails', function() { // catch the form's submit event
 			$.mobile.allowCrossDomainPages = true;
+			$.support.cors = true;
 			var theName = $.trim($("#accountName").val());
             if($('#accountName').val().length > 0){//alert(json_encode(JSON.stringify($('#formDetails').serialize())));
 				//var test2 = {accountName : theName};
@@ -45,7 +46,7 @@ $( document ).ready(function() {
                 // action is functionality we want to call and outputJSON is our data
                     $.ajax({
 					    type: 'post',                   
-						url: 'accountAdd.php',
+						url: 'accountAdd.js',
 						//data: /*$.parseJSON JSON.stringify(*/$('#formDetails').serialize(),
 						data: {accountName : theName},
 //UNCOMMENT THIS LINE				////		
@@ -53,12 +54,14 @@ $( document ).ready(function() {
 						//contentType: "application/json",
 						crossDomain: true,
 						timeout: 5000,	
-                       /* beforeSend: function() {
+                        beforeSend: function() {
                             // This callback function will trigger before data is sent
-							alert("before send");
+							//alert("before send");
                             //$.mobile.showPageLoadingMsg(true); // This will show ajax spinner
-							alert("after send");
-                        },
+							//alert("after send");
+							sessionStorage.setItem("accountName", $.trim($("#accountName").val()));
+							sessionStorage.setItem("accountType", $.trim($("#accountType").val()));
+                        },/*
                         complete: function() {
                             // This callback function will trigger on data sent/received complete
 							alert("before complete");
@@ -67,7 +70,7 @@ $( document ).ready(function() {
                         },*/
                         success: function (result, status) {
 							//$.mobile.changePage("#second");
-							alert("1JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);		
+						/*	alert("1JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);		
 							alert("2JSON.stringify(result.accountName): " + JSON.stringify(result.accountName));	
 							alert("3JSON.stringify(result): " + JSON.parse(JSON.stringify(result)));								
 							alert("4JSON.stringify(result).accountName: " + JSON.stringify(result).accountName);							
@@ -80,7 +83,8 @@ $( document ).ready(function() {
 							alert("2eval('(' + result.accountName + ')'): " + eval('(' + result.accountName + ')'));
 							alert("3eval('(' + (result).accountName + ')'): " + eval('(' + (result).accountName + ')'));
 							alert("4eval('(' + (result) + ')').accountName: " + eval('(' + (result) + ')').accountName);
-														
+						*/		
+	//						alert(sessionStorage.getItem("concat"));						
 							//alert("8JSON.parse(result.accountName): " + JSON.parse(result.accountName));	
 							//alert("9JSON.parse(result).accountName: " + JSON.parse(result).accountName);	
 							//alert("10JSON.parse(result): " + JSON.parse(result));	
@@ -88,7 +92,7 @@ $( document ).ready(function() {
 							//var response = JSON.stringify(result);
 							//var obj = eval ("(" + response + ")");
 							//alert(obj.accountName/*.accountName*/);
-							$("#resultLog").html("accountName: " + result.accountName/* + result.accountType response.accountName*/);
+							$("#resultLog").html("accountName: " + returnResult.accountName/* + result.accountType response.accountName*/);
 							//alert("after success");
                         },
                         error: function (request,error) {
