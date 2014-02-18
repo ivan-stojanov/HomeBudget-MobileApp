@@ -39,12 +39,12 @@ $( document ).ready(function() {
 			var theName = $.trim($("#accountName").val());
             if($('#accountName').val().length > 0){
 				var returnResult =  { 
-										accountName: $("#accountName").val()/*,
+										accountName: $("#accountName").val(),
 										accountType: $("#accountType").val(),
 										accountBalance: $("#accountBalance").val(),
-										accountDate: $("#accountDate").val()*/
+										accountDate: $("#accountDate").val()
 									};			
-				$("#resultLog").html("accountName: " + returnResult.accountName/* + result.accountType response.accountName*/);
+				$("#resultLog").html("accountName: " + returnResult.accountName + returnResult.accountDate);
 
             } else {
                 alert('Please fill all necessary fields');
