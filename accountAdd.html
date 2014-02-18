@@ -36,20 +36,24 @@ $( document ).ready(function() {
         $(document).on('submit', '#formDetails', function() { // catch the form's submit event
 			//$.mobile.allowCrossDomainPages = true;
 			//$.support.cors = true;
-			var theName = $.trim($("#accountName").val());
-            if($('#accountName').val().length > 0){
+			//var theName = $.trim($("#accountName").val());
+            if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && ($('#accountDate').val().length > 0)){
 				var returnResult =  { 
 										accountName: $("#accountName").val(),
 										accountType: $("#accountType").val(),
 										accountBalance: $("#accountBalance").val(),
 										accountDate: $("#accountDate").val()
 									};			
-				$("#resultLog").html("accountName: " + returnResult.accountName + returnResult.accountDate);
-
+									
+				$("#resultLog").html("accountName: " + returnResult.accountName + "\n" 
+								   + "accountType: " + returnResult.accountType + "\n" 
+								   + "accountBalance: " + returnResult.accountBalance + "\n" 
+								   + "accountDate: " + returnResult.accountDate + "\n" 
+								     );
             } else {
-                alert('Please fill all necessary fields');
+                alert('Please fill all fields');
             }           
-            return false; // cancel original event to prevent form submitting
+            return false;
         }); 
 });
 //}
