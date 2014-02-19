@@ -18,7 +18,9 @@
 <script src="js/accountDetails.js"></script>
 -->
 
-<script>/*
+<script>
+var isOK;
+/*
 $(function() {
     document.addEventListener("deviceready", onDeviceReady, true);
 });
@@ -57,8 +59,11 @@ $( document ).ready(function() {
                 alert('Please fill all fields');
             }           
             return false;*/
-			accoundAdd();
+			isOK = accoundAdd();
+			
         }); 
+		//if(isOK == false) { alert("ivan"); }
+		//alert(obj.accountName);
 });
 //}
 </script>
