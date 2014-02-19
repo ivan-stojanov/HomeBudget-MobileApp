@@ -11,7 +11,7 @@ function accoundAdd() {
 		var request = indexedDB.open(openedDB);
 
 		request.onsuccess = function(e) {
-		
+			alert('request.onsuccess');
 			html5rocks.indexedDB.db = e.target.result;			
 			var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
 			$('#busy').hide();			
@@ -22,7 +22,7 @@ function accoundAdd() {
 						accountDate: $("#accountDate").val()
 					};					
 			store.add(obj);
-			
+			alert('store.add');
 		};
 		
 		request.onerror = html5rocks.indexedDB.onerror;
