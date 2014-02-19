@@ -1,5 +1,5 @@
 function accoundAdd() {
 
-	alert("test");
+	alert($("#accountName").val() + " - " + $("#accountDate").val());
 
 }
