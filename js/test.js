@@ -1,0 +1,5 @@
+function accoundAdd() {
+
+	alert("test");
+
+}
