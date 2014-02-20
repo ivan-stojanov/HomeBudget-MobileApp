@@ -1,6 +1,6 @@
 
 function accountAdd() {
-	alert('accountAdd start');
+	//alert('accountAdd start');
 	if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && ($('#accountDate').val().length > 0)){
 	
 		var html5rocks = {};
@@ -23,7 +23,7 @@ function accountAdd() {
 						accountDate: $("#accountDate").val()
 					};					
 			store.add(obj);
-			//alert('New accound is added');
+			alert('New accound is added');
 			//alert('store.add');
 		};
 		
