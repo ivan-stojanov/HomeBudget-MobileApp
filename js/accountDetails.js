@@ -11,7 +11,7 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	alert('Error:' + e);
+	//alert('Error:' + e);
 };
 
 //var idGET = getUrlVars()["id"];
