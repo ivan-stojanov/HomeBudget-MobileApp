@@ -12,6 +12,7 @@ if ('webkitIndexedDB' in window) {
 // Hook up the errors to the console so we could see it. In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
   console.log(e);
+  alert('Error:' + e);
 };
 
 function init() {
