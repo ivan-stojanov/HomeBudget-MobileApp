@@ -69,6 +69,40 @@ html5rocks.indexedDB.open = function() {
 				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 			$('#currentDate').text(today);
 		}
+		
+		// now let's close the database again!
+		var dbCLOSE;
+	    dbCLOSE = request.result;
+		dbCLOSE.close();
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+$( document ).ready(function() {
+	$(document).on('click', '#deleteAccount', function() {
+	
+	var html5rocks = {};
+	html5rocks.indexedDB = {};
+	html5rocks.indexedDB.db = null;
+
+	var openedDB = localStorage["openedDB"];	
+	var request = indexedDB.open(openedDB);	
+		
+		request.onsuccess = function(e) {  
+			html5rocks.indexedDB.db = e.target.result;
+
+			var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+			alert(store + idGET);
+			store.delete(idGET);
+			alert("This account is deleted!");
+		}
+		
+		request.onerror = function(e) {
+			alert('request.onerror!');
+		}	
+		
+		var dbCLOSE;
+	    dbCLOSE = request.result;
+		dbCLOSE.close();
+	});
+});
