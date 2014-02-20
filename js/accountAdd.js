@@ -23,8 +23,8 @@ function accountAdd() {
 						accountDate: $("#accountDate").val()
 					};					
 			store.add(obj);
-			alert('New accound is added');
-			alert('store.add');
+			//alert('New accound is added');
+			//alert('store.add');
 		};
 		
 		request.onerror = function(e) {
@@ -32,7 +32,7 @@ function accountAdd() {
 		}
 		
 		//return true;
-		alert('condition true');
+		//alert('condition true');
 		
 	} else {
 	
