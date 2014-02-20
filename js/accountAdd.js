@@ -1,6 +1,6 @@
 
 function accountAdd() {
-	//alert('accountAdd start');
+	alert('accountAdd start');
 	if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && ($('#accountDate').val().length > 0)){
 	
 		var html5rocks = {};
@@ -12,7 +12,7 @@ function accountAdd() {
 		var request = indexedDB.open(openedDB);
 
 		request.onsuccess = function(e) {
-			//alert('request.onsuccess');
+			alert('request.onsuccess');
 			html5rocks.indexedDB.db = e.target.result;			
 			var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
 			$('#busy').hide();			
