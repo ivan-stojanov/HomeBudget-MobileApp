@@ -87,20 +87,22 @@ $( document ).ready(function() {
 
 			var openedDB = localStorage["openedDB"];	
 			var requestDelete = indexedDB.open(openedDB);	
-				
+//alert("90");
 				requestDelete.onsuccess = function(e) {  
 					html5rocks.indexedDB.db = e.target.result;
-
+//alert("93");
 					var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
 					storeDelete.delete(parseInt(idGET));
 					alert("This account is deleted!");
+				/*	var dbCLOSEdelete;
+					dbCLOSEdelete = requestDelete.result;
+					dbCLOSEdelete.close();*/
 					return true;
 				}
 				
 				requestDelete.onerror = function(e) {
 					alert('request.onerror!');
-				}	
-				
+				}				
 				//return true;
 				
 		} else {
