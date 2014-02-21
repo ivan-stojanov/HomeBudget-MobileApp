@@ -79,30 +79,37 @@ html5rocks.indexedDB.open = function() {
 };
 
 $( document ).ready(function() {
-	$(document).on('click', '#deleteAccount', function() {
-	alert("clicked");
-	var html5rocks = {};
-	html5rocks.indexedDB = {};
-	html5rocks.indexedDB.db = null;
+	$(".confirmDelete").on("click", function(event){
+		if(confirm("Are you sure you want to delete this account?")){	
+			var html5rocks = {};
+			html5rocks.indexedDB = {};
+			html5rocks.indexedDB.db = null;
 
-	var openedDB = localStorage["openedDB"];	
-	var requestDelete = indexedDB.open(openedDB);	
-		
-		requestDelete.onsuccess = function(e) {  
-			html5rocks.indexedDB.db = e.target.result;
+			var openedDB = localStorage["openedDB"];	
+			var requestDelete = indexedDB.open(openedDB);	
+				
+				requestDelete.onsuccess = function(e) {  
+					html5rocks.indexedDB.db = e.target.result;
 
-			var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-			/*alert(storeDelete + idGET + "ivan");*/
-			storeDelete.delete(parseInt(idGET));
-			//alert("This account is deleted!");
+					var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+					storeDelete.delete(parseInt(idGET));
+					alert("This account is deleted!");
+					return true;
+				}
+				
+				requestDelete.onerror = function(e) {
+					alert('request.onerror!');
+				}	
+				
+				//return true;
+				
+		} else {
+			event.preventDefault();
+			return false;
 		}
 		
-		requestDelete.onerror = function(e) {
-			alert('request.onerror!');
-		}	
-		
-		var dbCLOSEdelete;
-	    dbCLOSEdelete = requestDelete.result;
-		dbCLOSEdelete.close();
+		/*var dbCLOSEdelete;
+		dbCLOSEdelete = requestDelete.result;
+		dbCLOSEdelete.close();*/
 	});
 });
