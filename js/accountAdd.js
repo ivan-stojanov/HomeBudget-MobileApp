@@ -14,8 +14,8 @@ function funcAccountAdd() {
 		html5rocks.indexedDB.db = null;
 
 		openedDB = localStorage["openedDB"];	
-		request = indexedDB.open(openedDB);
-		
+		request = indexedDB.open(openedDB);		
+				
 		alert("New accound is added - WRONG");
 		
 		request.onsuccess = function(e) {

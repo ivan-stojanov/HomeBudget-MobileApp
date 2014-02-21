@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
 <link rel="stylesheet" href="css/styles.css" />	
 
-<script>
+<script>/*
 $(document).ready(function() {
 	$(document).on('submit', '#formDetails', function() {
 		
@@ -15,6 +15,25 @@ $(document).ready(function() {
 		
 	}); 
 });
+*/
+
+$(document).ready(function() {
+	$("#save").on("click", function(event){
+		if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && ($('#accountDate').val().length > 0)){
+
+			if(confirm("Are you sure you want to create this account?")){	
+				funcAccountAdd();				
+			} else {
+				event.preventDefault();
+				return false;
+			}
+			
+		} else {	
+			alert('Please fill all fields');
+			return false;
+		} 
+	});
+});	
 </script>
 
 </head>
@@ -30,7 +49,7 @@ $(document).ready(function() {
 		
 		<div data-role="content">	
 			
-		    <form method="post" action="" id="formDetails" data-ajax="false">
+		    <form method="post" action="accountsList.html" id="formDetails" data-ajax="false">
 				<div data-role="fieldcontain">
 					<br><label for="accountName">Account:</label><br>
 					<input type="text" name="accountName" id="accountName" value="" placeholder="Enter account name...">	
