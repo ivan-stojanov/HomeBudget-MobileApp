@@ -27,9 +27,9 @@ function funcAccountAdd() {
 			//alert('New accound is added - TRUE');
 			
 			// now let's close the database again!
-			var dbCLOSE;
+		/*	var dbCLOSE;
 			dbCLOSE = request.result;
-			dbCLOSE.close();
+			dbCLOSE.close();	*/
 		};
 		
 		request.onupgradeneeded = function(e) {  

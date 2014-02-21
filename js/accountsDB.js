@@ -144,9 +144,9 @@ html5rocks.indexedDB.open = function() {
 	   		
 		
 		// now let's close the database again!
-		var dbCLOSE;
+	/*	var dbCLOSE;
 	    dbCLOSE = request.result;
-		dbCLOSE.close();
+		dbCLOSE.close();	*/
 	};
 												////alert("end opened");
 	request.onerror = html5rocks.indexedDB.onerror;
