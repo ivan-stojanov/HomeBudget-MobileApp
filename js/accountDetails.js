@@ -80,29 +80,29 @@ html5rocks.indexedDB.open = function() {
 
 $( document ).ready(function() {
 	$(document).on('click', '#deleteAccount', function() {
-	
+	alert("clicked");
 	var html5rocks = {};
 	html5rocks.indexedDB = {};
 	html5rocks.indexedDB.db = null;
 
 	var openedDB = localStorage["openedDB"];	
-	var request = indexedDB.open(openedDB);	
+	var requestDelete = indexedDB.open(openedDB);	
 		
-		request.onsuccess = function(e) {  
+		requestDelete.onsuccess = function(e) {  
 			html5rocks.indexedDB.db = e.target.result;
 
-			var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-			alert(store + idGET);
-			store.delete(idGET);
-			alert("This account is deleted!");
+			var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+			/*alert(storeDelete + idGET + "ivan");*/
+			storeDelete.delete(parseInt(idGET));
+			//alert("This account is deleted!");
 		}
 		
-		request.onerror = function(e) {
+		requestDelete.onerror = function(e) {
 			alert('request.onerror!');
 		}	
 		
-		var dbCLOSE;
-	    dbCLOSE = request.result;
-		dbCLOSE.close();
+		var dbCLOSEdelete;
+	    dbCLOSEdelete = requestDelete.result;
+		dbCLOSEdelete.close();
 	});
 });
