@@ -7,15 +7,13 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
 <link rel="stylesheet" href="css/styles.css" />	
 
-<script>/*
+<script>
 $(document).ready(function() {
-	$(document).on('submit', '#formDetails', function() {
-		
-			funcAccountAdd();
-		
-	}); 
+    $('#accountBalance').keyup(function() {
+        var numbers = $(this).val();
+        $(this).val(numbers.replace(/\D/, ''));
+    });
 });
-*/
 
 $(document).ready(function() {
 	$("#save").on("click", function(event){
