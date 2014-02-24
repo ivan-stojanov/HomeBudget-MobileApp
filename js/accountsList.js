@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 3;
+//var version = 3;
 													// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -29,7 +29,7 @@ html5rocks.indexedDB.db = null;
 html5rocks.indexedDB.open = function() {	
 												//alert("opened");
 	var openedDB = localStorage["openedDB"];	
-	var request = indexedDB.open(openedDB, version);  
+	var request = indexedDB.open(openedDB/*, version*/);  
 												////alert("opened MyTest");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
@@ -53,7 +53,7 @@ html5rocks.indexedDB.open = function() {
 													////alert("after objectStoreS onupgradeneeded"); 		
 		//var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
 													 //alert("after get objectStore onupgradeneeded"); 
-// /*		
+ /*		
 //this part is to add items in the account objectStore (when app is first Installed)
 		const obj = [
 			{ accountName: "Ivan", accountType: "PrivatenIvan", accountBalance: 35000, accountDate: "10/10/2010" },
@@ -69,7 +69,7 @@ html5rocks.indexedDB.open = function() {
 		store.createIndex( "by_accountBalance", "accountBalance", { unique: false } );
 		store.createIndex( "by_accountDate", "accountDate", { unique: false } );
 		store.createIndex( "by_id", "id", { unique: false } );	
-// */	
+ */	
 	};
 	request.onsuccess = function(e) {
 													////alert("request onsuccess"); 

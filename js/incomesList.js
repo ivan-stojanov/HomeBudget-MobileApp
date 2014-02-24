@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 4;
+//var version = 4;
 													// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -29,7 +29,7 @@ html5rocks.indexedDB.db = null;
 html5rocks.indexedDB.open = function() {	
 												//alert("opened");
 	var openedDB = localStorage["openedDB"];	
-	var request = indexedDB.open(openedDB, version);  
+	var request = indexedDB.open(openedDB/*, version*/);  
 												////alert("opened MyTest");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
@@ -53,7 +53,7 @@ html5rocks.indexedDB.open = function() {
 													////alert("after objectStoreS onupgradeneeded"); 		
 		//var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
 													 //alert("after get objectStore onupgradeneeded"); 
-// /*		
+ /*		
 //this part is to add items in the account objectStore (when app is first Installed)
 		const obj = [
 			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: 500, incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatPeriod: "" },
@@ -72,10 +72,10 @@ html5rocks.indexedDB.open = function() {
 		store.createIndex( "by_incomeRepeat", "incomeRepeat", { unique: false } );
 		store.createIndex( "by_incomeRepeatPeriod", "incomeRepeatPeriod", { unique: false } );
 		store.createIndex( "by_id", "id", { unique: false } );	
-// */	
+ */	
 	};
 	request.onsuccess = function(e) {
-													alert("request onsuccess"); 
+													//alert("request onsuccess"); 
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 													////alert("before store");  
