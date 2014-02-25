@@ -16,7 +16,7 @@
 });
 */
 $(document).ready(function() {
-	$("#repeatPeriod").show();
+	$("#repeatPeriod").hide();
 	
 	$('input[name="radio-choice-t-6"]:radio').change(
 		function(){
@@ -71,8 +71,8 @@ $(document).ready(function() {
 					<input type="text" name="incomeCategory" id="incomeCategory" value="" placeholder="Enter income category...">
 					<br><br><label for="incomeDueDate">Due Date:</label><br>
 					<input type="date" name="incomeDueDate" id="incomeDueDate" value=""  />		
-					<div> 
-					<br><fieldset data-role="controlgroup" data-theme="b" data-type="horizontal">
+					<br>
+					<fieldset data-role="controlgroup" data-theme="b" data-type="horizontal">
 						<legend>Repeat:</legend>
 						<br>
 						<div id="leftRadio">
@@ -82,7 +82,6 @@ $(document).ready(function() {
 							<label for="radio-choice-t-6b">No</label>
 						</div>
 					</fieldset>	
-					</div>
 					<div id="repeatPeriod">
 						<br><label for="incomeRepeatPeriod">Repeat Period:</label><br>
 						<input type="text" name="incomeRepeatPeriod" id="incomeRepeatPeriod" value=""  />
