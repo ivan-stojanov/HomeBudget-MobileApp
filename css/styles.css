@@ -230,6 +230,7 @@ li .line1 {
 
 #leftRadio
 {
-	margin-left: -120px;
+	/*margin-left: -20px;*/
 	margin-top: 5px;
+	width: 150px;
 }
