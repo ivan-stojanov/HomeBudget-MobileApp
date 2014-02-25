@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="./js/accountAdd.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+<link rel="stylesheet" href="css/styles.css" />	
+
+<script>
+/*$(document).ready(function() {
+    $('#accountBalance').keyup(function() {
+        var numbers = $(this).val();
+        $(this).val(numbers.replace(/\D/, ''));
+    });
+});
+*/
+$(document).ready(function() {
+	$("#repeatPeriod").hide();
+	
+	$('input[name="radio-choice-t-6"]:radio').change(
+		function(){
+			if(this.value == "on") {				
+					$("#repeatPeriod").show();
+			} else {
+					$("#repeatPeriod").hide();
+			}
+		}
+	); 
+	
+	$("#save").on("click", function(event){
+		if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && ($('#accountDate').val().length > 0)){
+
+			if(confirm("Are you sure you want to create this account?")){	
+				funcAccountAdd();				
+			} else {
+				event.preventDefault();
+				return false;
+			}
+			
+		} else {	
+			alert('Please fill all fields');
+			return false;
+		} 
+	});
+});	
+</script>
+
+</head>
+    
+<body>
+	<div data-role="page" id="incomeAdd">
+	
+		<div data-role="header" id="header" class="header">
+			<h1>Home Budget Manager</h1>
+			<a href="#" data-role="button" data-rel="back" data-theme="c">Go Back</a>
+			<a href="index.html" rel="external" data-theme="c">Home</a>
+		</div>
+		
+		<div data-role="content">	
+			
+		    <form method="post" action="incomesList.html" id="formDetails" data-ajax="false">
+				<div data-role="fieldcontain">
+					<br><label for="incomeName">Name:</label><br>
+					<input type="text" name="incomeName" id="incomeName" value="" placeholder="Enter income name...">	
+					<br><br><label for="incomeAmmount">Ammount:</label><br>
+					<input type="number" name="incomeAmmount" id="incomeAmmount" value="" placeholder="Enter income ammount...">
+					<br><br><label for="incomeAccount">Account:</label><br>
+					<input type="text" name="incomeAccount" id="incomeAccount" value="" placeholder="Enter income account...">	
+					<br><br><label for="incomeCategory">Category:</label><br>
+					<input type="text" name="incomeCategory" id="incomeCategory" value="" placeholder="Enter income category...">
+					<br><br><label for="incomeDueDate">Due Date:</label><br>
+					<input type="date" name="incomeDueDate" id="incomeDueDate" value=""  />		
+					<div> 
+					<br><fieldset data-role="controlgroup" data-theme="b" data-type="horizontal">
+						<legend>Repeat:</legend>
+						<br>
+						<div id="leftRadio">
+							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6a" value="on">
+							<label for="radio-choice-t-6a">Yes</label>
+							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6b" value="off" checked="checked">
+							<label for="radio-choice-t-6b">No</label>
+						</div>
+					</fieldset>	
+					</div>
+					<div id="repeatPeriod">
+						<br><label for="incomeRepeatPeriod">Repeat Period:</label><br>
+						<input type="text" name="incomeRepeatPeriod" id="incomeRepeatPeriod" value=""  />
+					</div>
+				</div>
+				<input type="submit" id="save" data-inline="true" value="Save">
+				<div id="resultLog"></div>
+			</form> 			
+		<div id="busy">Loading...</div>		
+	</div>
+
+	<div data-role="footer" class="footer">
+		<h1>Add Income</h1>
+	</div>
+	
+</div>
+
+</body>
+
+</html>

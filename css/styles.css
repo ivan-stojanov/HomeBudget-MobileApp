@@ -227,3 +227,9 @@ li .line1 {
 	padding-left: 10px;
 	font-weight: bold;
 }
+
+#leftRadio
+{
+	margin-left: -290px;
+	margin-top: 5px;
+}
