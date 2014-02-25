@@ -22,7 +22,7 @@ $(document).ready(function() {
     $(document).on(touchEvent, '.ui-radio', function(){ 
 	*/
 	///*
-	$('input[name="radio-choice-t-6"]:radio').change(
+	$(/*'input[name="radio-choice-t-6"]:radio'*/'#repeat').change(
 		function(){//*/
 			if(this.value == "on") {				
 					$("#repeatPeriod").show();
@@ -75,16 +75,19 @@ $(document).ready(function() {
 					<input type="text" name="incomeCategory" id="incomeCategory" value="" placeholder="Enter income category...">
 					<br><br><label for="incomeDueDate">Due Date:</label><br>
 					<input type="date" name="incomeDueDate" id="incomeDueDate" value=""  />		
-					<br><br>
-					<fieldset data-role="controlgroup" data-theme="b" data-mini="true" data-type="vertical" id="leftRadio"> <!---->
+					<br><br>					
+					<label for="repeat">Repeat:</label>
+					<div id="leftRadio"><select name="repeat" id="repeat" data-role="slider" data-mini="true">
+						<option value="on">Yes</option>
+						<option value="off" selected="">No</option>
+					</select></div>
+					<!--<fieldset data-role="controlgroup" data-theme="b" data-mini="true" data-type="vertical" id="leftRadio">
 						<legend>Repeat:</legend><br><br>
-						<div > <!---->
 							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6a" value="on">
 							<label for="radio-choice-t-6a">Yes</label>
 							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6b" value="off" checked="checked">
 							<label for="radio-choice-t-6b">No</label>
-						</div>
-					</fieldset>
+					</fieldset>-->
 					<div id="repeatPeriod">
 						<br><label for="incomeRepeatPeriod">Repeat Period:</label><br>
 						<input type="text" name="incomeRepeatPeriod" id="incomeRepeatPeriod" value=""  />
