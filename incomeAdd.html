@@ -16,10 +16,14 @@
 });
 */
 $(document).ready(function() {
-	$("#repeatPeriod").hide();
+	$("#repeatPeriod").hide();	
 	
+	/*touchEvent = (navigator.userAgent.match(/iPad|iPhone|Android/i)) ? "touchstart" : "click";    
+    $(document).on(touchEvent, '.ui-radio', function(){ 
+	*/
+	///*
 	$('input[name="radio-choice-t-6"]:radio').change(
-		function(){
+		function(){//*/
 			if(this.value == "on") {				
 					$("#repeatPeriod").show();
 			} else {
@@ -72,7 +76,7 @@ $(document).ready(function() {
 					<br><br><label for="incomeDueDate">Due Date:</label><br>
 					<input type="date" name="incomeDueDate" id="incomeDueDate" value=""  />		
 					<br>
-					<fieldset data-role="controlgroup" data-theme="b" data-type="horizontal">
+					<fieldset data-role="controlgroup" data-theme="b" data-type="vertical">
 						<legend>Repeat:</legend>
 						<br>
 						<div id="leftRadio">
