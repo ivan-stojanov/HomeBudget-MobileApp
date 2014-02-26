@@ -234,3 +234,8 @@ li .line1 {
 	margin-top: 5px;
 	width: 150px;
 }
+
+#drop-down-list-account-menu, #drop-down-list-category-menu
+{
+	margin-top: -25px;
+}
