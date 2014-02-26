@@ -235,7 +235,17 @@ li .line1 {
 	width: 150px;
 }
 
-#drop-down-list-account-menu, #drop-down-list-category-menu
+#drop-down-list-account-menu, #drop-down-list-category-menu, #drop-down-list-cycle-menu, #drop-down-list-period-menu
 {
 	margin-top: -25px;
+}
+
+#drop-down-list-cycle-button, #drop-down-list-period-button
+{
+	width: 120px;
+}
+
+#my-block
+{
+	width: 300px;
 }

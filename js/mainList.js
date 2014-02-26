@@ -89,9 +89,9 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objIncomes = [
-			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: 500, incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatPeriod: "" },
-			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: 100, incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatPeriod: "1 Month" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: 200, incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatPeriod: "1 Year" },
+			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: 500, incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "" },
+			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: 100, incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2012" },
+			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: 200, incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "11/11/2010" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeIncomes.add(objIncomes[0]);storeIncomes.add(objIncomes[1]);storeIncomes.add(objIncomes[2]);
@@ -103,7 +103,8 @@ html5rocks.indexedDB.open = function() {
 		storeIncomes.createIndex( "by_incomeDueDate", "incomeDueDate", { unique: false } );
 		storeIncomes.createIndex( "by_incomeAccount", "incomeAccount", { unique: false } );
 		storeIncomes.createIndex( "by_incomeRepeat", "incomeRepeat", { unique: false } );
-		storeIncomes.createIndex( "by_incomeRepeatPeriod", "incomeRepeatPeriod", { unique: false } );
+		storeIncomes.createIndex( "by_incomeRepeatCycle", "incomeRepeatCycle", { unique: false } );
+		storeIncomes.createIndex( "by_incomeRepeatEndDate", "incomeRepeatEndDate", { unique: false } );
 		storeIncomes.createIndex( "by_id", "id", { unique: false } );	
 
 	};
