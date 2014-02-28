@@ -8,14 +8,9 @@
 <link rel="stylesheet" href="css/styles.css" />	
 
 <script>
-/*$(document).ready(function() {
-    $('#accountBalance').keyup(function() {
-        var numbers = $(this).val();
-        $(this).val(numbers.replace(/\D/, ''));
-    });
-});
-*/
+
 $(document).ready(function() {
+
 	addAccountsDropDown();
 	addCategoriesDropDown();
 	$("#repeatPeriod").hide();	
@@ -24,7 +19,7 @@ $(document).ready(function() {
     $(document).on(touchEvent, '.ui-radio', function(){ 
 	*/
 	///*
-	$(/*'input[name="radio-choice-t-6"]:radio'*/'#repeat').change(
+	$('#repeat').change(
 		function(){//*/
 			if(this.value == "on") {				
 					$("#repeatPeriod").show();
@@ -32,7 +27,30 @@ $(document).ready(function() {
 					$("#repeatPeriod").hide();
 			}
 		}
-	); 
+	);
+
+	$("#save").on("click", function(event){
+		var condition;
+		if($('#repeat').val() == "on") {	
+			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#incomeDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#incomeRepeatEndDate').val().length > 0));
+		} else {
+			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#incomeDueDate').val().length > 0));
+		}
+		
+		if(condition == true) {
+			if(confirm("Are you sure you want to create this income?")){											
+				funcIncomeAdd();					
+			} else {
+				event.preventDefault();
+				return false;
+			}
+				
+		} else {	
+			alert('Please fill all fields');
+			return false;
+		}			
+	});
+
 });	
 </script>
 
@@ -78,9 +96,7 @@ $(document).ready(function() {
 					<!--	
 					<br><br><label for="incomeCategory">Category:</label><br>
 					<input type="text" name="incomeCategory" id="incomeCategory" value="" placeholder="Enter income category...">
-					-->	
-					
-					
+					-->					
 					
 					<br><br><label for="incomeDueDate">Due Date:</label><br>
 					<input type="date" name="incomeDueDate" id="incomeDueDate" value=""  />		
@@ -129,8 +145,7 @@ $(document).ready(function() {
 						<input type="date" name="incomeRepeatEndDate" id="incomeRepeatEndDate" value=""  />		
 
 					  </div>
-					</div>
-					
+					</div>		
 
 					<!--drop-down-list-period-->
 					
