@@ -7,7 +7,6 @@ function funcAccountAdd() {
 			accountBalance: $("#accountBalance").val(),
 			accountDate: $("#accountDate").val()
 		};				
-	var test = "Ivan";
 	var html5rocks = {};
 	html5rocks.indexedDB = {};
 	html5rocks.indexedDB.db = null;
@@ -24,9 +23,10 @@ function funcAccountAdd() {
 		//alert('New accound is added - TRUE');
 		
 		// now let's close the database again!
-	/*	var dbCLOSE;
+		var dbCLOSE;
 		dbCLOSE = request.result;
-		dbCLOSE.close();	*/
+		dbCLOSE.close();
+		window.location.href = "./accountsList.html";
 	};
 	
 	request.onupgradeneeded = function(e) {  

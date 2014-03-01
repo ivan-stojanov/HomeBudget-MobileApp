@@ -120,7 +120,12 @@ html5rocks.indexedDB.open = function() {
 						cursor.continue();
 					}
 				}
-			}	
+			}
+			if (countTest == numItems)  {	var dbCLOSE;
+											dbCLOSE = request.result;
+											dbCLOSE.close(); 
+										} 			
+			
 		}
 			
 		numItemsRequesr.onerror = function(evt) { var numItems = 0; }		

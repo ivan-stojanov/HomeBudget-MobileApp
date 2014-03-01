@@ -8,13 +8,6 @@
 <link rel="stylesheet" href="css/styles.css" />	
 
 <script>
-/*$(document).ready(function() {
-    $('#accountBalance').keyup(function() {
-        var numbers = $(this).val();
-        $(this).val(numbers.replace(/\D/, ''));
-    });
-});
-*/
 $(document).ready(function() {
 	$("#save").on("click", function(event){
 		if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && ($('#accountDate').val().length > 0)){
@@ -32,6 +25,7 @@ $(document).ready(function() {
 		} 
 	});
 });	
+// method="post" action="accountsList.html" data-ajax="false"
 </script>
 
 </head>
@@ -45,9 +39,8 @@ $(document).ready(function() {
 			<a href="index.html" rel="external" data-theme="c">Home</a>
 		</div>
 		
-		<div data-role="content">	
-			
-		    <form method="post" action="accountsList.html" id="formDetails" data-ajax="false">
+		<div data-role="content">			
+		    <form id="formDetails">    
 				<div data-role="fieldcontain">
 					<br><label for="accountName">Account:</label><br>
 					<input type="text" name="accountName" id="accountName" value="" placeholder="Enter account name...">	

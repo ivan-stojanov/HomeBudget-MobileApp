@@ -100,7 +100,10 @@ function funcIncomeAdd() {
 //		alert('New income is added - TRUE');
 		
 		// now let's close the database again!
-
+		var dbCLOSE;
+		dbCLOSE = request.result;
+		dbCLOSE.close();
+		window.location.href = "./incomesList.html";
 	};
 	
 	request.onupgradeneeded = function(e) {  
