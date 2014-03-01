@@ -91,13 +91,13 @@ function funcIncomeAdd() {
 	openedDB = localStorage["openedDB"];	
 	request = indexedDB.open(openedDB);		
 			
-	//alert("New income is added - WRONG");
+//	alert("New income is added - WRONG");
 	
 	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;			
 		var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
 		store.add(obj);
-		alert('New income is added - TRUE');
+//		alert('New income is added - TRUE');
 		
 		// now let's close the database again!
 

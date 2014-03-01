@@ -15,7 +15,7 @@ function funcAccountAdd() {
 	openedDB = localStorage["openedDB"];	
 	request = indexedDB.open(openedDB);		
 			
-	alert("New accound is added - WRONG");
+//	alert("New accound is added - WRONG");
 	
 	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;			
@@ -30,7 +30,7 @@ function funcAccountAdd() {
 	};
 	
 	request.onupgradeneeded = function(e) {  
-		alert('request.onupgradeneeded!');
+//		alert('request.onupgradeneeded!');
 	}
 	
 	request.onerror = function(e) {
