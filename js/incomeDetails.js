@@ -14,13 +14,13 @@ indexedDB.onerror = function(e) {
 	//alert('Error:' + e);
 };
 
-//var getAccountID = getUrlVars()["id"];
-//var getAccountID = localStorage["clickedID"];
-var getAccountID = sessionStorage.getItem("accountClickedID");
-if(getAccountID == null) {
-	getAccountID = 1;
+//var idGET = getUrlVars()["id"];
+//var idGET = localStorage["clickedID"];
+var getIncomeID = sessionStorage.getItem("incomeClickedID");
+if(getIncomeID == null) {
+	getIncomeID = 1;
 }
-															//alert(getAccountID);
+															//alert(idGET);
 function init() {
 															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
@@ -41,27 +41,30 @@ html5rocks.indexedDB.open = function() {
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 	
-		if(dbS.objectStoreNames.contains("accounts")) {
-			//dbS.deleteObjectStore("accounts");
-			//store = dbS.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
+		if(dbS.objectStoreNames.contains("incomes")) {
+			//dbS.deleteObjectStore("incomes");
+			//store = dbS.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
 		}
 		else {
-			var storeS = html5rocks.indexedDB.db.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
+			var storeS = html5rocks.indexedDB.db.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
 		}
 		
-		var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+		var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
 		$('#busy').hide();
-		var requestID = store.get(parseInt(getAccountID));
+		var requestID = store.get(parseInt(getIncomeID));
 		
 		// Get everything in the store;	
 		requestID.onsuccess = function(e) {	
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
-			$('#accName').text(result.accountName);
-			$('#accType').text(result.accountType);
-			$('#accBalance').text(result.accountBalance);
-			$('#accDate').text(result.accountDate);
+			$('#incomeName').text(result.incomeName);
+			$('#incomeAmmount').text(result.incomeAmmount);
+			$('#incomeAccount').text(result.incomeAccount);
+			$('#incomeCategory').text(result.incomeCategory);			
+			$('#incomeDueDate').text(result.incomeDueDate);
+			$('#incomeRepeatCycle').text(result.incomeRepeatCycle);
+			$('#incomeRepeatEndDate').text(result.incomeRepeatEndDate);
 				var today = new Date();
 				var dd = today.getDate();
 				var mm = today.getMonth()+1; //January is 0!
@@ -91,8 +94,8 @@ $( document ).ready(function() {
 				requestDelete.onsuccess = function(e) {  
 					html5rocks.indexedDB.db = e.target.result;
 //alert("93");
-					var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-					storeDelete.delete(parseInt(getAccountID));
+					var storeDelete = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
+					storeDelete.delete(parseInt(getIncomeID));
 					alert("This account is deleted!");
 				/*	var dbCLOSEdelete;
 					dbCLOSEdelete = requestDelete.result;

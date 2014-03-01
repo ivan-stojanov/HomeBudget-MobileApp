@@ -111,9 +111,9 @@ html5rocks.indexedDB.open = function() {
 	request.onerror = html5rocks.indexedDB.onerror;
 };
 
-function callFunction(idGet) {												
-	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
-	sessionStorage.setItem("clickedID", idGet);
+function callFunction(getAccountID) {												
+	//localStorage["incomeClickedID"] = getAccountID;		//alert("id: " + getAccountID); 
+	sessionStorage.setItem("accountClickedID", getAccountID);
 }
 /* 
 //deleting database

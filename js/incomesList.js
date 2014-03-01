@@ -160,9 +160,9 @@ html5rocks.indexedDB.open = function() {
 	request.onerror = html5rocks.indexedDB.onerror;
 };
 
-function callFunction(idGet) {												
+function callFunction(getIncomeID) {												
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
-	sessionStorage.setItem("clickedID", idGet);
+	sessionStorage.setItem("incomeClickedID", getIncomeID);
 }
 /* 
 //deleting database
