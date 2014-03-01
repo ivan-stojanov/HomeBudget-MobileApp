@@ -71,12 +71,12 @@ html5rocks.indexedDB.open = function() {
 				var yyyy = today.getFullYear();
 				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 			$('#currentDate').text(today);
+			
+			/*// now let's close the database again!
+			var dbCLOSE;
+			dbCLOSE = request.result;
+			dbCLOSE.close();*/
 		}
-		
-		// now let's close the database again!
-	/*	var dbCLOSE;
-	    dbCLOSE = request.result;
-		dbCLOSE.close();	*/
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
