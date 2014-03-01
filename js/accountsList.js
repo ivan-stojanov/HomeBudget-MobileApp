@@ -33,43 +33,7 @@ html5rocks.indexedDB.open = function() {
 												////alert("opened MyTest");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
-											   //alert("request onupgradeneeded"); 
-		html5rocks.indexedDB.db = e.target.result;
-		var dbS = e.target.result;
-												////alert("before create objectStoreS onupgradeneeded"); 
-		//var store;
-		if(dbS.objectStoreNames.contains("accounts")) {
-			//dbS.deleteObjectStore("accounts");
-			//store = dbS.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
-			store = request.transaction.objectStore("accounts");/*html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");*/
-													////alert("after get objectStore onupgradeneeded"); 
-		}
-		else {
-													////alert("before create objectStore onupgradeneeded"); 
-			store = html5rocks.indexedDB.db.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
-		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
-													 //alert("after get objectStore onupgradeneeded"); 
- /*		
-//this part is to add items in the account objectStore (when app is first Installed)
-		const obj = [
-			{ accountName: "Ivan", accountType: "PrivatenIvan", accountBalance: 35000, accountDate: "10/10/2010" },
-			{ accountName: "Zoran", accountType: "PrivatenZoran", accountBalance: 1100, accountDate: "11/11/2011" },
-			{ accountName: "Niko", accountType: "PrivatenNiko", accountBalance: 65000, accountDate: "11/10/2013" },
-		];	
-													//alert("created objects onupgradeneeded");
-		store.add(obj[0]);store.add(obj[1]);store.add(obj[2]);
-													//alert("add created objects onupgradeneeded");
-//this part is for creating indexes for each attribute in the accounts													
-		store.createIndex( "by_accountName", "accountName", { unique: false } );
-		store.createIndex( "by_accountType", "accountType", { unique: false } );
-		store.createIndex( "by_accountBalance", "accountBalance", { unique: false } );
-		store.createIndex( "by_accountDate", "accountDate", { unique: false } );
-		store.createIndex( "by_id", "id", { unique: false } );	
- */	
+		alert("request onupgradeneeded"); 
 	};
 	request.onsuccess = function(e) {
 													////alert("request onsuccess"); 
@@ -86,18 +50,9 @@ html5rocks.indexedDB.open = function() {
 			
 		var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
 													////alert("after store"); 
-		const obj = [
-			{ accountName: "Ivan", accountType: "PrivatenIvan", accountBalance: 35000, accountDate: "10/10/2010" },
-			{ accountName: "Zoran", accountType: "PrivatenZoran", accountBalance: 1100, accountDate: "11/11/2011" },
-			{ accountName: "Niko", accountType: "PrivatenNiko", accountBalance: 65000, accountDate: "11/10/2013" },
-		];	
-													//alert("created objects");
-	//	store.add(obj[0]);store.add(obj[1]);store.add(obj[2]);
-													//alert("add created objects");
+
 		// Get everything in the store;
-		//var keyRange = IDBKeyRange.lowerBound(0);
-		
-		
+		//var keyRange = IDBKeyRange.lowerBound(0);		
 		var openedIndex = store.index("by_accountName");
 		var numItemsRequesr = openedIndex.count();	
 		var countTest = 0;	var classUnderline = "";
@@ -117,7 +72,11 @@ html5rocks.indexedDB.open = function() {
 						cursor.continue();
 					}
 				}
-			}	
+			}
+			if (countTest == numItems)  {	var dbCLOSE;
+											dbCLOSE = request.result;
+											dbCLOSE.close(); 
+										} 			
 		}
 			
 		numItemsRequesr.onerror = function(evt) { var numItems = 0; }		
