@@ -91,7 +91,7 @@ function funcIncomeAdd() {
 	openedDB = localStorage["openedDB"];	
 	request = indexedDB.open(openedDB);		
 			
-//	alert("New income is added - WRONG");
+	alert("New income is added - WRONG");
 	
 	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;			
