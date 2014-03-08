@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 1;
+var version = 2;
 													// alert("startMain");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -25,6 +25,8 @@ var html5rocks = {};
 html5rocks.indexedDB = {};
 var storeAccounts;
 var storeIncomes;
+var storeExpenses;
+
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
@@ -107,8 +109,44 @@ html5rocks.indexedDB.open = function() {
 		storeIncomes.createIndex( "by_incomeRepeatEndDate", "incomeRepeatEndDate", { unique: false } );
 		storeIncomes.createIndex( "by_id", "id", { unique: false } );	
 
-	};
+		//var storeExpenses;
+		if(dbS.objectStoreNames.contains("expenses")) {
+			//dbS.deleteObjectStore("expenses");
+			//storeExpenses = dbS.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
+													////alert("before get objectStore onupgradeneeded"); 
+			storeExpenses = request.transaction.objectStore("expenses");/*html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");*/
+													////alert("after get objectStore onupgradeneeded"); 
+		}
+		else {
+													////alert("before create objectStore onupgradeneeded"); 
+			storeExpenses = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
+													////alert("after create objectStore onupgradeneeded"); 
+		}
+													////alert("after objectStoreS onupgradeneeded"); 		
+		//var storeExpenses = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
+													 //alert("after get objectStore onupgradeneeded"); 
+	
+//this part is to add items in the account objectStore (when app is first Installed)
+		const objExpenses = [
+			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: 520, expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "" },
+			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: 170, expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "1 Month" },
+			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: 400, expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "1 Year" },
+		];	
+													//alert("created objects onupgradeneeded");
+		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
+													//alert("add created objects onupgradeneeded");
+//this part is for creating indexes for each attribute in the expenses			
+		storeExpenses.createIndex( "by_expenseName", "expenseName", { unique: false } );
+		storeExpenses.createIndex( "by_expenseCategory", "expenseCategory", { unique: false } );
+		storeExpenses.createIndex( "by_expenseAmmount", "expenseAmmount", { unique: false } );
+		storeExpenses.createIndex( "by_expenseDueDate", "expenseDueDate", { unique: false } );
+		storeExpenses.createIndex( "by_expenseAccount", "expenseAccount", { unique: false } );
+		storeExpenses.createIndex( "by_expenseRepeat", "expenseRepeat", { unique: false } );
+		storeExpenses.createIndex( "by_expenseRepeatCycle", "expenseRepeatCycle", { unique: false } );
+		storeExpenses.createIndex( "by_expenseRepeatEndDate", "expenseRepeatEndDate", { unique: false } );
+		storeExpenses.createIndex( "by_id", "id", { unique: false } );	};
 												////alert("end opened");
+												
 	request.onerror = html5rocks.indexedDB.onerror;
 };
 
