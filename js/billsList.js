@@ -90,9 +90,9 @@ html5rocks.indexedDB.open = function() {
 		var store = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");
 													////alert("after store"); 
 		const obj = [
-			{ billName: "Books", billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
-			{ billName: "Pizza", billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
-			{ billName: "T-Shirt", billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
+			{ billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
+			{ billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
+			{ billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
 		];	
 													//alert("created objects");
 	//	store.add(obj[0]);store.add(obj[1]);store.add(obj[2]);
@@ -101,7 +101,7 @@ html5rocks.indexedDB.open = function() {
 		//var keyRange = IDBKeyRange.lowerBound(0);
 		
 		
-		var openedIndex = store.index("by_billName");
+		var openedIndex = store.index("by_billCategory");
 		var numItemsRequesr = openedIndex.count();	
 		var countTest = 0;	var classUnderline = "";
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
@@ -116,7 +116,7 @@ html5rocks.indexedDB.open = function() {
 						countTest++;
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 
-						$('ul'/*'#incomesList'*/).append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.billName + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						$('ul'/*'#incomesList'*/).append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.billCategory + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
 					}
 				}

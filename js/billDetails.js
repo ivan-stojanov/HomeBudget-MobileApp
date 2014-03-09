@@ -58,7 +58,6 @@ html5rocks.indexedDB.open = function() {
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
-			$('#billName').text(result.billName);
 			$('#billAmmount').text(result.billAmmount);
 			$('#billAccount').text(result.billAccount);
 			$('#billCategory').text(result.billCategory);			

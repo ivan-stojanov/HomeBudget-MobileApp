@@ -48,7 +48,6 @@ function addBillCategoriesDropDown() {
 function funcBillAdd() {
 			
 	var billRepeat = $('#repeat').val();
-	var billName = $('#billName').val();
 	var billAmmount = $('#billAmmount').val(); 
 	var billAccount = $('#drop-down-list-account').val(); 
 	var billCategory = $('#drop-down-list-category').val(); 
@@ -62,7 +61,6 @@ function funcBillAdd() {
 	}
 /*
 	alert(
-		billName 					+ " : " + 
 		billAmmount 				+ " : " + 
 		billAccount 				+ " : " + 
 		billCategory 				+ " : " + 
@@ -75,7 +73,6 @@ function funcBillAdd() {
 	var openedDB;
 	var request;
 	var obj =  { 
-			billName: billName,
 			billAmmount: billAmmount,
 			billAccount: billAccount,
 			billCategory: billCategory,

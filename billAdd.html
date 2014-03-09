@@ -32,9 +32,9 @@ $(document).ready(function() {
 	$("#save").on("click", function(event){
 		var condition;
 		if($('#repeat').val() == "on") {	
-			condition = (($('#billName').val().length > 0) && ($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#billDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#billRepeatEndDate').val().length > 0));
+			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#billDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#billRepeatEndDate').val().length > 0));
 		} else {
-			condition = (($('#billName').val().length > 0) && ($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#billDueDate').val().length > 0));
+			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#billDueDate').val().length > 0));
 		}
 		
 		if(condition == true) {
@@ -68,9 +68,7 @@ $(document).ready(function() {
 		<div data-role="content">	
 			
 		    <form id="formDetails">
-				<div data-role="fieldcontain">
-					<br><label for="billName">Name:</label><br>
-					<input type="text" name="billName" id="billName" value="" placeholder="Enter bill name...">	
+				<div data-role="fieldcontain">					
 					<br><br><label for="billAmmount">Ammount:</label><br>
 					<input type="number" name="billAmmount" id="billAmmount" value="" placeholder="Enter bill ammount..."><!--pattern="[0-9]*"--> 
 					

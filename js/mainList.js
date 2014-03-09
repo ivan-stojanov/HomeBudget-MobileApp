@@ -166,15 +166,14 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objBills = [
-			{ billName: "Books", billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
-			{ billName: "Pizza", billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
-			{ billName: "T-Shirt", billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
+			{ billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
+			{ billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
+			{ billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeBills.add(objBills[0]);storeBills.add(objBills[1]);storeBills.add(objBills[2]);
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the bills			
-		storeBills.createIndex( "by_billName", "billName", { unique: false } );
 		storeBills.createIndex( "by_billCategory", "billCategory", { unique: false } );
 		storeBills.createIndex( "by_billAmmount", "billAmmount", { unique: false } );
 		storeBills.createIndex( "by_billDueDate", "billDueDate", { unique: false } );
