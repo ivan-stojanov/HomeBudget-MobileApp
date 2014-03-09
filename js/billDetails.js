@@ -16,9 +16,9 @@ indexedDB.onerror = function(e) {
 
 //var idGET = getUrlVars()["id"];
 //var idGET = localStorage["clickedID"];
-var getExpenseID = sessionStorage.getItem("expenseClickedID");
-if(getExpenseID == null) {
-	getExpenseID = 1;
+var getBillID = sessionStorage.getItem("billClickedID");
+if(getBillID == null) {
+	getBillID = 1;
 }
 															//alert(idGET);
 function init() {
@@ -41,30 +41,30 @@ html5rocks.indexedDB.open = function() {
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 	
-		if(dbS.objectStoreNames.contains("expenses")) {
-			//dbS.deleteObjectStore("expenses");
-			//store = dbS.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
+		if(dbS.objectStoreNames.contains("bills")) {
+			//dbS.deleteObjectStore("bills");
+			//store = dbS.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
 		}
 		else {
-			var storeS = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
+			var storeS = html5rocks.indexedDB.db.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
 		}
 		
-		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
+		var store = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");	
 		$('#busy').hide();
-		var requestID = store.get(parseInt(getExpenseID));
+		var requestID = store.get(parseInt(getBillID));
 		
 		// Get everything in the store;	
 		requestID.onsuccess = function(e) {	
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
-			$('#expenseName').text(result.expenseName);
-			$('#expenseAmmount').text(result.expenseAmmount);
-			$('#expenseAccount').text(result.expenseAccount);
-			$('#expenseCategory').text(result.expenseCategory);			
-			$('#expenseDueDate').text(result.expenseDueDate);
-			$('#expenseRepeatCycle').text(result.expenseRepeatCycle);
-			$('#expenseRepeatEndDate').text(result.expenseRepeatEndDate);
+			$('#billName').text(result.billName);
+			$('#billAmmount').text(result.billAmmount);
+			$('#billAccount').text(result.billAccount);
+			$('#billCategory').text(result.billCategory);			
+			$('#billDueDate').text(result.billDueDate);
+			$('#billRepeatCycle').text(result.billRepeatCycle);
+			$('#billRepeatEndDate').text(result.billRepeatEndDate);
 				var today = new Date();
 				var dd = today.getDate();
 				var mm = today.getMonth()+1; //January is 0!
@@ -83,7 +83,7 @@ html5rocks.indexedDB.open = function() {
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
-		if(confirm("Are you sure you want to delete this expense?")){	
+		if(confirm("Are you sure you want to delete this bill?")){	
 			var html5rocks = {};
 			html5rocks.indexedDB = {};
 			html5rocks.indexedDB.db = null;
@@ -94,9 +94,9 @@ $( document ).ready(function() {
 				requestDelete.onsuccess = function(e) {  
 					html5rocks.indexedDB.db = e.target.result;
 //alert("93");
-					var storeDelete = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
-					storeDelete.delete(parseInt(getExpenseID));
-					alert("This expense is deleted!");
+					var storeDelete = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");	
+					storeDelete.delete(parseInt(getBillID));
+					alert("This bill is deleted!");
 				/*	var dbCLOSEdelete;
 					dbCLOSEdelete = requestDelete.result;
 					dbCLOSEdelete.close();*/

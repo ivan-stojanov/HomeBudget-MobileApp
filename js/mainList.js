@@ -146,6 +146,44 @@ html5rocks.indexedDB.open = function() {
 		storeExpenses.createIndex( "by_expenseRepeatEndDate", "expenseRepeatEndDate", { unique: false } );
 		storeExpenses.createIndex( "by_id", "id", { unique: false } );	};
 												////alert("end opened");
+		
+		//var storeBills;
+		if(dbS.objectStoreNames.contains("bills")) {
+			//dbS.deleteObjectStore("bills");
+			//storeBills = dbS.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
+													////alert("before get objectStore onupgradeneeded"); 
+			storeBills = request.transaction.objectStore("bills");/*html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");*/
+													////alert("after get objectStore onupgradeneeded"); 
+		}
+		else {
+													////alert("before create objectStore onupgradeneeded"); 
+			storeBills = html5rocks.indexedDB.db.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
+													////alert("after create objectStore onupgradeneeded"); 
+		}
+													////alert("after objectStoreS onupgradeneeded"); 		
+		//var storeBills = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");
+													 //alert("after get objectStore onupgradeneeded"); 
+	
+//this part is to add items in the account objectStore (when app is first Installed)
+		const objBills = [
+			{ billName: "Books", billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
+			{ billName: "Pizza", billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
+			{ billName: "T-Shirt", billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
+		];	
+													//alert("created objects onupgradeneeded");
+		storeBills.add(objBills[0]);storeBills.add(objBills[1]);storeBills.add(objBills[2]);
+													//alert("add created objects onupgradeneeded");
+//this part is for creating indexes for each attribute in the bills			
+		storeBills.createIndex( "by_billName", "billName", { unique: false } );
+		storeBills.createIndex( "by_billCategory", "billCategory", { unique: false } );
+		storeBills.createIndex( "by_billAmmount", "billAmmount", { unique: false } );
+		storeBills.createIndex( "by_billDueDate", "billDueDate", { unique: false } );
+		storeBills.createIndex( "by_billAccount", "billAccount", { unique: false } );
+		storeBills.createIndex( "by_billRepeat", "billRepeat", { unique: false } );
+		storeBills.createIndex( "by_billRepeatCycle", "billRepeatCycle", { unique: false } );
+		storeBills.createIndex( "by_billRepeatEndDate", "billRepeatEndDate", { unique: false } );
+		storeBills.createIndex( "by_id", "id", { unique: false } );	};
+												////alert("end opened");
 												
 	request.onerror = html5rocks.indexedDB.onerror;
 };
