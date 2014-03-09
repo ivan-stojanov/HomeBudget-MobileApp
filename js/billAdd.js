@@ -138,9 +138,9 @@ function funcBillAdd() {
 //		alert('New income is added - TRUE');
 		
 		// now let's close the database again!
-		var dbCLOSE;
+		/*var dbCLOSE;
 		dbCLOSE = request.result;
-		dbCLOSE.close();
+		dbCLOSE.close();*/
 		window.location.href = "./billsList.html";
 	};
 	

@@ -122,9 +122,9 @@ html5rocks.indexedDB.open = function() {
 					}
 				}
 			}
-			if (countTest == numItems)  {	var dbCLOSE;
+			if (countTest == numItems)  {	/*var dbCLOSE;
 											dbCLOSE = request.result;
-											dbCLOSE.close(); 
+											dbCLOSE.close(); */
 										} 			
 			
 		}

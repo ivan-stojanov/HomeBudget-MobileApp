@@ -139,10 +139,10 @@ function funcExpenseAdd() {
 //		alert('New income is added - TRUE');
 		
 		// now let's close the database again!
-		var dbCLOSE;
+		/*var dbCLOSE;
 		dbCLOSE = request.result;
 		dbCLOSE.close();
-		window.location.href = "./expensesList.html";
+		window.location.href = "./expensesList.html";*/
 	};
 	
 	request.onupgradeneeded = function(e) {  
