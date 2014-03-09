@@ -107,9 +107,10 @@ html5rocks.indexedDB.open = function() {
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
 		numItemsRequesr.onsuccess = function(evt) {   
 			var numItems = evt.target.result;	
+			var range = IDBKeyRange.only("Bill");
 			/*alert(numItems);*/
 			if (openedIndex) {
-				var curCursor = openedIndex.openCursor(/*null, "prev"*/);				
+				var curCursor = openedIndex.openCursor(range/*null, "prev"*/);				
 				curCursor.onsuccess = function(evt) {					
 					var cursor = evt.target.result;				//alert(cursor);	
 					if (cursor) {

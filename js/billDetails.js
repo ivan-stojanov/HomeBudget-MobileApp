@@ -41,15 +41,15 @@ html5rocks.indexedDB.open = function() {
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 	
-		if(dbS.objectStoreNames.contains("bills")) {
+		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("bills");
 			//store = dbS.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
 		}
 		else {
-			var storeS = html5rocks.indexedDB.db.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
+			var storeS = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
 		}
 		
-		var store = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");	
+		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 		$('#busy').hide();
 		var requestID = store.get(parseInt(getBillID));
 		
@@ -58,12 +58,12 @@ html5rocks.indexedDB.open = function() {
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
-			$('#billAmmount').text(result.billAmmount);
-			$('#billAccount').text(result.billAccount);
-			$('#billCategory').text(result.billCategory);			
-			$('#billDueDate').text(result.billDueDate);
-			$('#billRepeatCycle').text(result.billRepeatCycle);
-			$('#billRepeatEndDate').text(result.billRepeatEndDate);
+			$('#billCategory').text(result.expenseName);			
+			$('#billAmmount').text(result.expenseAmmount);
+			$('#billAccount').text(result.expenseAccount);
+			$('#billDueDate').text(result.expenseDueDate);
+			$('#billRepeatCycle').text(result.expenseRepeatCycle);
+			$('#billRepeatEndDate').text(result.expenseRepeatEndDate);
 				var today = new Date();
 				var dd = today.getDate();
 				var mm = today.getMonth()+1; //January is 0!
@@ -93,7 +93,7 @@ $( document ).ready(function() {
 				requestDelete.onsuccess = function(e) {  
 					html5rocks.indexedDB.db = e.target.result;
 //alert("93");
-					var storeDelete = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");	
+					var storeDelete = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 					storeDelete.delete(parseInt(getBillID));
 					alert("This bill is deleted!");
 				/*	var dbCLOSEdelete;
