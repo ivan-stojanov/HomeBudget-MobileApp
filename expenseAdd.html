@@ -62,7 +62,14 @@ $(document).ready(function() {
 		<div data-role="header" id="header" class="header">
 			<h1>Home Budget Manager</h1>
 			<a href="#" data-role="button" data-icon="back" data-rel="back" data-theme="c">Go Back</a>
-			<a href="index.html" data-icon="home" rel="external" data-theme="c">Home</a>
+			<!--<a href="index.html" data-icon="home" rel="external" data-theme="c">Home</a>-->
+			<div data-role="navbar" id="navBarGoUP" data-iconpos="left">
+			  <ul>
+				<li><a href="main.html" data-icon="home">Home</a></li>
+				<li><a href="expensesList.html" data-icon="bars" data-transition="slide" rel="external">Expenses</a></li>
+			  </ul>
+			</div>
+
 		</div>
 		
 		<div data-role="content">	

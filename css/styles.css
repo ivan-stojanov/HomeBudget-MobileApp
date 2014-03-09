@@ -31,7 +31,7 @@ ul {
 }
 
 li {
-	clear: both;
+	/*clear: both;*/
 	padding-top: 4px;
 	padding-bottom: 0px;
 	padding-left: 4px;
@@ -86,7 +86,7 @@ li .action-icon {
 }
 
 .header {
-	position:  absolute;
+	/*position:  absolute;*/
  	text-align: center;
  	background: #666666; /* for non-css3 browsers */
 	background: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#666666), color-stop(.6,#333));
@@ -197,6 +197,7 @@ overflow: visible;
 overflow-x: hidden;
 padding: 15px;
 padding-top: 30px;
+margin-top: -4px;
 }
 .ui-listview, .ui-panel-inner>.ui-listview {
 margin: -15px;
@@ -248,4 +249,14 @@ li .line1 {
 #my-block
 {
 	width: 300px;
+}
+
+#navBarGoUP
+{
+	margin-top: -1px;
+}
+
+#navBarGoUP > ul > li > .ui-btn > .ui-btn-inner > .ui-btn-text
+{
+	color: white;
 }
