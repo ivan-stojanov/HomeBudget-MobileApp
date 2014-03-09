@@ -47,10 +47,10 @@ function addBillCategoriesDropDown() {
 
 function funcBillAdd() {
 			
+	var billCategory = $('#drop-down-list-category').val(); 
 	var billRepeat = $('#repeat').val();
 	var billAmmount = $('#billAmmount').val(); 
 	var billAccount = $('#drop-down-list-account').val(); 
-	var billCategory = $('#drop-down-list-category').val(); 
 	var billDueDate =	$('#billDueDate').val(); 
 	var billRepeatCycle = $('#drop-down-list-cycle').val();	 
 	var billRepeatEndDate = $('#billRepeatEndDate').val();
@@ -61,9 +61,9 @@ function funcBillAdd() {
 	}
 /*
 	alert(
+		billCategory 				+ " : " + 
 		billAmmount 				+ " : " + 
 		billAccount 				+ " : " + 
-		billCategory 				+ " : " + 
 		billDueDate 				+ " : " + 
 		billRepeatCycle 			+ " : " + 
 		billRepeatEndDate 		+ " : " + 
@@ -73,12 +73,13 @@ function funcBillAdd() {
 	var openedDB;
 	var request;
 	var obj =  { 
-			billAmmount: billAmmount,
-			billAccount: billAccount,
-			billCategory: billCategory,
-			billDueDate: billDueDate,
-			billRepeatCycle: billRepeatCycle,
-			billRepeatEndDate: billRepeatEndDate
+			expenseName: billCategory,
+			expenseCategory: "Bill",
+			expenseAmmount: billAmmount,
+			expenseAccount: billAccount,
+			expenseDueDate: billDueDate,
+			expenseRepeatCycle: billRepeatCycle,
+			expenseRepeatEndDate: billRepeatEndDate
 		};	
 		
 	var html5rocks = {};
@@ -92,7 +93,7 @@ function funcBillAdd() {
 	
 	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;			
-		var store = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");	
+		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 		store.add(obj);
 //		alert('New income is added - TRUE');
 		

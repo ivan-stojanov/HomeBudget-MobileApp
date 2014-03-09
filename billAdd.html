@@ -68,7 +68,13 @@ $(document).ready(function() {
 		<div data-role="content">	
 			
 		    <form id="formDetails">
-				<div data-role="fieldcontain">					
+				<div data-role="fieldcontain">	
+
+					<br><label for="drop-down-list-category" class="select">Bill Category:</label>
+					<br><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
+						<option value="">Choose bill category</option>
+					</select>
+				
 					<br><br><label for="billAmmount">Ammount:</label><br>
 					<input type="number" name="billAmmount" id="billAmmount" value="" placeholder="Enter bill ammount..."><!--pattern="[0-9]*"--> 
 					
@@ -84,17 +90,6 @@ $(document).ready(function() {
 					<br><br><label for="incomeAccount">Account:</label><br>
 					<input type="text" name="incomeAccount" id="incomeAccount" value="" placeholder="Enter bill account...">	
 					-->				
-					
-					<br><br><label for="drop-down-list-category" class="select">Bill Category:</label>
-					<br><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
-						<option value="">Choose bill category</option>
-						<!--<option value="test6">Test6: 6 day</option>
-						<option value="standard">Standard: 7 day</option>-->
-					</select>
-					<!--	
-					<br><br><label for="incomeCategory">Category:</label><br>
-					<input type="text" name="incomeCategory" id="incomeCategory" value="" placeholder="Enter income category...">
-					-->					
 					
 					<br><br><label for="billDueDate">Due Date:</label><br>
 					<input type="date" name="billDueDate" id="billDueDate" value=""  />		
