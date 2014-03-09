@@ -32,9 +32,9 @@ $(document).ready(function() {
 	$("#save").on("click", function(event){
 		var condition;
 		if($('#repeat').val() == "on") {	
-			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#incomeDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#incomeRepeatEndDate').val().length > 0));
+			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-category').val().length > 0) && ($('#incomeDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#incomeRepeatEndDate').val().length > 0));
 		} else {
-			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) /*&& ($('#drop-down-list-category').val().length > 0)*/ && ($('#incomeDueDate').val().length > 0));
+			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-category').val().length > 0) && ($('#incomeDueDate').val().length > 0));
 		}
 		
 		if(condition == true) {
@@ -90,8 +90,7 @@ $(document).ready(function() {
 					<br><br><label for="drop-down-list-category" class="select">Category:</label>
 					<br><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
 						<option value="">Choose income category</option>
-						<!--<option value="test6">Test6: 6 day</option>
-						<option value="standard">Standard: 7 day</option>-->
+						<option value="" disable> . . . </option>
 					</select>
 					<!--	
 					<br><br><label for="incomeCategory">Category:</label><br>

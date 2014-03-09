@@ -42,7 +42,46 @@ function addAccountsDropDown() {
 }
 
 function addCategoriesDropDown() {	
-	$('#drop-down-list-category').append('<option value="testCategory">testCategory</option>');
+
+		var html5rocks = {};
+		html5rocks.indexedDB = {};
+		html5rocks.indexedDB.db = null;
+
+		openedDB = localStorage["openedDB"];	
+		request = indexedDB.open(openedDB);		
+
+		request.onsuccess = function(e) {
+			html5rocks.indexedDB.db = e.target.result;			
+			var store = html5rocks.indexedDB.db.transaction(["categories"], "readwrite").objectStore("categories");		
+			
+			var openedIndex = store.index("by_isIncome");
+			var range = IDBKeyRange.only("1");
+			var numItemsRequesr = openedIndex.count();	
+		//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
+			numItemsRequesr.onsuccess = function(evt) {   
+				var numItems = evt.target.result;	
+				/*alert(numItems);*/
+				if (openedIndex) {
+					var curCursor = openedIndex.openCursor(range/*null, "prev"*/);				
+					curCursor.onsuccess = function(evt) {					
+						var cursor = evt.target.result;					
+						if (cursor) {
+							$('#drop-down-list-category').append('<option value="' + cursor.value.categoryType + '">' + cursor.value.categoryType + '</option>');
+							cursor.continue();
+						}
+					}
+				}	
+			}			
+			/*alert('request.onsuccess!');*/
+		};
+		
+		request.onupgradeneeded = function(e) {  
+			alert('request.onupgradeneeded!');
+		}
+		
+		request.onerror = function(e) {
+			alert('request.onerror!');
+		}
 }
 
 function funcIncomeAdd() {

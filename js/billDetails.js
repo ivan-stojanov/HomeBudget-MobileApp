@@ -117,3 +117,14 @@ $( document ).ready(function() {
 		dbCLOSEdelete.close();*/
 	});
 });
+/*
+	const objCategories = [ 
+		{ categoryType: "Education", isIncome: "1", isExpense: "1", isBill: "0" },
+		{ categoryType: "Food", isIncome: "0", isExpense: "1", isBill: "0" },
+		{ categoryType: "Clothes", isIncome: "1", isExpense: "1", isBill: "0" },
+	];	
+	for (var ind = 0; ind < objCategories.length; ++ind) {
+		storeCategories.add(objCategories[ind]);
+		//alert(objCategories[ind].categoryType);
+	}
+*/
