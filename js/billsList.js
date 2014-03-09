@@ -33,21 +33,21 @@ html5rocks.indexedDB.open = function() {
 												////alert("opened MyTest");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
-											   alert("request onupgradeneeded"); 
+											   //alert("request onupgradeneeded"); 
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 												////alert("before create objectStoreS onupgradeneeded"); 
 		//var store;
-		if(dbS.objectStoreNames.contains("bills")) {
+		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("incomes");
 			//store = dbS.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
 													////alert("before get objectStore onupgradeneeded"); 
-			store = request.transaction.objectStore("bills");/*html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");*/
+			store = request.transaction.objectStore("expenses");/*html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");*/
 													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
 													////alert("before create objectStore onupgradeneeded"); 
-			store = html5rocks.indexedDB.db.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
+			store = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
 													////alert("after create objectStore onupgradeneeded"); 
 		}
 													////alert("after objectStoreS onupgradeneeded"); 		
@@ -79,29 +79,29 @@ html5rocks.indexedDB.open = function() {
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 													////alert("before store");  
-		if(dbS.objectStoreNames.contains("bills")) {
+		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("incomes");
 			//store = dbS.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
 		}
 		else {
-			var storeS = html5rocks.indexedDB.db.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
+			var storeS = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
 		}
 			
-		var store = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");
+		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
 													////alert("after store"); 
-		const obj = [
+		/*const obj = [
 			{ billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
 			{ billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
 			{ billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
 		];	
-													//alert("created objects");
+		*/											//alert("created objects");
 	//	store.add(obj[0]);store.add(obj[1]);store.add(obj[2]);
 													//alert("add created objects");
 		// Get everything in the store;
 		//var keyRange = IDBKeyRange.lowerBound(0);
 		
 		
-		var openedIndex = store.index("by_billCategory");
+		var openedIndex = store.index("by_expenseCategory");
 		var numItemsRequesr = openedIndex.count();	
 		var countTest = 0;	var classUnderline = "";
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
@@ -116,7 +116,7 @@ html5rocks.indexedDB.open = function() {
 						countTest++;
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 
-						$('ul'/*'#incomesList'*/).append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.billCategory + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						$('ul'/*'#incomesList'*/).append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.expenseCategory + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
 					}
 				}
