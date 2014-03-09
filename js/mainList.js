@@ -144,7 +144,7 @@ html5rocks.indexedDB.open = function() {
 		storeExpenses.createIndex( "by_expenseRepeat", "expenseRepeat", { unique: false } );
 		storeExpenses.createIndex( "by_expenseRepeatCycle", "expenseRepeatCycle", { unique: false } );
 		storeExpenses.createIndex( "by_expenseRepeatEndDate", "expenseRepeatEndDate", { unique: false } );
-		storeExpenses.createIndex( "by_id", "id", { unique: false } );	};
+		storeExpenses.createIndex( "by_id", "id", { unique: false } );
 												////alert("end opened");
 		
 		//var storeBills;
@@ -182,7 +182,8 @@ html5rocks.indexedDB.open = function() {
 		storeBills.createIndex( "by_billRepeat", "billRepeat", { unique: false } );
 		storeBills.createIndex( "by_billRepeatCycle", "billRepeatCycle", { unique: false } );
 		storeBills.createIndex( "by_billRepeatEndDate", "billRepeatEndDate", { unique: false } );
-		storeBills.createIndex( "by_id", "id", { unique: false } );	};
+		storeBills.createIndex( "by_id", "id", { unique: false } );	
+	};
 												////alert("end opened");
 												
 	request.onerror = html5rocks.indexedDB.onerror;
