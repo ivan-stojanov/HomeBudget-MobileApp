@@ -86,8 +86,9 @@ function addBillCategoriesDropDown() {
 }
 
 function funcBillAdd() {
-			
+				
 	var billCategory = $('#drop-down-list-category').val(); 
+	var billPaid = $('#paid').val();
 	var billRepeat = $('#repeat').val();
 	var billAmmount = $('#billAmmount').val(); 
 	var billAccount = $('#drop-down-list-account').val(); 
@@ -105,6 +106,7 @@ function funcBillAdd() {
 		billAmmount 				+ " : " + 
 		billAccount 				+ " : " + 
 		billDueDate 				+ " : " + 
+		billPaid					+ " : " + 
 		billRepeatCycle 			+ " : " + 
 		billRepeatEndDate 		+ " : " + 
 		billRepeat
@@ -119,7 +121,8 @@ function funcBillAdd() {
 			expenseAccount: billAccount,
 			expenseDueDate: billDueDate,
 			expenseRepeatCycle: billRepeatCycle,
-			expenseRepeatEndDate: billRepeatEndDate
+			expenseRepeatEndDate: billRepeatEndDate,
+			expenseBillPaid: billPaid
 		};	
 		
 	var html5rocks = {};

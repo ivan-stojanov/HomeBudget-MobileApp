@@ -99,7 +99,15 @@ $(document).ready(function() {
 					-->				
 					
 					<br><br><label for="billDueDate">Due Date:</label><br>
-					<input type="date" name="billDueDate" id="billDueDate" value=""  />		
+					<input type="date" name="billDueDate" id="billDueDate" value=""  />	
+					
+					<br><br>					
+					<label for="paid">Paid:</label>
+					<div id="leftRadioPaid"><select name="paid" id="paid" data-role="slider" data-mini="true">
+						<option value="paidYes">Yes</option>
+						<option value="paidNo" selected="">No</option>
+					</select></div>
+
 					<br><br>					
 					<label for="repeat">Repeat:</label>
 					<div id="leftRadio"><select name="repeat" id="repeat" data-role="slider" data-mini="true">

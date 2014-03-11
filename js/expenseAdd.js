@@ -120,7 +120,8 @@ function funcExpenseAdd() {
 			expenseCategory: expenseCategory,
 			expenseDueDate: expenseDueDate,
 			expenseRepeatCycle: expenseRepeatCycle,
-			expenseRepeatEndDate: expenseRepeatEndDate
+			expenseRepeatEndDate: expenseRepeatEndDate,
+			expenseBillPaid: "paidNo"
 		};	
 		
 	var html5rocks = {};

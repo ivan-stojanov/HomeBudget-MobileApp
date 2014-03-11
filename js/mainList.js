@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 3;
+var version = 1;
 													// alert("startMain");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -130,9 +130,9 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objExpenses = [
-			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: 520, expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "" },
-			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: 170, expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "1 Month" },
-			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: 400, expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "1 Year" },
+			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: 520, expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "", expenseBillPaid: "paidNo" },
+			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: 170, expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "1 Month", expenseBillPaid: "paidNo" },
+			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: 400, expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "1 Year", expenseBillPaid: "paidNo" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
@@ -146,8 +146,10 @@ html5rocks.indexedDB.open = function() {
 		storeExpenses.createIndex( "by_expenseRepeat", "expenseRepeat", { unique: false } );
 		storeExpenses.createIndex( "by_expenseRepeatCycle", "expenseRepeatCycle", { unique: false } );
 		storeExpenses.createIndex( "by_expenseRepeatEndDate", "expenseRepeatEndDate", { unique: false } );
+		storeExpenses.createIndex( "by_expenseBillPaid", "expenseBillPaid", { unique: false } );
 		storeExpenses.createIndex( "by_id", "id", { unique: false } );
-		
+		storeExpenses.createIndex( "paid_Bills_Only", ['expenseName','expenseCategory','expenseBillPaid'], { unique: false } );
+			
 		//var storeCategories;
 		if(dbS.objectStoreNames.contains("categories")) {
 			//dbS.deleteObjectStore("categories");
