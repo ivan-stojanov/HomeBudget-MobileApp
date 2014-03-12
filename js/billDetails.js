@@ -31,13 +31,15 @@ var html5rocks = {};
 html5rocks.indexedDB = {};
 var store;
 html5rocks.indexedDB.db = null;
+var message;
+var status;
 
 html5rocks.indexedDB.open = function() {	
 
 	var openedDB = localStorage["openedDB"];	
 	var request = indexedDB.open(openedDB);
 
-	request.onsuccess = function(e) {  
+	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 	
@@ -53,11 +55,19 @@ html5rocks.indexedDB.open = function() {
 		$('#busy').hide();
 		var requestID = store.get(parseInt(getBillID));
 		
-		// Get everything in the store;	
-		requestID.onsuccess = function(e) {	
+		requestID.onsuccess = function(event) {	//function(e)
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
+			if(result.expenseBillPaid == "paidYes") {
+				message = "Mark as UnPaid";
+				status = "paidYes";
+			} else {
+				message = "Mark as Paid";
+				status = "paidNo";
+			}
+			
+			$("#billPaid").text(message);
 			$('#billCategory').text(result.expenseName);			
 			$('#billAmmount').text(result.expenseAmmount);
 			$('#billAccount').text(result.expenseAccount);
@@ -70,11 +80,6 @@ html5rocks.indexedDB.open = function() {
 				var yyyy = today.getFullYear();
 				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 			$('#currentDate').text(today);
-			
-			/*// now let's close the database again!
-			var dbCLOSE;
-			dbCLOSE = request.result;
-			dbCLOSE.close();*/
 		}
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
@@ -89,34 +94,97 @@ $( document ).ready(function() {
 
 			var openedDB = localStorage["openedDB"];	
 			var requestDelete = indexedDB.open(openedDB);	
-//alert("90");
 				requestDelete.onsuccess = function(e) {  
 					html5rocks.indexedDB.db = e.target.result;
-//alert("93");
 					var storeDelete = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 					storeDelete.delete(parseInt(getBillID));
 					alert("This bill is deleted!");
-				/*	var dbCLOSEdelete;
-					dbCLOSEdelete = requestDelete.result;
-					dbCLOSEdelete.close();*/
+
 					return true;
 				}
 				
 				requestDelete.onerror = function(e) {
 					alert('request.onerror!');
 				}				
-				//return true;
-				
+		} else {
+			event.preventDefault();
+			return false;
+		}
+	});
+});
+
+$( document ).ready(function() {
+	$("#btnPaid").on("click", function(event){
+		
+		var question;
+		var answer;
+		if (status == "paidYes") {
+			question = "Are you sure you want to mark this bill as UnPaid?";
+			answer = "This bill is marked as UnPaid!";
+		} else {			
+			question = "Are you sure you want to mark this bill as Paid?";
+			answer = "This bill is marked as Paid!";
+		}
+
+		if(confirm(question)){	
+			var html5rocks = {};
+			html5rocks.indexedDB = {};
+			html5rocks.indexedDB.db = null;
+			var openedDB = localStorage["openedDB"];	
+			var requestDelete = indexedDB.open(openedDB);	
+				requestDelete.onsuccess = function(e) {
+					var replace = new Object;
+
+					html5rocks.indexedDB.db = e.target.result;
+					var storeReplace = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
+					var openedIndex = storeReplace.index("by_id");
+					var range = IDBKeyRange.only(parseInt(getBillID));
+					var curCursor = openedIndex.openCursor(range);		
+					curCursor.onsuccess = function(evt) {					
+						var cursor = evt.target.result;					
+						if (cursor) {
+							
+							replace.id = cursor.value.id;
+							replace.expenseAccount = cursor.value.expenseAccount;
+							replace.expenseAmmount = cursor.value.expenseAmmount;
+							if( cursor.value.expenseBillPaid == "paidNo" )  	{ replace.expenseBillPaid = "paidYes"; }
+							else												{ replace.expenseBillPaid = "paidNo"; }
+							replace.expenseCategory = cursor.value.expenseCategory;
+							replace.expenseDueDate = cursor.value.expenseDueDate;
+							replace.expenseName = cursor.value.expenseName;
+							if(cursor.value.expenseRepeatCycle == '') 	{ replace.expenseRepeatCycle = ''; } 
+							else 										{ replace.expenseRepeatCycle = cursor.value.expenseRepeatCycle; }
+							if(cursor.value.expenseRepeatEndDate == '')	{ replace.expenseRepeatEndDate = ''; }
+							else										{ replace.expenseRepeatEndDate = cursor.value.expenseRepeatEndDate; }
+							
+							cursor.continue();
+						} else { //when search is done
+							//alert(replace.replaceID);
+							storeReplace.delete(parseInt(replace.id));
+							storeReplace.add(replace);
+							window.location.href = "billDetails.html";
+						}						
+					}					
+
+					
+					//storeDelete.delete(parseInt(getBillID));
+					//http://stackoverflow.com/questions/11217309/how-to-update-an-html5-indexeddb-record
+					alert(answer);
+					return true;
+				}
+				requestDelete.onerror = function(e) {
+					alert('request.onerror!');
+				}				
 		} else {
 			event.preventDefault();
 			return false;
 		}
 		
-		/*var dbCLOSEdelete;
-		dbCLOSEdelete = requestDelete.result;
-		dbCLOSEdelete.close();*/
+		
 	});
 });
+
+
 /*
 	const objCategories = [ 
 		{ categoryType: "Education", isIncome: "1", isExpense: "1", isBill: "0" },

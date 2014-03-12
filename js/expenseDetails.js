@@ -1,4 +1,3 @@
-															// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -11,11 +10,8 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
-//var idGET = getUrlVars()["id"];
-//var idGET = localStorage["clickedID"];
 var getExpenseID = sessionStorage.getItem("expenseClickedID");
 if(getExpenseID == null) {
 	getExpenseID = 1;
@@ -53,7 +49,6 @@ html5rocks.indexedDB.open = function() {
 		$('#busy').hide();
 		var requestID = store.get(parseInt(getExpenseID));
 		
-		// Get everything in the store;	
 		requestID.onsuccess = function(e) {	
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
@@ -72,10 +67,6 @@ html5rocks.indexedDB.open = function() {
 				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 			$('#currentDate').text(today);
 			
-			/*// now let's close the database again!
-			var dbCLOSE;
-			dbCLOSE = request.result;
-			dbCLOSE.close();*/
 		}
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
@@ -83,38 +74,31 @@ html5rocks.indexedDB.open = function() {
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
-		if(confirm("Are you sure you want to delete this expense?")){	
+	
+	//alert(getExpenseID);
+	
+	
+		if(confirm("Are you sure you want to delete this expense?")){		
 			var html5rocks = {};
 			html5rocks.indexedDB = {};
 			html5rocks.indexedDB.db = null;
-
 			var openedDB = localStorage["openedDB"];	
 			var requestDelete = indexedDB.open(openedDB);	
-//alert("90");
 				requestDelete.onsuccess = function(e) {  
+				
 					html5rocks.indexedDB.db = e.target.result;
-//alert("93");
 					var storeDelete = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 					storeDelete.delete(parseInt(getExpenseID));
 					alert("This expense is deleted!");
-				/*	var dbCLOSEdelete;
-					dbCLOSEdelete = requestDelete.result;
-					dbCLOSEdelete.close();*/
 					return true;
 				}
 				
 				requestDelete.onerror = function(e) {
 					alert('request.onerror!');
 				}				
-				//return true;
-				
 		} else {
 			event.preventDefault();
 			return false;
-		}
-		
-		/*var dbCLOSEdelete;
-		dbCLOSEdelete = requestDelete.result;
-		dbCLOSEdelete.close();*/
+		}		
 	});
 });
