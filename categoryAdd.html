@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="./js/categoryAdd.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+<link rel="stylesheet" href="css/styles.css" />	
+
+<script>
+
+$(document).ready(function() {
+/*
+	$('#repeat').change(
+		function()
+			if(this.value == "on") {				
+					$("#repeatPeriod").show();
+			} else {
+					$("#repeatPeriod").hide();
+			}
+		}
+	);
+*/
+
+	$("#save").on("click", function(event){
+		var condition = (($('#categoryType').val().length > 0) /*&& ($('#expenseAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-category').val().length > 0) && ($('#expenseDueDate').val().length > 0)*/);
+		
+		if(condition == true) {
+			if(confirm("Are you sure you want to create this category?")){											
+				funcCategoryAdd();					
+			} else {
+				event.preventDefault();
+				return false;
+			}
+				
+		} else {	
+			alert('Please fill all fields');
+			return false;
+		}			
+	});
+
+});	
+</script>
+
+</head>
+    
+<body>
+	<div data-role="page" id="categoryAdd">
+	
+		<div data-role="header" id="header" class="header">
+			<h1>Home Budget Manager</h1>
+			<a href="#" data-role="button" data-icon="back" data-rel="back" data-theme="c">Go Back</a>
+			<div data-role="navbar" id="navBarGoUP" data-iconpos="left">
+			  <ul>
+				<li><a href="main.html" data-icon="home">Home</a></li>
+				<li><a href="categoriesList.html" data-icon="bars" data-transition="slide" rel="external">Categories</a></li>
+			  </ul>
+			</div>
+
+		</div>
+		
+		<div data-role="content">	
+			
+		    <form id="formDetails">
+				<div data-role="fieldcontain">
+					<br><label for="categoryType">Type:</label><br>
+					<input type="text" name="categoryType" id="categoryType" value="" placeholder="Enter category type...">	
+
+					<br><br><label for="categoryIsIncome">isIncome:</label>
+					<div id="leftRadio"><select name="categoryIsIncome" id="categoryIsIncome" data-role="slider" data-mini="true">
+						<option value="off">No</option>
+						<option value="on" selected="">Yes</option>
+					</select></div>
+					
+					<label for="categoryIsExpense">isExpense:</label>
+					<div id="leftRadio"><select name="categoryIsExpense" id="categoryIsExpense" data-role="slider" data-mini="true">
+						<option value="off">No</option>
+						<option value="on" selected="">Yes</option>
+					</select></div>
+
+					<label for="categoryIsBill">isBill:</label>
+					<div id="leftRadio"><select name="categoryIsBill" id="categoryIsBill" data-role="slider" data-mini="true">
+						<option value="off">No</option>
+						<option value="on" selected="">Yes</option>
+					</select></div>
+
+				</div>					
+				<input type="submit" id="save" data-inline="true" value="Save">
+				<div id="resultLog"></div>
+			</form> 			
+		</div>
+
+		<div data-role="footer" class="footer">
+			<h1>Add Category</h1>
+		</div>
+	
+	</div>
+
+</body>
+
+</html>
