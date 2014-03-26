@@ -60,12 +60,17 @@ html5rocks.indexedDB.open = function() {
 													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objAccounts = [
-			{ accountName: "Ivan", accountType: "PrivatenIvan", accountBalance: 35000, accountDate: "10/10/2010" },
-			{ accountName: "Zoran", accountType: "PrivatenZoran", accountBalance: 1100, accountDate: "11/11/2011" },
-			{ accountName: "Niko", accountType: "PrivatenNiko", accountBalance: 65000, accountDate: "11/10/2013" },
+			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: 0, accountDate: "10/10/2010" },
+			{ accountName: "Credit Card", accountType: "HomeAccount", accountBalance: 0, accountDate: "11/11/2011" },
+			{ accountName: "Bank Account", accountType: "HomeAccount", accountBalance: 0, accountDate: "11/10/2013" },
+			{ accountName: "Ivan2", accountType: "PrivatenIvan2", accountBalance: 33000, accountDate: "20/10/2010" },
+			{ accountName: "Zoran2", accountType: "PrivatenZoran2", accountBalance: 1100, accountDate: "21/11/2011" },
+			{ accountName: "Niko2", accountType: "PrivatenNiko2", accountBalance: 65000, accountDate: "21/10/2013" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeAccounts.add(objAccounts[0]);storeAccounts.add(objAccounts[1]);storeAccounts.add(objAccounts[2]);
+		storeAccounts.add(objAccounts[3]);storeAccounts.add(objAccounts[4]);storeAccounts.add(objAccounts[5]);
+
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the accounts													
 		storeAccounts.createIndex( "by_accountName", "accountName", { unique: false } );
