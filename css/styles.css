@@ -275,3 +275,9 @@ li .line1 {
 {
 	color: white;
 }
+
+#catIncomeID, #catExpenseID, #catBillID
+{
+	margin-top: 5px;
+	width: 150px;
+}

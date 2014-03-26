@@ -33,6 +33,7 @@ var store;
 html5rocks.indexedDB.db = null;
 var message;
 var status;
+var currentObj;	
 
 html5rocks.indexedDB.open = function() {	
 
@@ -59,12 +60,22 @@ html5rocks.indexedDB.open = function() {
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
+			currentObj = result;
+			
 			if(result.expenseBillPaid == "paidYes") {
 				message = "Mark as UnPaid";
 				status = "paidYes";
 			} else {
 				message = "Mark as Paid";
 				status = "paidNo";
+			}
+			
+			if(result.expenseBillPaid == "paidYes") {
+				$('#changeBillIDinitialPAID').show();
+				$('#changeBillIDinitialUNPAID').hide();
+			} else {
+				$('#changeBillIDinitialUNPAID').show();
+				$('#changeBillIDinitialPAID').hide();
 			}
 			
 			$("#billPaid").text(message);
@@ -111,8 +122,37 @@ $( document ).ready(function() {
 			return false;
 		}
 	});
+	
+	$(".changeBill").change(function(){
+
+		var html5rocks = {};
+		html5rocks.indexedDB = {};
+		html5rocks.indexedDB.db = null;
+		var openedDB = localStorage["openedDB"];
+		var newCurrentBill = currentObj;
+		var requestChange = indexedDB.open(openedDB);	
+		
+		requestChange.onsuccess = function(e) {
+			html5rocks.indexedDB.db = e.target.result;
+			if(currentObj.expenseBillPaid == "paidYes") {
+				newCurrentBill.expenseBillPaid = "paidNo";
+			} else { 
+				newCurrentBill.expenseBillPaid = "paidYes";
+			}
+			var storeReplace = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
+			storeReplace.delete(parseInt(currentObj.id));
+			storeReplace.add(newCurrentBill);
+			//window.location.href = "billDetails.html";
+		}
+			
+		requestChange.onerror = function(e) {
+			alert('requestChange.onerror!');
+		}		
+	});
+	
 });
 
+/* //this was with button
 $( document ).ready(function() {
 	$("#btnPaid").on("click", function(event){
 		
@@ -143,7 +183,7 @@ $( document ).ready(function() {
 					curCursor.onsuccess = function(evt) {					
 						var cursor = evt.target.result;					
 						if (cursor) {
-							
+						
 							replace.id = cursor.value.id;
 							replace.expenseAccount = cursor.value.expenseAccount;
 							replace.expenseAmmount = cursor.value.expenseAmmount;
@@ -164,9 +204,7 @@ $( document ).ready(function() {
 							storeReplace.add(replace);
 							window.location.href = "billDetails.html";
 						}						
-					}					
-
-					
+					}
 					//storeDelete.delete(parseInt(getBillID));
 					//http://stackoverflow.com/questions/11217309/how-to-update-an-html5-indexeddb-record
 					alert(answer);
@@ -178,11 +216,9 @@ $( document ).ready(function() {
 		} else {
 			event.preventDefault();
 			return false;
-		}
-		
-		
+		}		
 	});
-});
+});*/
 
 
 /*

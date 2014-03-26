@@ -11,6 +11,8 @@
 <script type = "text/javascript" src = "http://nparashuram.com/IndexedDBShim/dist/IndexedDBShim.min.js"></script>
 -->
 <link rel="stylesheet" href="css/styles.css" />	
+<link rel="stylesheet" href="css/override-jquery.css" />	
+
 <!--<script src="js/phonegap.js"></script>
 <script src="js/jquery.js"></script>
  <script src="js/iscroll.js"></script> -->
@@ -33,34 +35,38 @@
 			</div>
 		</div>
 		
-		<div data-role="content">	
-			<!--<div id="header2">
-				<h2>Account Details</h2>
-			</div>-->
-
+		<div data-role="content">
 			<div id="wrapper">
-					<div id="billDetails"> 
-						<p id="billPar"><button id="btnPaid"><label id="billPaid"></label></button></p>
-						<p id="billCategory"></p>
-						<p id="billAmmount"></p>
-						<p id="billAccount"></p>
-						<p id="billDueDate"></p>
-						<p id="billRepeatCycle"></p>
-						<p id="billRepeatEndDate"></p>
-						<p id="currentDate"></p>
-					</div> 
-					<ul id="actionList"></ul>					
-			</div>
-			
-			<!--<div id="busy">Loading...</div>-->	
-			</div>
+				<div id="billDetails"> 
+					<!--<p id="billPar"><button id="btnPaid"><label id="billPaid"></label></button></p>-->
+					<p id="billCategory"></p>
+					<p id="billAmmount"></p>
+					<p id="billAccount"></p>
+					<p id="billDueDate"></p>
+					<p id="billRepeatCycle"></p>
+					<p id="billRepeatEndDate"></p>
+					<p id="currentDate"></p>
+				</div> 
+				<ul id="actionList"></ul>					
+			</div>	
 
-			<div data-role="footer" class="footer">
-				<h1>Bill Details</h1>
-			</div>
+		<label for="changeBill">Mark Bill As:</label>
+		<div id="changeBillIDinitialPAID"><select name="changeBill" class="changeBill" data-role="slider" data-mini="true">
+			<option value="off">UnPaid</option>
+			<option value="on" selected="">Paid</option>
+		</select></div>
+		<div id="changeBillIDinitialUNPAID"><select name="changeBill" class="changeBill" data-role="slider" data-mini="true">
+			<option value="off" selected="">UnPaid</option>
+			<option value="on">Paid</option>
+		</select></div>
 			
 		</div>
 
-</body>
+		<div data-role="footer" class="footer">
+			<h1>Bill Details</h1>
+		</div>
 
+	</div>
+</body>
+	<!--<div id="busy">Loading...</div>-->
 </html>
