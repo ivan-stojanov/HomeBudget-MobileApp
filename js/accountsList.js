@@ -69,16 +69,7 @@ html5rocks.indexedDB.open = function() {
 						
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 						if(cursor.value.id > 3) {
-							var textCommand = "";
-							textCommand += '<li data-corners="false" data-shadow="false" data-iconshadow="true" ';
-							textCommand += 'data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
-							textCommand += 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c ';
-							textCommand += classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"> ';
-							textCommand += '<a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" ';
-							textCommand += 'rel="external" class="ui-link-inherit">' + cursor.value.id + ".";
-							textCommand += cursor.value.accountName+ '</a></div><span class="ui-icon ui-icon-arrow-r';
-							textCommand += 'ui-icon-shadow">&nbsp;</span></div></li>';
-							$('#accountsListUL').append(textCommand);
+							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.accountName + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						}
 						cursor.continue();
 					}

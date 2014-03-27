@@ -32,9 +32,9 @@ $(document).ready(function() {
 	$("#save").on("click", function(event){
 		var condition;
 		if($('#repeat').val() == "on") {	
-			condition = (($('#expenseName').val().length > 0) && ($('#expenseAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-category').val().length > 0) && ($('#expenseDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#expenseRepeatEndDate').val().length > 0));
+			condition = (($('#expenseName').val().length > 0) && ($('#expenseAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && ($('#expenseDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#expenseRepeatEndDate').val().length > 0));
 		} else {
-			condition = (($('#expenseName').val().length > 0) && ($('#expenseAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-category').val().length > 0) && ($('#expenseDueDate').val().length > 0));
+			condition = (($('#expenseName').val().length > 0) && ($('#expenseAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && ($('#expenseDueDate').val().length > 0));
 		}
 		
 		if(condition == true) {
@@ -87,7 +87,7 @@ $(document).ready(function() {
 						<option value="cashOnHand">Cash on hand</option>
 						<option value="creditCard">Credit card</option>
 						<option value="bankAccount">Bank Account</option>
-						<option value="" disable> . . . </option>
+						<option value="points" disable> . . . </option>
 					</select>
 					<!--	
 					<br><br><label for="incomeAccount">Account:</label><br>

@@ -21,6 +21,9 @@ if(getAccountID == null) {
 	getAccountID = 1;
 }
 															//alert(getAccountID);
+//if(getAccountID == 1) 
+{ $("#deleteAcc").hide(); } 
+												
 function init() {
 															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved

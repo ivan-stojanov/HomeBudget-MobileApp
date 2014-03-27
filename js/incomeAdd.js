@@ -1,3 +1,7 @@
+/*$("drop-down-list-account-listbox").click(function() {
+	addAccountsDropDown();
+});*/
+
 function addAccountsDropDown() {
 
 		var html5rocks = {};
@@ -18,12 +22,33 @@ function addAccountsDropDown() {
 				var numItems = evt.target.result;	
 				/*alert(numItems);*/
 				if (openedIndex) {
+					var deletePoints = 0;
+					var haveCashOnHand = false; var haveCreditCard = false; var haveBankAccount = false;
 					var curCursor = openedIndex.openCursor(/*null, "prev"*/);				
 					curCursor.onsuccess = function(evt) {					
 						var cursor = evt.target.result;					
 						if (cursor) {
-							$('#drop-down-list-account').append('<option value="' + cursor.value.accountName + '">' + cursor.value.accountName + '</option>');
+							if(cursor.value.id == 1) 		{	haveCashOnHand = true;	}
+							else if(cursor.value.id == 2) 	{	haveCreditCard = true;	}
+							else if(cursor.value.id == 3) 	{	haveBankAccount = true;	}
+							else {
+								$('#drop-down-list-account').append('<option value="' + cursor.value.accountName + '">' + cursor.value.accountName + '</option>');
+								deletePoints++;
+							}								
 							cursor.continue();
+						} else {
+							if(haveCashOnHand == false) {	
+								$("#drop-down-list-account option[value='cashOnHand']").remove();
+							}
+							if(haveCreditCard == false) {	
+								$("#drop-down-list-account option[value='creditCard']").remove();
+							}
+							if(haveBankAccount == false) {
+								$("#drop-down-list-account option[value='bankAccount']").remove();
+							}
+							if(deletePoints == 0) {
+								$("#drop-down-list-account option[value='points']").remove();
+							}
 						}
 					}
 				}	
