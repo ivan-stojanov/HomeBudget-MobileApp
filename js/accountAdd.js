@@ -1,11 +1,12 @@
 function funcAccountAdd() {
 	var openedDB;
 	var request;
+	var accountDate = formatDate($("#accountDate").val());
 	var obj =  { 
 			accountName: $("#accountName").val(),
 			accountType: $("#accountType").val(),
 			accountBalance: $("#accountBalance").val(),
-			accountDate: $("#accountDate").val()
+			accountDate: accountDate
 		};				
 	var html5rocks = {};
 	html5rocks.indexedDB = {};
@@ -35,5 +36,14 @@ function funcAccountAdd() {
 	
 	request.onerror = function(e) {
 		alert('request.onerror!');
-	}		
+	}	
+}
+
+function formatDate(enteredDate){
+	var dateArray = enteredDate.split('-');
+	if(dateArray.length == 3) {
+		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+	} else {
+		return "";
+	}
 }

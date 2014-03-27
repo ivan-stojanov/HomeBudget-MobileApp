@@ -99,6 +99,10 @@ function funcExpenseAdd() {
 		expenseRepeatCycle = "";
 		expenseRepeatEndDate = "";
 	}
+	
+	expenseDueDate = formatDate(expenseDueDate);
+	expenseRepeatEndDate = formatDate(expenseRepeatEndDate);
+
 /*
 	alert(
 		expenseName 					+ " : " + 
@@ -153,4 +157,13 @@ function funcExpenseAdd() {
 	request.onerror = function(e) {
 		alert('request.onerror!');
 	}		
+}
+
+function formatDate(enteredDate){
+	var dateArray = enteredDate.split('-');
+	if(dateArray.length == 3) {
+		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+	} else {
+		return "";
+	}
 }

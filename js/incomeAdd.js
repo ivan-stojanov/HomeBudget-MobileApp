@@ -99,6 +99,10 @@ function funcIncomeAdd() {
 		incomeRepeatCycle = "";
 		incomeRepeatEndDate = "";
 	}
+
+	incomeDueDate = formatDate(incomeDueDate);
+	incomeRepeatEndDate = formatDate(incomeRepeatEndDate);
+
 /*
 	alert(
 		incomeName 					+ " : " + 
@@ -152,4 +156,13 @@ function funcIncomeAdd() {
 	request.onerror = function(e) {
 		alert('request.onerror!');
 	}		
+}
+
+function formatDate(enteredDate){
+	var dateArray = enteredDate.split('-');
+	if(dateArray.length == 3) {
+		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+	} else {
+		return "";
+	}
 }
