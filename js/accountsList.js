@@ -59,7 +59,9 @@ html5rocks.indexedDB.open = function() {
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
 		numItemsRequesr.onsuccess = function(evt) {  
 			var deleteBankAccount = 2;	var deleteCreditCard = 1;	var deleteCashOnHand = 0;
+			var currentCashOnHandBalance = 0;	var currentCreditCardBalance = 0;	var currentBankAccountBalance = 0;
 			var numItems = evt.target.result;	
+			var countDeleteDefaults = 3;
 			/*alert(numItems);*/
 			if (openedIndex) {
 				var curCursor = openedIndex.openCursor(/*null, "prev"*/);				
@@ -67,27 +69,48 @@ html5rocks.indexedDB.open = function() {
 					var cursor = evt.target.result;					
 					if (cursor) {
 						countTest++;						
-						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 						if(cursor.value.id > 3) {
-							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.accountName + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+							if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+							
+							var currentClass = (cursor.value.accountName).toLowerCase().replace(" ","");
+							var currentColor = setStyleColor(cursor.value.accountBalance);	//function defined below
+							
+							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + cursor.value.accountBalance + '</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+							
 						} else if(cursor.value.id == 1) {
 							deleteCashOnHand = 4;
+							currentCashOnHandBalance = cursor.value.accountBalance;
 						} else if(cursor.value.id == 2) {
 							deleteCreditCard = 4;
+							currentCreditCardBalance = cursor.value.accountBalance;
 						} else if(cursor.value.id == 3) {
 							deleteBankAccount = 4;
+							currentBankAccountBalance = cursor.value.accountBalance;
 						}
 						cursor.continue();
 					} else {
+						var setStyle;
 						//alert("bank: " + deleteBankAccount + ", credit: " + deleteCreditCard + ", cash: " + deleteCashOnHand);
 						if(deleteBankAccount < 4) {
 							$("#accountsListUL").children().eq(deleteBankAccount).remove(); //3. Bank(2)
+						} else {
+							setStyle = document.getElementsByClassName("bankaccountStyle")[0];
+							setStyle.innerHTML = currentBankAccountBalance;
+							setStyle.style.color = setStyleColor(currentBankAccountBalance);	//function defined below
 						}
 						if(deleteCreditCard < 4) {
 							$("#accountsListUL").children().eq(deleteCreditCard).remove(); //2. Credit(1)
+						} else {
+							setStyle = document.getElementsByClassName("creditcardStyle")[0];
+							setStyle.innerHTML = currentCreditCardBalance;
+							setStyle.style.color = setStyleColor(currentCreditCardBalance);	//function defined below
 						}
 						if(deleteCashOnHand < 4) {
 							$("#accountsListUL").children().eq(deleteCashOnHand).remove(); //1. Cash(0)
+						} else {
+							setStyle = document.getElementsByClassName("cashonhandStyle")[0];
+							setStyle.innerHTML = currentCashOnHandBalance;
+							setStyle.style.color = setStyleColor(currentCashOnHandBalance);	//function defined below
 						}
 					}
 				}
@@ -134,6 +157,18 @@ function callFunction(getAccountID) {
 	//localStorage["incomeClickedID"] = getAccountID;		//alert("id: " + getAccountID); 
 	sessionStorage.setItem("accountClickedID", getAccountID);
 }
+
+
+function setStyleColor(currentBalance) {												
+	if(currentBalance < 0) {
+		return "red";
+	} else if(currentBalance > 0) {
+		return "green";
+	} else {
+		return "blue";
+	}
+}
+
 /* 
 //deleting database
 var dbreq = window.indexedDB.deleteDatabase("MyTest");

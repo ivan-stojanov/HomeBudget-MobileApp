@@ -281,3 +281,8 @@ li .line1 {
 	margin-top: 5px;
 	width: 150px;
 }
+
+.rightSide
+{
+	float: right;
+}
