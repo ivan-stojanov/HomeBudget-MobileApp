@@ -22,7 +22,7 @@ if(getAccountID == null) {
 }
 															//alert(getAccountID);
 //if(getAccountID == 1) 
-{ $("#deleteAcc").hide(); } 
+//{ $("#deleteAcc").hide(); } 
 												
 function init() {
 															//  alert("init");

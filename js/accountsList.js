@@ -57,7 +57,8 @@ html5rocks.indexedDB.open = function() {
 		var numItemsRequesr = openedIndex.count();	
 		var countTest = 0;	var classUnderline = "";
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
-		numItemsRequesr.onsuccess = function(evt) {   
+		numItemsRequesr.onsuccess = function(evt) {  
+			var deleteBankAccount = 2;	var deleteCreditCard = 1;	var deleteCashOnHand = 0;
 			var numItems = evt.target.result;	
 			/*alert(numItems);*/
 			if (openedIndex) {
@@ -65,13 +66,29 @@ html5rocks.indexedDB.open = function() {
 				curCursor.onsuccess = function(evt) {					
 					var cursor = evt.target.result;					
 					if (cursor) {
-						countTest++;
-						
+						countTest++;						
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 						if(cursor.value.id > 3) {
 							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.accountName + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						} else if(cursor.value.id == 1) {
+							deleteCashOnHand = 4;
+						} else if(cursor.value.id == 2) {
+							deleteCreditCard = 4;
+						} else if(cursor.value.id == 3) {
+							deleteBankAccount = 4;
 						}
 						cursor.continue();
+					} else {
+						//alert("bank: " + deleteBankAccount + ", credit: " + deleteCreditCard + ", cash: " + deleteCashOnHand);
+						if(deleteBankAccount < 4) {
+							$("#accountsListUL").children().eq(deleteBankAccount).remove(); //3. Bank(2)
+						}
+						if(deleteCreditCard < 4) {
+							$("#accountsListUL").children().eq(deleteCreditCard).remove(); //2. Credit(1)
+						}
+						if(deleteCashOnHand < 4) {
+							$("#accountsListUL").children().eq(deleteCashOnHand).remove(); //1. Cash(0)
+						}
 					}
 				}
 			}
