@@ -130,13 +130,16 @@ html5rocks.indexedDB.open = function() {
 								//alert(/*countTestBill /*+ */" " + (countNotPaidBills));
 								if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 							}
+						var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
+						var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
+
 								text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
 								text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
 								text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
 								text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetails.html" ';
 								text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
 								text6 = cursor.value.id + "." + cursor.value.expenseName + " - " + cursor.value.expenseBillPaid; ;
-								text7 = '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+								text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + cursor.value.expenseAmmount + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
 								
 								$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
 						}
@@ -158,6 +161,16 @@ html5rocks.indexedDB.open = function() {
 function callFunction(getExpenseID) {												
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
 	sessionStorage.setItem("expenseClickedID", getExpenseID);
+}
+
+function setStyleColor(currentBalance) {												
+	if(currentBalance < 0) {
+		return "red";
+	} else if(currentBalance > 0) {
+		return "green";
+	} else {
+		return "blue";
+	}
 }
 /* 
 //deleting database

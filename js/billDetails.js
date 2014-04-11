@@ -142,7 +142,58 @@ $( document ).ready(function() {
 			var storeReplace = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 			storeReplace.delete(parseInt(currentObj.id));
 			storeReplace.add(newCurrentBill);
+
 			//window.location.href = "billDetails.html";
+			
+			var modifyAccountObject;	
+		  //we need to loop throught all accounts, to find the chosen one and to update accountBalance via billAmmount
+			var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+			var openedIndexx = storeAccount.index("by_accountName");
+
+			var numItemsRequest = openedIndexx.count();		
+			numItemsRequest.onsuccess = function(evt) {
+				var numItems = evt.target.result;
+				if (openedIndexx) {					
+					var curCursorA = openedIndexx.openCursor();	
+					
+					curCursorA.onsuccess = function(evt) {
+						var cursorA = evt.target.result;
+						if (cursorA) {
+							//alert((cursorA.value.accountName).toString() + " + " + (currentObj.expenseAccount).toString());
+						
+							if((cursorA.value.accountName).toString() == (currentObj.expenseAccount).toString()) {
+								var newAccountAmmount;
+								if(newCurrentBill.expenseBillPaid == "paidNo") {
+									newAccountAmmount = (parseInt(cursorA.value.accountBalance) + parseInt(currentObj.expenseAmmount)).toString();
+								}else if(newCurrentBill.expenseBillPaid == "paidYes") {
+									newAccountAmmount = (parseInt(cursorA.value.accountBalance) - parseInt(currentObj.expenseAmmount)).toString();
+								}								
+								modifyAccountObject =  { 
+									accountName: cursorA.value.accountName,
+									accountType: cursorA.value.accountType,
+									accountBalance: newAccountAmmount,
+									accountDate: cursorA.value.accountDate,
+									id: cursorA.value.id
+								};	
+								storeAccount.delete(parseInt(modifyAccountObject.id));
+								storeAccount.add(modifyAccountObject);
+							}
+							cursorA.continue();
+						} else {
+							//window.location.href = "./billsDetails.html";						
+						}
+					}
+					
+					curCursorA.onerror = function(evt) {
+						alert("curCursorA.onerror");					
+					}
+				}
+			}
+				
+			numItemsRequest.onerror = function(evt) { 
+				alert("numItemsRequest.onerror"); 
+			}
+
 		}
 			
 		requestChange.onerror = function(e) {

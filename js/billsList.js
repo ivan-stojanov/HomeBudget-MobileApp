@@ -117,8 +117,13 @@ html5rocks.indexedDB.open = function() {
 					if (cursor) {
 						countTest++;
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+						
+						var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
+						var currentColor = setStyleColor(cursor.value.expenseBillPaid);	//function defined below
+						var sign = "-";
+						if(cursor.value.expenseBillPaid == "paidNo") {	sign = "pending: ";	}
 
-						$('#billsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.expenseName + " - " + cursor.value.expenseBillPaid + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						$('#billsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.expenseName /*+ " - " + cursor.value.expenseBillPaid*/ + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.expenseAmmount + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
 					} else {
 						if(countTest == 0) { alert("no bills"); }
@@ -168,6 +173,15 @@ function callFunction(getBillID) {
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
 	sessionStorage.setItem("billClickedID", getBillID);
 }
+
+function setStyleColor(currentPaidStatus) {												
+	if(currentPaidStatus == "paidYes") {
+		return "red";
+	} else { 	//if(currentPaidStatus == "paidNo")
+		return "blue";
+	}
+}
+
 /* 
 //deleting database
 var dbreq = window.indexedDB.deleteDatabase("MyTest");

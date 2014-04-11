@@ -158,20 +158,58 @@ function funcIncomeAdd() {
 
 	openedDB = localStorage["openedDB"];	
 	request = indexedDB.open(openedDB);		
-			
-//	alert("New income is added - WRONG");
 	
 	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;			
-		var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-		store.add(obj);
-//		alert('New income is added - TRUE');
-		
+		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
+		storeIncome.add(obj);
+		var modifyAccountObject;
+	
+	  //we need to loop throught all accounts, to find the chosen one and to update accountBalance by adding incomeAmmount
+		var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+		var openedIndexx = storeAccount.index("by_accountName");
+		var numItemsRequest = openedIndexx.count();		
+		numItemsRequest.onsuccess = function(evt) {	
+			var numItems = evt.target.result;	
+			//storeAccount.add(obj);			
+			if (openedIndexx) {
+				//var singleKeyRange = IDBKeyRange.only((obj.incomeAccount).toString());
+				var curCursorA = openedIndexx.openCursor(/*singleKeyRange.toString()*/);
+
+				curCursorA.onsuccess = function(evt) {
+					var cursorA = evt.target.result;
+					if (cursorA) {
+						if((cursorA.value.accountName).toString() == (obj.incomeAccount).toString()) {		
+							modifyAccountObject =  { 
+								accountName: cursorA.value.accountName,
+								accountType: cursorA.value.accountType,
+								accountBalance: (parseInt(cursorA.value.accountBalance) + parseInt(obj.incomeAmmount)).toString(),
+								accountDate: cursorA.value.accountDate,
+								id: cursorA.value.id
+							};	
+							storeAccount.delete(parseInt(modifyAccountObject.id));
+							storeAccount.add(modifyAccountObject);
+						}
+						cursorA.continue();
+					} else {
+						window.location.href = "./incomesList.html";
+					}
+				}
+				
+				curCursorA.onerror = function(evt) {
+					alert("curCursorA.onerror");					
+				}
+			}
+		}
+			
+		numItemsRequest.onerror = function(evt) { 
+			alert("numItemsRequest.onerror"); 
+		}
 		// now let's close the database again!
 		/*var dbCLOSE;
 		dbCLOSE = request.result;
 		dbCLOSE.close();*/
-		window.location.href = "./incomesList.html";
+//		window.location.href = "./incomesList.html";
 	};
 	
 	request.onupgradeneeded = function(e) {  

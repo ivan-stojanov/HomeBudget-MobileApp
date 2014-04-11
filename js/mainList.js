@@ -68,12 +68,12 @@ html5rocks.indexedDB.open = function() {
 													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objAccounts = [
-			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: 0, accountDate: today },
-			{ accountName: "Credit Card", accountType: "HomeAccount", accountBalance: 0, accountDate: today },
-			{ accountName: "Bank Account", accountType: "HomeAccount", accountBalance: 0, accountDate: today },
-			{ accountName: "Ivan2", accountType: "PrivatenIvan2", accountBalance: 33000, accountDate: "20/10/2010" },
-			{ accountName: "Zoran2", accountType: "PrivatenZoran2", accountBalance: 1100, accountDate: "21/11/2011" },
-			{ accountName: "Niko2", accountType: "PrivatenNiko2", accountBalance: 65000, accountDate: "21/10/2013" },
+			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
+			{ accountName: "Credit Card", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
+			{ accountName: "Bank Account", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
+			{ accountName: "Ivan", accountType: "PrivatenIvan2", accountBalance: "30000", accountDate: "20/10/2010" },
+			{ accountName: "Zoran", accountType: "PrivatenZoran2", accountBalance: "1000", accountDate: "21/11/2011" },
+			{ accountName: "Niko", accountType: "PrivatenNiko2", accountBalance: "60000", accountDate: "21/10/2013" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeAccounts.add(objAccounts[0]);storeAccounts.add(objAccounts[1]);storeAccounts.add(objAccounts[2]);
@@ -106,9 +106,9 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objIncomes = [
-			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: 500, incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "" },
-			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: 100, incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2012" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: 200, incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "11/11/2010" },
+			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "500", incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "" },
+			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2012" },
+			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "11/11/2010" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeIncomes.add(objIncomes[0]);storeIncomes.add(objIncomes[1]);storeIncomes.add(objIncomes[2]);
@@ -143,9 +143,9 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objExpenses = [
-			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: 520, expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "", expenseBillPaid: "paidNo" },
-			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: 170, expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "1 Month", expenseBillPaid: "paidNo" },
-			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: 400, expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "1 Year", expenseBillPaid: "paidNo" },
+			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "500", expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "", expenseBillPaid: "paidNo" },
+			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "1 Month", expenseBillPaid: "paidNo" },
+			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "1 Year", expenseBillPaid: "paidNo" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);

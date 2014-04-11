@@ -74,8 +74,10 @@ html5rocks.indexedDB.open = function() {
 							
 							var currentClass = (cursor.value.accountName).toLowerCase().replace(" ","");
 							var currentColor = setStyleColor(cursor.value.accountBalance);	//function defined below
+							var sign = "";
+							if(cursor.value.accountBalance > 0) {	sign = "+ ";	}
 							
-							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + cursor.value.accountBalance + '</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.accountBalance + ' MKD</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 							
 						} else if(cursor.value.id == 1) {
 							deleteCashOnHand = 4;
@@ -89,27 +91,30 @@ html5rocks.indexedDB.open = function() {
 						}
 						cursor.continue();
 					} else {
-						var setStyle;
+						var setStyle;	var sign = "";
 						//alert("bank: " + deleteBankAccount + ", credit: " + deleteCreditCard + ", cash: " + deleteCashOnHand);
 						if(deleteBankAccount < 4) {
 							$("#accountsListUL").children().eq(deleteBankAccount).remove(); //3. Bank(2)
 						} else {
 							setStyle = document.getElementsByClassName("bankaccountStyle")[0];
-							setStyle.innerHTML = currentBankAccountBalance;
+							if(currentBankAccountBalance >  0) {	sign = "+";	}
+							setStyle.innerHTML = sign + currentBankAccountBalance + " MKD";
 							setStyle.style.color = setStyleColor(currentBankAccountBalance);	//function defined below
 						}
 						if(deleteCreditCard < 4) {
 							$("#accountsListUL").children().eq(deleteCreditCard).remove(); //2. Credit(1)
 						} else {
 							setStyle = document.getElementsByClassName("creditcardStyle")[0];
-							setStyle.innerHTML = currentCreditCardBalance;
+							if(currentCreditCardBalance >  0) {	sign = "+";	}
+							setStyle.innerHTML = sign + currentCreditCardBalance + " MKD";
 							setStyle.style.color = setStyleColor(currentCreditCardBalance);	//function defined below
 						}
 						if(deleteCashOnHand < 4) {
 							$("#accountsListUL").children().eq(deleteCashOnHand).remove(); //1. Cash(0)
 						} else {
 							setStyle = document.getElementsByClassName("cashonhandStyle")[0];
-							setStyle.innerHTML = currentCashOnHandBalance;
+							if(currentCashOnHandBalance >  0) {	sign = "+";	}
+							setStyle.innerHTML = sign + currentCashOnHandBalance + " MKD";
 							setStyle.style.color = setStyleColor(currentCashOnHandBalance);	//function defined below
 						}
 					}

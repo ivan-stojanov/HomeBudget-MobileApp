@@ -115,8 +115,11 @@ html5rocks.indexedDB.open = function() {
 					if (cursor) {
 						countTest++;
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+						
+						var currentClass = (cursor.value.incomeName).toLowerCase().replace(" ","");
+						var currentColor = setStyleColor(cursor.value.incomeAmmount);	//function defined below
 
-						$('#incomesListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="incomeDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.incomeName + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						$('#incomesListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="incomeDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.incomeName + '<label style="color:green" class="rightSide ' + currentClass + 'Style">+ ' + cursor.value.incomeAmmount + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
 					}
 				}
@@ -164,6 +167,17 @@ function callFunction(getIncomeID) {
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
 	sessionStorage.setItem("incomeClickedID", getIncomeID);
 }
+
+function setStyleColor(currentBalance) {												
+	if(currentBalance < 0) {
+		return "red";
+	} else if(currentBalance > 0) {
+		return "green";
+	} else {
+		return "blue";
+	}
+}
+
 /* 
 //deleting database
 var dbreq = window.indexedDB.deleteDatabase("MyTest");
