@@ -107,10 +107,18 @@ function addBillCategoriesDropDown() {
 }
 
 function funcBillAdd() {
-				
+	//get today date
+	var today = new Date();
+	var min = today.getMinutes();	if(min<10){min='0'+min}
+	var h = today.getHours();		if(h<10){h='0'+h}
+	var dd = today.getDate();		if(dd<10){dd='0'+dd}
+	var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
+	var yyyy = today.getFullYear(); 
+	today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
+
+	var billRepeat = $('#repeat').val();
 	var billCategory = $('#drop-down-list-category').val(); 
 	var billPaid = $('#paid').val();
-	var billRepeat = $('#repeat').val();
 	var billAmmount = $('#billAmmount').val(); 
 	var billAccount = $('#drop-down-list-account').val(); 
 	var billDueDate =	$('#billDueDate').val(); 
@@ -120,23 +128,16 @@ function funcBillAdd() {
 	if(billRepeat == "off") {
 		billRepeatCycle = "";
 		billRepeatEndDate = "";
+		billRepeat = "no";
+	}
+	
+	if(billRepeat == "on") {
+		billRepeat = "yes";
 	}
 	
 	billDueDate = formatDate(billDueDate);
 	billRepeatEndDate = formatDate(billRepeatEndDate);
 
-/*
-	alert(
-		billCategory 				+ " : " + 
-		billAmmount 				+ " : " + 
-		billAccount 				+ " : " + 
-		billDueDate 				+ " : " + 
-		billPaid					+ " : " + 
-		billRepeatCycle 			+ " : " + 
-		billRepeatEndDate 		+ " : " + 
-		billRepeat
-	);
-*/
 	var openedDB;
 	var request;
 	var obj =  { 
@@ -147,7 +148,11 @@ function funcBillAdd() {
 			expenseDueDate: billDueDate,
 			expenseRepeatCycle: billRepeatCycle,
 			expenseRepeatEndDate: billRepeatEndDate,
-			expenseBillPaid: billPaid	//paidNo OR paidYes
+			expenseBillPaid: billPaid,	//paidNo OR paidYes
+			expenseRepeat: billRepeat,
+			expenseRepeatLastUpdate: today,
+			expenseCreated: today,
+			expenseNumItems: "1"
 		};	
 		
 	var html5rocks = {};
@@ -221,7 +226,7 @@ function funcBillAdd() {
 function formatDate(enteredDate){
 	var dateArray = enteredDate.split('-');
 	if(dateArray.length == 3) {
-		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0] + "/23/59";
 	} else {
 		return "";
 	}

@@ -106,7 +106,15 @@ function addCategoriesDropDown() {
 }
 
 function funcExpenseAdd() {
-			
+	//get today date
+	var today = new Date();
+	var min = today.getMinutes();	if(min<10){min='0'+min}
+	var h = today.getHours();		if(h<10){h='0'+h}
+	var dd = today.getDate();		if(dd<10){dd='0'+dd}
+	var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
+	var yyyy = today.getFullYear(); 
+	today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
+	
 	var expenseRepeat = $('#repeat').val();
 	var expenseName = $('#expenseName').val();
 	var expenseAmmount = $('#expenseAmmount').val(); 
@@ -119,23 +127,16 @@ function funcExpenseAdd() {
 	if(expenseRepeat == "off") {
 		expenseRepeatCycle = "";
 		expenseRepeatEndDate = "";
+		expenseRepeat = "no";
+	}
+	
+	if(expenseRepeat == "on") {
+		expenseRepeat = "yes";
 	}
 	
 	expenseDueDate = formatDate(expenseDueDate);
 	expenseRepeatEndDate = formatDate(expenseRepeatEndDate);
 
-/*
-	alert(
-		expenseName 					+ " : " + 
-		expenseAmmount 				+ " : " + 
-		expenseAccount 				+ " : " + 
-		expenseCategory 				+ " : " + 
-		expenseDueDate 				+ " : " + 
-		expenseRepeatCycle 			+ " : " + 
-		expenseRepeatEndDate 		+ " : " + 
-		expenseRepeat
-	);
-*/
 	var openedDB;
 	var request;
 	var obj =  { 
@@ -146,7 +147,11 @@ function funcExpenseAdd() {
 			expenseDueDate: expenseDueDate,
 			expenseRepeatCycle: expenseRepeatCycle,
 			expenseRepeatEndDate: expenseRepeatEndDate,
-			expenseBillPaid: "paidNo"
+			expenseBillPaid: "paidNo",
+			expenseRepeat: expenseRepeat,
+			expenseRepeatLastUpdate: today,
+			expenseCreated: today,
+			expenseNumItems: "1"
 		};	
 		
 	var html5rocks = {};
@@ -221,7 +226,7 @@ function funcExpenseAdd() {
 function formatDate(enteredDate){
 	var dateArray = enteredDate.split('-');
 	if(dateArray.length == 3) {
-		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0] + "/23/59";
 	} else {
 		return "";
 	}

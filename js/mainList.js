@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 1;
+var version = 2;
 													// alert("startMain");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -23,11 +23,12 @@ window.addEventListener("DOMContentLoaded", init, false);
 
 //get today date
 var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
-var yyyy = today.getFullYear();
-if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
-today = dd+'/'+mm+'/'+yyyy;
+var min = today.getMinutes();	if(min<10){min='0'+min}
+var h = today.getHours();		if(h<10){h='0'+h}
+var dd = today.getDate();		if(dd<10){dd='0'+dd}
+var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
+var yyyy = today.getFullYear(); 
+today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 
 var html5rocks = {};
 html5rocks.indexedDB = {};
@@ -106,9 +107,9 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objIncomes = [
-			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "500", incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "" },
-			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2012" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "11/11/2010" },
+			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "500", incomeDueDate: "10/10/2010/23/59", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2010/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2012/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2010/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "11/11/2010/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeIncomes.add(objIncomes[0]);storeIncomes.add(objIncomes[1]);storeIncomes.add(objIncomes[2]);
@@ -122,6 +123,9 @@ html5rocks.indexedDB.open = function() {
 		storeIncomes.createIndex( "by_incomeRepeat", "incomeRepeat", { unique: false } );
 		storeIncomes.createIndex( "by_incomeRepeatCycle", "incomeRepeatCycle", { unique: false } );
 		storeIncomes.createIndex( "by_incomeRepeatEndDate", "incomeRepeatEndDate", { unique: false } );
+		storeIncomes.createIndex( "by_incomeRepeatLastUpdate", "incomeRepeatLastUpdate", { unique: false } );
+		storeIncomes.createIndex( "by_incomeCreated", "incomeCreated", { unique: false } );
+		storeIncomes.createIndex( "by_incomeNumItems", "incomeNumItems", { unique: false } );
 		storeIncomes.createIndex( "by_id", "id", { unique: false } );	
 
 		//var storeExpenses;
@@ -143,9 +147,9 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objExpenses = [
-			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "500", expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "", expenseBillPaid: "paidNo" },
-			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "1 Month", expenseBillPaid: "paidNo" },
-			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "1 Year", expenseBillPaid: "paidNo" },
+			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "500", expenseDueDate: "10/10/2010", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "", expenseBillPaid: "paidNo", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "10/10/2010", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "Monthly", expenseBillPaid: "paidNo", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "10/10/2010", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "Yearly", expenseBillPaid: "paidNo", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
@@ -160,6 +164,9 @@ html5rocks.indexedDB.open = function() {
 		storeExpenses.createIndex( "by_expenseRepeatCycle", "expenseRepeatCycle", { unique: false } );
 		storeExpenses.createIndex( "by_expenseRepeatEndDate", "expenseRepeatEndDate", { unique: false } );
 		storeExpenses.createIndex( "by_expenseBillPaid", "expenseBillPaid", { unique: false } );
+		storeExpenses.createIndex( "by_expenseRepeatLastUpdate", "expenseRepeatLastUpdate", { unique: false } );
+		storeExpenses.createIndex( "by_expenseCreated", "expenseCreated", { unique: false } );
+		storeExpenses.createIndex( "by_expenseNumItems", "expenseNumItems", { unique: false } );
 		storeExpenses.createIndex( "by_id", "id", { unique: false } );
 		storeExpenses.createIndex( "paid_Bills_Only", ['expenseName','expenseCategory','expenseBillPaid'], { unique: false } );
 			
@@ -244,9 +251,166 @@ html5rocks.indexedDB.open = function() {
 		storeBills.createIndex( "by_id", "id", { unique: false } );	
 	*/	
 	};
-												
+
+	request.onsuccess = function(e) {  
+		//upgrade incomes and expenses that have repeat cycle
+		html5rocks.indexedDB.db = e.target.result;
+		var dbS = e.target.result;
+		
+		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
+		var storeExpence = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
+		//updateIncomesExpensesDates(storeIncomes, storeExpenses);
+		
+			var openedIndexIncomes = storeIncome.index("by_incomeRepeat");			
+			var numIncomesRepeated = openedIndexIncomes.count();
+			
+			numIncomesRepeated.onsuccess = function(evt) {	
+				var numIncomes = evt.target.result;	
+				if (openedIndexIncomes) {
+					var singleKeyRangeIncome = IDBKeyRange.only("yes");
+					var curCursorIncomesRepeated = openedIndexIncomes.openCursor(singleKeyRangeIncome);
+					//var howMany = 0;
+					curCursorIncomesRepeated.onsuccess = function(evt) {
+						var cursorIncome = evt.target.result;
+						if (cursorIncome) {
+							//get current object, in case we need it for update
+							var obj =  { 
+								incomeName: cursorIncome.value.incomeName,
+								incomeAmmount: cursorIncome.value.incomeAmmount,
+								incomeAccount: cursorIncome.value.incomeAccount,
+								incomeCategory: cursorIncome.value.incomeCategory,
+								incomeDueDate: cursorIncome.value.incomeDueDate,
+								incomeRepeatCycle: cursorIncome.value.incomeRepeatCycle,
+								incomeRepeatEndDate: cursorIncome.value.incomeRepeatEndDate,
+								incomeRepeat: cursorIncome.value.incomeRepeat,
+								incomeRepeatLastUpdate: cursorIncome.value.incomeRepeatLastUpdate,
+								incomeCreated: cursorIncome.value.incomeCreated,
+								incomeNumItems: cursorIncome.value.incomeNumItems,
+								id: cursorIncome.value.id
+							};
+						
+							//count the difference between CURRENT TIME and LAST UPDATE of the current object
+							var repeatPeriodIncome = cursorIncome.value.incomeRepeatCycle;
+							var lastUpdateStringFormat = cursorIncome.value.incomeRepeatLastUpdate;
+							var currentDayStringFormat = today;
+							var endDateStringFormat = cursorIncome.value.incomeRepeatEndDate;
+							var datePartsL = lastUpdateStringFormat.split("/");//	17/04/2014/23/59
+							var datePartsC = currentDayStringFormat.split("/");//	17/04/2014/23/59
+							var datePartsE = endDateStringFormat.split("/");//	17/04/2014/23/59
+							var lastUpdateDate = new Date(datePartsL[2],datePartsL[1] - 1,datePartsL[0],datePartsL[3],datePartsL[4]);
+							var currentDayDate = new Date(datePartsC[2],datePartsC[1] - 1,datePartsC[0],datePartsC[3],datePartsC[4]);
+							var endRepeatDayDate = new Date(datePartsE[2],datePartsE[1] - 1,datePartsE[0],datePartsE[3],datePartsE[4]);
+							
+							var createdDayStringFormat = cursorIncome.value.incomeCreated;
+							var dateCreatedParts = createdDayStringFormat.split("+"); //	17/04/2014/23/59+17/05/2014/23/59
+							if(dateCreatedParts.length > 1) {
+								createdDayStringFormat = dateCreatedParts[dateCreatedParts.length - 1];
+							}							
+							var datePartsCR = createdDayStringFormat.split("/");//	17/04/2014/23/59
+							var lastCreatedDayDate = new Date(datePartsCR[2],datePartsCR[1] - 1,datePartsCR[0],datePartsCR[3],datePartsCR[4]);
+							//alert(lastCreatedDayDate);
+
+							if((endRepeatDayDate - currentDayDate >= 0) && (currentDayDate - lastCreatedDayDate >= 0)) {
+								//alert(lastUpdateDate);
+								var difference_ms = currentDayDate - lastUpdateDate;
+								//take out milliseconds
+								difference_ms = difference_ms/1000;	var seconds = Math.floor(difference_ms % 60);
+								difference_ms = difference_ms/60;	var minutes = Math.floor(difference_ms % 60);
+								difference_ms = difference_ms/60;	var hours = Math.floor(difference_ms % 24);  
+																	var days = Math.floor(difference_ms/24);
+																	
+								if (repeatPeriodIncome == "Hourly") {
+
+								} else if (repeatPeriodIncome == "Dayly") {  
+									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
+									if(days > 0) {
+										var numberUpdates = days;
+										while(numberUpdates > 0) {
+											//add the new income each day, if repeated dayly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute											
+
+											var nextIncomeCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate() + 1, lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											
+											/*//this will be used in months
+											if(nextIncomeCreatedDayDate.getMonth() != lastCreatedDayDate.getMonth()) {
+												var nextIncomeCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate() - 1, lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											}*/
+
+											obj.incomeCreated = obj.incomeCreated + "+" + currentDayStringFormat;
+											obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
+											obj.incomeRepeatLastUpdate = currentDayStringFormat;
+											storeIncome.delete(parseInt(obj.id));
+											storeIncome.add(obj);
+											numberUpdates--;
+										}
+									}								
+								} else if (repeatPeriodIncome == "Weekly") {
+							
+								} else if (repeatPeriodIncome == "Monthly") {
+
+								} else if (repeatPeriodIncome == "Yearly") {
+								
+								}
+								//howMany++;
+							}
+							cursorIncome.continue();
+						} else {
+							//window.location.href = "./incomesList.html";
+							//alert(howMany);
+						}
+					}
+					
+					curCursorIncomesRepeated.onerror = function(evt) {
+						alert("curCursorIncomesRepeated.onerror");					
+					}
+					
+				}
+				//alert(numIncomes);
+			}
+			
+			numIncomesRepeated.onerror = function(evt) { 
+				alert("numIncomesRepeated.onerror"); 
+			}
+	}		
+	
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+function updateIncomesExpensesDates(storeIncome, storeExpence) {		
+
+	var dbS;										
+	//DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
+	//Get 1 day in milliseconds
+	var one_day=1000*60*60*24;
+	// Convert both dates to milliseconds
+	var date1_ms = new Date();
+	var date2_ms = new Date(2014,3,14,23,20);
+	// Calculate the difference in milliseconds
+	var difference_ms = date1_ms - date2_ms;
+	// Convert back to days and return
+	alert(Math.round(difference_ms/one_day)); 
+	 
+	/*
+		//take out milliseconds
+		difference_ms = difference_ms/1000;
+		var seconds = Math.floor(difference_ms % 60);
+		difference_ms = difference_ms/60; 
+		var minutes = Math.floor(difference_ms % 60);
+		difference_ms = difference_ms/60; 
+		var hours = Math.floor(difference_ms % 24);  
+		var days = Math.floor(difference_ms/24);  
+		alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
+	*/  
+	/*
+		var now = new Date();
+		if (now.getMonth() == 11) {
+			var current = new Date(now.getFullYear() + 1, 0, 1);
+		} else {
+			var current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+		}
+	*/
+}
 
 function callFunction(idGet) {												
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 

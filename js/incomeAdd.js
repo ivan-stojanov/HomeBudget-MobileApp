@@ -110,7 +110,15 @@ function addCategoriesDropDown() {
 }
 
 function funcIncomeAdd() {
-			
+	//get today date
+	var today = new Date();
+	var min = today.getMinutes();	if(min<10){min='0'+min}
+	var h = today.getHours();		if(h<10){h='0'+h}
+	var dd = today.getDate();		if(dd<10){dd='0'+dd}
+	var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
+	var yyyy = today.getFullYear(); 
+	today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
+		
 	var incomeRepeat = $('#repeat').val();
 	var incomeName = $('#incomeName').val();
 	var incomeAmmount = $('#incomeAmmount').val(); 
@@ -119,27 +127,20 @@ function funcIncomeAdd() {
 	var incomeDueDate =	$('#incomeDueDate').val(); 
 	var incomeRepeatCycle = $('#drop-down-list-cycle').val();	 
 	var incomeRepeatEndDate = $('#incomeRepeatEndDate').val();
-	
+		
 	if(incomeRepeat == "off") {
 		incomeRepeatCycle = "";
 		incomeRepeatEndDate = "";
+		incomeRepeat = "no";
+	}
+	
+	if(incomeRepeat == "on") {
+		incomeRepeat = "yes";
 	}
 
 	incomeDueDate = formatDate(incomeDueDate);
 	incomeRepeatEndDate = formatDate(incomeRepeatEndDate);
 
-/*
-	alert(
-		incomeName 					+ " : " + 
-		incomeAmmount 				+ " : " + 
-		incomeAccount 				+ " : " + 
-		incomeCategory 				+ " : " + 
-		incomeDueDate 				+ " : " + 
-		incomeRepeatCycle 			+ " : " + 
-		incomeRepeatEndDate 		+ " : " + 
-		incomeRepeat
-	);
-*/
 	var openedDB;
 	var request;
 	var obj =  { 
@@ -149,7 +150,11 @@ function funcIncomeAdd() {
 			incomeCategory: incomeCategory,
 			incomeDueDate: incomeDueDate,
 			incomeRepeatCycle: incomeRepeatCycle,
-			incomeRepeatEndDate: incomeRepeatEndDate
+			incomeRepeatEndDate: incomeRepeatEndDate,
+			incomeRepeat: incomeRepeat,
+			incomeRepeatLastUpdate: today,
+			incomeCreated: today,
+			incomeNumItems: "1"
 		};	
 		
 	var html5rocks = {};
@@ -224,7 +229,7 @@ function funcIncomeAdd() {
 function formatDate(enteredDate){
 	var dateArray = enteredDate.split('-');
 	if(dateArray.length == 3) {
-		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+		return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0] + "/23/59";
 	} else {
 		return "";
 	}

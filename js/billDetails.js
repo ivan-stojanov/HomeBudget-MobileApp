@@ -85,11 +85,14 @@ html5rocks.indexedDB.open = function() {
 			$('#billDueDate').text(result.expenseDueDate);
 			$('#billRepeatCycle').text(result.expenseRepeatCycle);
 			$('#billRepeatEndDate').text(result.expenseRepeatEndDate);
+				//get today date
 				var today = new Date();
-				var dd = today.getDate();
-				var mm = today.getMonth()+1; //January is 0!
-				var yyyy = today.getFullYear();
-				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
+				var min = today.getMinutes();	if(min<10){min='0'+min}
+				var h = today.getHours();		if(h<10){h='0'+h}
+				var dd = today.getDate();		if(dd<10){dd='0'+dd}
+				var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
+				var yyyy = today.getFullYear(); 
+				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
 		}
 	};

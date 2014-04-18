@@ -53,26 +53,6 @@ html5rocks.indexedDB.open = function() {
 													////alert("after objectStoreS onupgradeneeded"); 		
 		//var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
 													 //alert("after get objectStore onupgradeneeded"); 
- /*		
-//this part is to add items in the account objectStore (when app is first Installed)
-		const obj = [
-			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: 500, incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatPeriod: "" },
-			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: 100, incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatPeriod: "1 Month" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: 200, incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatPeriod: "1 Year" },
-		];	
-													//alert("created objects onupgradeneeded");
-		store.add(obj[0]);store.add(obj[1]);store.add(obj[2]);
-													//alert("add created objects onupgradeneeded");
-//this part is for creating indexes for each attribute in the incomes			
-		store.createIndex( "by_incomeName", "incomeName", { unique: false } );
-		store.createIndex( "by_incomeCategory", "incomeCategory", { unique: false } );
-		store.createIndex( "by_incomeAmmount", "incomeAmmount", { unique: false } );
-		store.createIndex( "by_incomeDueDate", "incomeDueDate", { unique: false } );
-		store.createIndex( "by_incomeAccount", "incomeAccount", { unique: false } );
-		store.createIndex( "by_incomeRepeat", "incomeRepeat", { unique: false } );
-		store.createIndex( "by_incomeRepeatPeriod", "incomeRepeatPeriod", { unique: false } );
-		store.createIndex( "by_id", "id", { unique: false } );	
- */	
 	};
 	request.onsuccess = function(e) {
 													//alert("request onsuccess"); 
@@ -89,14 +69,6 @@ html5rocks.indexedDB.open = function() {
 			
 		var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
 													////alert("after store"); 
-		const obj = [
-			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: 500, incomeDueDate: "10/10/2010", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatPeriod: "" },
-			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: 100, incomeDueDate: "10/10/2010", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatPeriod: "1 Month" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: 200, incomeDueDate: "10/10/2010", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatPeriod: "1 Year" },
-		];	
-													//alert("created objects");
-	//	store.add(obj[0]);store.add(obj[1]);store.add(obj[2]);
-													//alert("add created objects");
 		// Get everything in the store;
 		//var keyRange = IDBKeyRange.lowerBound(0);
 		
@@ -119,7 +91,7 @@ html5rocks.indexedDB.open = function() {
 						var currentClass = (cursor.value.incomeName).toLowerCase().replace(" ","");
 						var currentColor = setStyleColor(cursor.value.incomeAmmount);	//function defined below
 
-						$('#incomesListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="incomeDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.incomeName + '<label style="color:green" class="rightSide ' + currentClass + 'Style">+ ' + cursor.value.incomeAmmount + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						$('#incomesListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="incomeDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.incomeName + '<label style="color:green" class="rightSide ' + currentClass + 'Style">+ ' + parseInt(cursor.value.incomeAmmount) * parseInt(cursor.value.incomeNumItems) + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
 					}
 				}
