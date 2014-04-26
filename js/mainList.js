@@ -406,7 +406,46 @@ html5rocks.indexedDB.open = function() {
 										}
 									}								
 								} else if (repeatPeriodIncome == "Weekly") {
+									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
+									var weeks = 0;
+									if(days > 0) {
+										weeks = Math.floor(days/7);
+									}
+									if(weeks > 0) {
+										var numberUpdates = weeks;
+										while(numberUpdates > 0) {
+											//add the new income each hour, if repeated hourly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											var nextIncomeCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate() + 7, lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextIncomeDayStringFormat = nextIncomeCreatedDayDate;
+											//get nextIncomeDayStringFormat date in string format
+											var minNext = nextIncomeDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextIncomeDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextIncomeDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextIncomeDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
+											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
+												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
+												obj.incomeRepeatLastUpdate = currentDayStringFormat;
+												storeIncome.delete(parseInt(obj.id));
+												storeIncome.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
 							
+											//now there is new last created day date (for the last update) - nextIncomeDayStringFormat
+											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}
 								} else if (repeatPeriodIncome == "Monthly") {
 
 								} else if (repeatPeriodIncome == "Yearly") {
