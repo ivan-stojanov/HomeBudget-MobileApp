@@ -447,7 +447,56 @@ html5rocks.indexedDB.open = function() {
 										}
 									}
 								} else if (repeatPeriodIncome == "Monthly") {
+									var monthss = 0;
+/*	START - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
+									var lastUpdateDateTest = lastUpdateDate;
+									while(currentDayDate - lastUpdateDateTest >= 0) {
+										monthss++;
+										lastUpdateDateTest = lastUpdateDateTest.add(1).months();
+										//alert(lastUpdateDateTest);
+									}
+									monthss--;
+									if(monthss == -1) {
+										monthss = 0;
+									}
+									//alert(monthss);
+/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
+									if(monthss > 0) {
+										var numberUpdates = monthss;
+										while(numberUpdates > 0) {
+											//add the new income each day, if repeated dayly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
 
+											//var nextIncomeCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth() + 1, lastCreatedDayDate.getDate(), lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											var nextIncomeCreatedDayDate = lastCreatedDayDate.add(1).months();
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextIncomeDayStringFormat = nextIncomeCreatedDayDate;
+											//get nextIncomeDayStringFormat date in string format
+											var minNext = nextIncomeDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextIncomeDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextIncomeDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextIncomeDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
+											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
+												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
+												obj.incomeRepeatLastUpdate = currentDayStringFormat;
+												storeIncome.delete(parseInt(obj.id));
+												storeIncome.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextIncomeDayStringFormat
+											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}								
 								} else if (repeatPeriodIncome == "Yearly") {
 								
 								}
