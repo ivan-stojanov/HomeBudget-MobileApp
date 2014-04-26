@@ -102,7 +102,7 @@ html5rocks.indexedDB.open = function() {
 													////alert("after create objectStore onupgradeneeded"); 
 		}
 													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
+		//var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");;
 													 //alert("after get objectStore onupgradeneeded"); 
 	
 //this part is to add items in the account objectStore (when app is first Installed)
