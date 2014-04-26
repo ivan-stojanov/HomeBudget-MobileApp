@@ -60,7 +60,8 @@ html5rocks.indexedDB.open = function() {
 			$('#expenseAmmount').text(result.expenseAmmount);
 			$('#expenseAccount').text(result.expenseAccount);
 			$('#expenseCategory').text(result.expenseCategory);			
-			$('#expenseDueDate').text(result.expenseDueDate);
+			//$('#expenseDueDate').text(result.expenseDueDate);
+			$('#expenseDueDate').text(result.expenseCreated);
 			$('#expenseRepeatCycle').text(result.expenseRepeatCycle);
 			$('#expenseRepeatEndDate').text(result.expenseRepeatEndDate);
 				//get today date

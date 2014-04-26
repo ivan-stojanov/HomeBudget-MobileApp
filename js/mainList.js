@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 3;
+var version = 1;
 													// alert("startMain");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -102,7 +102,7 @@ html5rocks.indexedDB.open = function() {
 													////alert("after create objectStore onupgradeneeded"); 
 		}
 													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");;
+		//var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
 													 //alert("after get objectStore onupgradeneeded"); 
 	
 //this part is to add items in the account objectStore (when app is first Installed)
@@ -152,12 +152,16 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objExpenses = [
-			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "500", expenseDueDate: "10/10/2015", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatPeriod: "", expenseBillPaid: "paidNo", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "10/10/2015", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatPeriod: "Monthly", expenseBillPaid: "paidNo", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "10/10/2015", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatPeriod: "Yearly", expenseBillPaid: "paidNo", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "500", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatCycle: "", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Monthly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Yearly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Bus", expenseCategory: "Ride", expenseAmmount: "400", expenseDueDate: "12/05/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/05/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Wi-Fi", expenseCategory: "Internet", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Hourly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "27/04/2014/04/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Laptops", expenseCategory: "Education", expenseAmmount: "400", expenseDueDate: "12/12/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Weekly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
+		storeExpenses.add(objExpenses[3]);storeExpenses.add(objExpenses[4]);storeExpenses.add(objExpenses[5]);
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the expenses			
 		storeExpenses.createIndex( "by_expenseName", "expenseName", { unique: false } );
@@ -262,10 +266,7 @@ html5rocks.indexedDB.open = function() {
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 		
-		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
-		var storeExpence = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
-		//updateIncomesExpensesDates(storeIncomes, storeExpenses);
-		
+		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");		
 			var openedIndexIncomes = storeIncome.index("by_incomeRepeat");			
 			var numIncomesRepeated = openedIndexIncomes.count();
 			
@@ -569,45 +570,312 @@ html5rocks.indexedDB.open = function() {
 			numIncomesRepeated.onerror = function(evt) { 
 				alert("numIncomesRepeated.onerror"); 
 			}
-	}		
+
+		var storeExpence = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
+			var openedIndexExpenses = storeExpence.index("by_expenseRepeat");
+			var numExpensesRepeated = openedIndexExpenses.count();
+			
+			numExpensesRepeated.onsuccess = function(evt) {	
+				var numExpenses = evt.target.result;	
+				if (openedIndexExpenses) {
+					var singleKeyRangeExpense = IDBKeyRange.only("yes");
+					var curCursorExpensesRepeated = openedIndexExpenses.openCursor(singleKeyRangeExpense);
+					//var howMany = 0;
+					curCursorExpensesRepeated.onsuccess = function(evt) {
+						var cursorExpense = evt.target.result;
+						if (cursorExpense) {
+							//get current object, in case we need it for update
+							var obj =  { 
+								expenseName: cursorExpense.value.expenseName,
+								expenseAmmount: cursorExpense.value.expenseAmmount,
+								expenseAccount: cursorExpense.value.expenseAccount,
+								expenseCategory: cursorExpense.value.expenseCategory,
+								expenseDueDate: cursorExpense.value.expenseDueDate,
+								expenseRepeatCycle: cursorExpense.value.expenseRepeatCycle,
+								expenseRepeatEndDate: cursorExpense.value.expenseRepeatEndDate,
+								expenseRepeat: cursorExpense.value.expenseRepeat,
+								expenseRepeatLastUpdate: cursorExpense.value.expenseRepeatLastUpdate,
+								expenseCreated: cursorExpense.value.expenseCreated,
+								expenseNumItems: cursorExpense.value.expenseNumItems,
+								expenseBillPaid: cursorExpense.value.expenseBillPaid,
+								id: cursorExpense.value.id
+							};
+						
+							//count the difference between CURRENT TIME and LAST UPDATE of the current object
+							var repeatPeriodExpense = cursorExpense.value.expenseRepeatCycle;
+							var lastUpdateStringFormat = cursorExpense.value.expenseRepeatLastUpdate;
+							var currentDayStringFormat = today;
+							var endDateStringFormat = cursorExpense.value.expenseRepeatEndDate;
+							var datePartsL = lastUpdateStringFormat.split("/");//	17/04/2014/23/59
+							var datePartsC = currentDayStringFormat.split("/");//	17/04/2014/23/59
+							var datePartsE = endDateStringFormat.split("/");//	17/04/2014/23/59
+							var lastUpdateDate = new Date(datePartsL[2],datePartsL[1] - 1,datePartsL[0],datePartsL[3],datePartsL[4]);
+							var currentDayDate = new Date(datePartsC[2],datePartsC[1] - 1,datePartsC[0],datePartsC[3],datePartsC[4]);
+							var endRepeatDayDate = new Date(datePartsE[2],datePartsE[1] - 1,datePartsE[0],datePartsE[3],datePartsE[4]);
+							
+							var createdDayStringFormat = cursorExpense.value.expenseCreated;
+							var dateCreatedParts = createdDayStringFormat.split("+");	//	17/04/2014/23/59+17/05/2014/23/59
+							if(dateCreatedParts.length > 1) {							//	get day of last creation of last income
+								createdDayStringFormat = dateCreatedParts[dateCreatedParts.length - 1];
+							}							
+							var datePartsCR = createdDayStringFormat.split("/");//	17/04/2014/23/59
+							var lastCreatedDayDate = new Date(datePartsCR[2],datePartsCR[1] - 1,datePartsCR[0],datePartsCR[3],datePartsCR[4]);
+							//alert(lastCreatedDayDate);
+
+							if((endRepeatDayDate - lastCreatedDayDate/*currentDayDate*/ >= 0) && (currentDayDate - lastCreatedDayDate >= 0)) {
+								//alert(lastUpdateDate);
+								var difference_ms = currentDayDate - lastUpdateDate;
+								//take out milliseconds
+								difference_ms = difference_ms/1000;	var seconds = Math.floor(difference_ms % 60);
+								difference_ms = difference_ms/60;	var minutes = Math.floor(difference_ms % 60);
+								difference_ms = difference_ms/60;	var hours = Math.floor(difference_ms % 24);  
+																	var days = Math.floor(difference_ms/24);
+																	
+								if (repeatPeriodExpense == "Hourly") {
+									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
+									if(days > 0) {
+										hours = hours + (days * 24);
+									}
+									if(hours > 0) {
+										var numberUpdates = hours;
+										while(numberUpdates > 0) {
+											//add the new income each hour, if repeated hourly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											var nextExpenseCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate(), lastCreatedDayDate.getHours() + 1, lastCreatedDayDate.getMinutes());
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextExpenseDayStringFormat = nextExpenseCreatedDayDate;
+											//get nextExpenseDayStringFormat date in string format
+											var minNext = nextExpenseDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextExpenseDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextExpenseDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextExpenseDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextExpenseDayStringFormat.getFullYear(); 
+											nextExpenseDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
+												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
+												obj.expenseRepeatLastUpdate = currentDayStringFormat;
+												storeExpence.delete(parseInt(obj.id));
+												storeExpence.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextExpenseDayStringFormat
+											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}
+								} else if (repeatPeriodExpense == "Dayly") {
+									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
+									if(days > 0) {
+										var numberUpdates = days;
+										while(numberUpdates > 0) {
+											//add the new income each day, if repeated dayly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											var nextExpenseCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate() + 1, lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextExpenseDayStringFormat = nextExpenseCreatedDayDate;
+											//get nextExpenseDayStringFormat date in string format
+											var minNext = nextExpenseDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextExpenseDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextExpenseDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextExpenseDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextExpenseDayStringFormat.getFullYear(); 
+											nextExpenseDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
+												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
+												obj.expenseRepeatLastUpdate = currentDayStringFormat;
+												storeExpence.delete(parseInt(obj.id));
+												storeExpence.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextExpenseDayStringFormat
+											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}								
+								} else if (repeatPeriodExpense == "Weekly") {
+									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
+									var weeks = 0;
+									if(days > 0) {
+										weeks = Math.floor(days/7);
+									}
+									if(weeks > 0) {
+										var numberUpdates = weeks;
+										while(numberUpdates > 0) {
+											//add the new income each hour, if repeated hourly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											var nextExpenseCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate() + 7, lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextExpenseDayStringFormat = nextExpenseCreatedDayDate;
+											//get nextExpenseDayStringFormat date in string format
+											var minNext = nextExpenseDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextExpenseDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextExpenseDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextExpenseDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextExpenseDayStringFormat.getFullYear(); 
+											nextExpenseDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
+												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
+												obj.expenseRepeatLastUpdate = currentDayStringFormat;
+												storeExpence.delete(parseInt(obj.id));
+												storeExpence.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextExpenseDayStringFormat
+											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}
+								} else if (repeatPeriodExpense == "Monthly") {
+									var monthss = 0;
+						/*	START - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
+									var lastUpdateDateTest = lastUpdateDate;
+									while(currentDayDate - lastUpdateDateTest >= 0) {
+										monthss++;
+										lastUpdateDateTest = lastUpdateDateTest.add(1).months();
+										//alert(lastUpdateDateTest);
+									}
+									monthss--;
+									if(monthss == -1) {
+										monthss = 0;
+									}
+									//alert(monthss);
+						/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
+									if(monthss > 0) {
+										var numberUpdates = monthss;
+										while(numberUpdates > 0) {
+											//add the new income each day, if repeated dayly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											//var nextExpenseCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth() + 1, lastCreatedDayDate.getDate(), lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											var nextExpenseCreatedDayDate = lastCreatedDayDate.add(1).months();
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextExpenseDayStringFormat = nextExpenseCreatedDayDate;
+											//get nextExpenseDayStringFormat date in string format
+											var minNext = nextExpenseDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextExpenseDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextExpenseDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextExpenseDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextExpenseDayStringFormat.getFullYear(); 
+											nextExpenseDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
+												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
+												obj.expenseRepeatLastUpdate = currentDayStringFormat;
+												storeExpence.delete(parseInt(obj.id));
+												storeExpence.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextExpenseDayStringFormat
+											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}								
+								} else if (repeatPeriodExpense == "Yearly") {
+									var yearss = 0;
+						/*	START - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
+									var lastUpdateDateTest = lastUpdateDate;
+									while(currentDayDate - lastUpdateDateTest >= 0) {
+										yearss++;
+										lastUpdateDateTest = lastUpdateDateTest.add(1).years();
+										//alert(lastUpdateDateTest);
+									}
+									yearss--;
+									if(yearss == -1) {
+										yearss = 0;
+									}
+									//alert(yearss);
+						/*	END - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
+									if(yearss > 0) {
+										var numberUpdates = yearss;
+										while(numberUpdates > 0) {
+											//add the new income each day, if repeated dayly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											//var nextExpenseCreatedDayDate = new Date(lastCreatedDayDate.getFullYear() + 1, lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate(), lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											var nextExpenseCreatedDayDate = lastCreatedDayDate.add(1).years();
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextExpenseDayStringFormat = nextExpenseCreatedDayDate;
+											//get nextExpenseDayStringFormat date in string format
+											var minNext = nextExpenseDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextExpenseDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextExpenseDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextExpenseDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextExpenseDayStringFormat.getFullYear(); 
+											nextExpenseDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
+												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
+												obj.expenseRepeatLastUpdate = currentDayStringFormat;
+												storeExpence.delete(parseInt(obj.id));
+												storeExpence.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextExpenseDayStringFormat
+											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}								
+								}
+								//howMany++;
+							}
+							cursorExpense.continue();
+						} else {
+							//window.location.href = "./incomesList.html";
+							//alert(howMany);
+						}
+					}
+					
+					curCursorExpensesRepeated.onerror = function(evt) {
+						alert("curCursorExpensesRepeated.onerror");					
+					}
+					
+				}
+				//alert(numExpenses);
+			}
+			
+			numExpensesRepeated.onerror = function(evt) { 
+				alert("numExpensesRepeated.onerror"); 
+			}
+	}	
 	
 	request.onerror = html5rocks.indexedDB.onerror;
 };
-
-function updateIncomesExpensesDates(storeIncome, storeExpence) {		
-
-	var dbS;										
-	//DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
-	//Get 1 day in milliseconds
-	var one_day=1000*60*60*24;
-	// Convert both dates to milliseconds
-	var date1_ms = new Date();
-	var date2_ms = new Date(2014,3,14,23,20);
-	// Calculate the difference in milliseconds
-	var difference_ms = date1_ms - date2_ms;
-	// Convert back to days and return
-	alert(Math.round(difference_ms/one_day)); 
-	 
-	/*
-		//take out milliseconds
-		difference_ms = difference_ms/1000;
-		var seconds = Math.floor(difference_ms % 60);
-		difference_ms = difference_ms/60; 
-		var minutes = Math.floor(difference_ms % 60);
-		difference_ms = difference_ms/60; 
-		var hours = Math.floor(difference_ms % 24);  
-		var days = Math.floor(difference_ms/24);  
-		alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
-	*/  
-	/*
-		var now = new Date();
-		if (now.getMonth() == 11) {
-			var current = new Date(now.getFullYear() + 1, 0, 1);
-		} else {
-			var current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-		}
-	*/
-}
 
 function callFunction(idGet) {												
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
