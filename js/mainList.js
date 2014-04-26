@@ -108,11 +108,11 @@ html5rocks.indexedDB.open = function() {
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objIncomes = [
 			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "500", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2015/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2014/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "150", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Petar", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "12/12/2014/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Clothes Sell", incomeCategory: "Pay", incomeAmmount: "2000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Slobodanka", incomeRepeat: "yes", incomeRepeatCycle: "Weekly", incomeRepeatEndDate: "12/12/2014/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Other Sources", incomeCategory: "Other", incomeAmmount: "20000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Marija", incomeRepeat: "yes", incomeRepeatCycle: "Yearly", incomeRepeatEndDate: "12/12/2014/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "150", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Petar", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Clothes Sell", incomeCategory: "Pay", incomeAmmount: "2000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Slobodanka", incomeRepeat: "yes", incomeRepeatCycle: "Weekly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Other Sources", incomeCategory: "Other", incomeAmmount: "20000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Marija", incomeRepeat: "yes", incomeRepeatCycle: "Yearly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 		];	
 		
 													//alert("created objects onupgradeneeded");
@@ -448,7 +448,7 @@ html5rocks.indexedDB.open = function() {
 									}
 								} else if (repeatPeriodIncome == "Monthly") {
 									var monthss = 0;
-/*	START - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
+						/*	START - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
 									var lastUpdateDateTest = lastUpdateDate;
 									while(currentDayDate - lastUpdateDateTest >= 0) {
 										monthss++;
@@ -460,7 +460,7 @@ html5rocks.indexedDB.open = function() {
 										monthss = 0;
 									}
 									//alert(monthss);
-/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
+						/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(monthss > 0) {
 										var numberUpdates = monthss;
 										while(numberUpdates > 0) {
@@ -498,7 +498,56 @@ html5rocks.indexedDB.open = function() {
 										}
 									}								
 								} else if (repeatPeriodIncome == "Yearly") {
-								
+									var yearss = 0;
+						/*	START - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
+									var lastUpdateDateTest = lastUpdateDate;
+									while(currentDayDate - lastUpdateDateTest >= 0) {
+										yearss++;
+										lastUpdateDateTest = lastUpdateDateTest.add(1).years();
+										//alert(lastUpdateDateTest);
+									}
+									yearss--;
+									if(yearss == -1) {
+										yearss = 0;
+									}
+									//alert(yearss);
+						/*	END - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
+									if(yearss > 0) {
+										var numberUpdates = yearss;
+										while(numberUpdates > 0) {
+											//add the new income each day, if repeated dayly
+											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
+											//update database LastUpdateDate attribute										
+
+											//var nextIncomeCreatedDayDate = new Date(lastCreatedDayDate.getFullYear() + 1, lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate(), lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
+											var nextIncomeCreatedDayDate = lastCreatedDayDate.add(1).years();
+											
+											//when update, each update should have update day, day after day, NOT the current one for all
+											var nextIncomeDayStringFormat = nextIncomeCreatedDayDate;
+											//get nextIncomeDayStringFormat date in string format
+											var minNext = nextIncomeDayStringFormat.getMinutes();	if(minNext<10){minNext='0'+minNext}
+											var hNext = nextIncomeDayStringFormat.getHours();		if(hNext<10){hNext='0'+hNext}
+											var ddNext = nextIncomeDayStringFormat.getDate();		if(ddNext<10){ddNext='0'+ddNext}
+											var mmNext = nextIncomeDayStringFormat.getMonth()+1;	if(mmNext<10){mmNext='0'+mmNext}  //January is 0!
+											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
+											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
+											
+											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
+												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
+												obj.incomeRepeatLastUpdate = currentDayStringFormat;
+												storeIncome.delete(parseInt(obj.id));
+												storeIncome.add(obj);
+												numberUpdates--;
+											} else {
+												numberUpdates = 0;
+											}
+							
+											//now there is new last created day date (for the last update) - nextIncomeDayStringFormat
+											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
+											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
+										}
+									}								
 								}
 								//howMany++;
 							}
