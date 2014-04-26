@@ -110,7 +110,7 @@ html5rocks.indexedDB.open = function() {
 			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "500", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "150", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Petar", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "150", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Petar", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "26/04/2014/20/30", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "Clothes Sell", incomeCategory: "Pay", incomeAmmount: "2000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Slobodanka", incomeRepeat: "yes", incomeRepeatCycle: "Weekly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "Other Sources", incomeCategory: "Other", incomeAmmount: "20000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Marija", incomeRepeat: "yes", incomeRepeatCycle: "Yearly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 		];	
@@ -315,7 +315,7 @@ html5rocks.indexedDB.open = function() {
 							var lastCreatedDayDate = new Date(datePartsCR[2],datePartsCR[1] - 1,datePartsCR[0],datePartsCR[3],datePartsCR[4]);
 							//alert(lastCreatedDayDate);
 
-							if((endRepeatDayDate - currentDayDate >= 0) && (currentDayDate - lastCreatedDayDate >= 0)) {
+							if((endRepeatDayDate - lastCreatedDayDate/*currentDayDate*/ >= 0) && (currentDayDate - lastCreatedDayDate >= 0)) {
 								//alert(lastUpdateDate);
 								var difference_ms = currentDayDate - lastUpdateDate;
 								//take out milliseconds
@@ -348,7 +348,7 @@ html5rocks.indexedDB.open = function() {
 											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
 											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
 											
-											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+											if((currentDayDate - nextIncomeCreatedDayDate >= 0) && (endRepeatDayDate - nextIncomeCreatedDayDate >= 0)) {
 												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
 												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
 												obj.incomeRepeatLastUpdate = currentDayStringFormat;
@@ -389,7 +389,7 @@ html5rocks.indexedDB.open = function() {
 											if(nextIncomeCreatedDayDate.getMonth() != lastCreatedDayDate.getMonth()) {
 												var nextIncomeCreatedDayDate = new Date(lastCreatedDayDate.getFullYear(), lastCreatedDayDate.getMonth(), lastCreatedDayDate.getDate() - 1, lastCreatedDayDate.getHours(), lastCreatedDayDate.getMinutes());
 											}*/
-											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+											if((currentDayDate - nextIncomeCreatedDayDate >= 0) && (endRepeatDayDate - nextIncomeCreatedDayDate >= 0)) {
 												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
 												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
 												obj.incomeRepeatLastUpdate = currentDayStringFormat;
@@ -430,7 +430,7 @@ html5rocks.indexedDB.open = function() {
 											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
 											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
 											
-											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+											if((currentDayDate - nextIncomeCreatedDayDate >= 0) && (endRepeatDayDate - nextIncomeCreatedDayDate >= 0)) {
 												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
 												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
 												obj.incomeRepeatLastUpdate = currentDayStringFormat;
@@ -481,7 +481,7 @@ html5rocks.indexedDB.open = function() {
 											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
 											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
 											
-											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+											if((currentDayDate - nextIncomeCreatedDayDate >= 0) && (endRepeatDayDate - nextIncomeCreatedDayDate >= 0)) {
 												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
 												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
 												obj.incomeRepeatLastUpdate = currentDayStringFormat;
@@ -532,7 +532,7 @@ html5rocks.indexedDB.open = function() {
 											var yyyyNext = nextIncomeDayStringFormat.getFullYear(); 
 											nextIncomeDayStringFormat = ddNext+'/'+mmNext+'/'+yyyyNext+'/'+hNext+'/'+minNext;
 											
-											if(currentDayDate - nextIncomeCreatedDayDate >= 0) {
+											if((currentDayDate - nextIncomeCreatedDayDate >= 0) && (endRepeatDayDate - nextIncomeCreatedDayDate >= 0)) {
 												obj.incomeCreated = obj.incomeCreated + "+" + nextIncomeDayStringFormat;
 												obj.incomeNumItems = (parseInt(obj.incomeNumItems) + 1).toString();
 												obj.incomeRepeatLastUpdate = currentDayStringFormat;
