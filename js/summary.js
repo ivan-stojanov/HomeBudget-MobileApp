@@ -208,28 +208,14 @@ html5rocks.indexedDB.open = function() {
 	//alert(dateFormatToday.getDate() + "/" + (dateFormatToday.getMonth()+1) + "/" + dateFormatToday.getFullYear());
 						dateStringExpenseCreated = cursorEx.value.expenseCreated;
 						ammountExpense = cursorEx.value.expenseAmmount;
-						//loop throught all dates on creation so that we compare and sum the summary
-						var differentDatesExpenses = dateStringExpenseCreated.split("+");
-						if(differentDatesExpenses.length == 1) {
-							datePartsIterate = dateStringExpenseCreated.split("/");	//	17/04/2014/23/59
-							dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-							if(dateFormatExpenseCreated - todayStartDate > 0) {								
-								expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
-							}
-							if(dateFormatExpenseCreated - weekStartDate > 0) {								
-								expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
-							}
-							if(dateFormatExpenseCreated - monthStartDate > 0) {								
-								expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
-							}
-							if(dateFormatExpenseCreated - yearStartDate > 0) {								
-								expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
-							}
-						} else {
-							for(var i=0; i<differentDatesExpenses.length; i++) {
-								datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
+						
+						//if the expense is a bill that is not paid, it's not counting in summary
+						if(cursorEx.value.expenseCategory != "Bill") {
+							//loop throught all dates on creation so that we compare and sum the summary
+							var differentDatesExpenses = dateStringExpenseCreated.split("+");
+							if(differentDatesExpenses.length == 1) {
+								datePartsIterate = dateStringExpenseCreated.split("/");	//	17/04/2014/23/59
 								dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-								
 								if(dateFormatExpenseCreated - todayStartDate > 0) {								
 									expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
 								}
@@ -242,9 +228,67 @@ html5rocks.indexedDB.open = function() {
 								if(dateFormatExpenseCreated - yearStartDate > 0) {								
 									expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
 								}
+							} else {
+								for(var i=0; i<differentDatesExpenses.length; i++) {
+									datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
+									dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+									
+									if(dateFormatExpenseCreated - todayStartDate > 0) {								
+										expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
+									}
+									if(dateFormatExpenseCreated - weekStartDate > 0) {								
+										expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
+									}
+									if(dateFormatExpenseCreated - monthStartDate > 0) {								
+										expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
+									}
+									if(dateFormatExpenseCreated - yearStartDate > 0) {								
+										expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
+									}
+								}
 							}
+							cursorEx.continue();
+						} else {
+							if(cursorEx.value.expenseBillPaid == "paidYes") {
+								//loop throught all dates on creation so that we compare and sum the summary
+								var differentDatesExpenses = dateStringExpenseCreated.split("+");
+								if(differentDatesExpenses.length == 1) {
+									datePartsIterate = dateStringExpenseCreated.split("/");	//	17/04/2014/23/59
+									dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+									if(dateFormatExpenseCreated - todayStartDate > 0) {								
+										expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
+									}
+									if(dateFormatExpenseCreated - weekStartDate > 0) {								
+										expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
+									}
+									if(dateFormatExpenseCreated - monthStartDate > 0) {								
+										expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
+									}
+									if(dateFormatExpenseCreated - yearStartDate > 0) {								
+										expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
+									}
+								} else {
+									for(var i=0; i<differentDatesExpenses.length; i++) {
+										datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
+										dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+										
+										if(dateFormatExpenseCreated - todayStartDate > 0) {								
+											expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
+										}
+										if(dateFormatExpenseCreated - weekStartDate > 0) {								
+											expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
+										}
+										if(dateFormatExpenseCreated - monthStartDate > 0) {								
+											expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
+										}
+										if(dateFormatExpenseCreated - yearStartDate > 0) {								
+											expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
+										}
+									}
+								}
+							}
+							cursorEx.continue();
 						}
-						cursorEx.continue();
 					} else {
 						$('#todayExpenses').text($('#todayExpenses').html() + "-" + expensesToday);
 						$('#past7daysExpenses').text($('#past7daysExpenses').html() + "-" + expenses7days);
