@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 1;
+var version = 2;
 													// alert("startMain");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;

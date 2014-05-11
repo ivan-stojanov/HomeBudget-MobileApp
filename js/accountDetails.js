@@ -62,6 +62,7 @@ html5rocks.indexedDB.open = function() {
 			if(!!result == false){alert(result);}
 			
 			$('#accName').text(result.accountName);
+			$('#accNameValue').attr("value",result.accountName);
 			$('#accType').text(result.accountType);
 			$('#accBalance').text(result.accountBalance);
 			$('#accDate').text(result.accountDate);

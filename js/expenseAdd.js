@@ -21,7 +21,7 @@ function addAccountsDropDown() {
 					var deletePoints = 0;
 					var haveCashOnHand = false; var haveCreditCard = false; var haveBankAccount = false;
 					var curCursor = openedIndex.openCursor(/*null, "prev"*/);				
-					curCursor.onsuccess = function(evt) {					
+					curCursor.onsuccess = function(evt) {
 						var cursor = evt.target.result;					
 						if (cursor) {
 							if(cursor.value.id == 1) 		{	haveCashOnHand = true;	}
