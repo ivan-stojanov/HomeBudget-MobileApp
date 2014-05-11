@@ -234,6 +234,7 @@ $( document ).ready(function() {
 						//alert("name no changed");
 						sessionStorage.setItem("accountClickedName", $("#accNameValue").val());
 						alert("This account is updated!");
+						window.location.href = "accountDetails.html";
 						return true;
 					}					
 				}
