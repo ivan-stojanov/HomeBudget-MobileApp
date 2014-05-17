@@ -1,5 +1,14 @@
 function addAccountsDropDown() {
 
+	var currentURLhaveAccountURLarray = (document.URL).split("?accountExpenseStart=");
+	var codedAccount = "";
+	if(currentURLhaveAccountURLarray.length == 2) {
+		codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
+	}
+	
+	//if you add expense via add expenses then show all available accounts
+	if(codedAccount == "") {
+	
 		var html5rocks = {};
 		html5rocks.indexedDB = {};
 		html5rocks.indexedDB.db = null;
@@ -34,13 +43,13 @@ function addAccountsDropDown() {
 							cursor.continue();
 						} else {
 							if(haveCashOnHand == false) {	
-								$("#drop-down-list-account option[value='cashOnHand']").remove();
+								$("#drop-down-list-account option[value='Cash on hand']").remove();
 							}
 							if(haveCreditCard == false) {	
-								$("#drop-down-list-account option[value='creditCard']").remove();
+								$("#drop-down-list-account option[value='Credit Card']").remove();
 							}
 							if(haveBankAccount == false) {
-								$("#drop-down-list-account option[value='bankAccount']").remove();
+								$("#drop-down-list-account option[value='Bank Account']").remove();
 							}
 							if(deletePoints == 0) {
 								$("#drop-down-list-account option[value='points']").remove();
@@ -60,6 +69,15 @@ function addAccountsDropDown() {
 		request.onerror = function(e) {
 			alert('request.onerror!');
 		}
+	}
+	//if you add expense via certain account, then show only that account in the list
+	else {
+		$("#drop-down-list-account option[value='Cash on hand']").remove();
+		$("#drop-down-list-account option[value='Credit Card']").remove();
+		$("#drop-down-list-account option[value='Bank Account']").remove();
+		$("#drop-down-list-account option[value='points']").remove();
+		$('#drop-down-list-account').append('<option value="' + codedAccount + '">' + codedAccount + '</option>');
+	}
 }
 
 function addCategoriesDropDown() {	

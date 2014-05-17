@@ -68,11 +68,11 @@ html5rocks.indexedDB.open = function() {
 			if(getAccountID > 3) {
 				//if we have account that we created than we can change the name
 				$('#accName').hide();
-				$('#accNameValue').show();
+				$('#accNameValue').parent().show();
 			} else {
 				//we can not change account name of the first 3 accounts
 				$('#accName').show();
-				$('#accNameValue').hide();
+				$('#accNameValue').parent().hide();
 			}
 			//$('#accType').text(result.accountType);
 			$('#accTypeValue').attr("value",result.accountType);

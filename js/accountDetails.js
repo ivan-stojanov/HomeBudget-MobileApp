@@ -20,6 +20,8 @@ var getAccountID = sessionStorage.getItem("accountClickedID");
 if(getAccountID == null) {
 	getAccountID = 1;
 }
+var getAccountName = sessionStorage.getItem("accountClickedName");
+
 															//alert(getAccountID);
 //if(getAccountID == 1) 
 //{ $("#deleteAcc").hide(); } 
@@ -122,5 +124,14 @@ $( document ).ready(function() {
 		/*var dbCLOSEdelete;
 		dbCLOSEdelete = requestDelete.result;
 		dbCLOSEdelete.close();*/
+	});
+	
+	
+	$("#addIncomeAcc").on("click", function(event){
+		window.location.href = "incomeAdd.html?accountIncomeStart=" + getAccountName;
+	});
+	
+	$("#addExpenseAcc").on("click", function(event){
+		window.location.href = "expenseAdd.html?accountExpenseStart=" + getAccountName;
 	});
 });

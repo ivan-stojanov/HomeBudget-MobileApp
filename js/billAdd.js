@@ -34,13 +34,13 @@ function addAccountsDropDown() {
 							cursor.continue();
 						}else {
 							if(haveCashOnHand == false) {	
-								$("#drop-down-list-account option[value='cashOnHand']").remove();
+								$("#drop-down-list-account option[value='Cash on hand']").remove();
 							}
 							if(haveCreditCard == false) {	
-								$("#drop-down-list-account option[value='creditCard']").remove();
+								$("#drop-down-list-account option[value='Credit Card']").remove();
 							}
 							if(haveBankAccount == false) {
-								$("#drop-down-list-account option[value='bankAccount']").remove();
+								$("#drop-down-list-account option[value='Bank Account']").remove();
 							}
 							if(deletePoints == 0) {
 								$("#drop-down-list-account option[value='points']").remove();
