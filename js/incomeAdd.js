@@ -1,10 +1,10 @@
-function addAccountsDropDown() {
+var currentURLhaveAccountURLarray = (document.URL).split("?accountIncomeStart=");
+var codedAccount = "";
+if(currentURLhaveAccountURLarray.length == 2) {
+	codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
+}
 
-	var currentURLhaveAccountURLarray = (document.URL).split("?accountIncomeStart=");
-	var codedAccount = "";
-	if(currentURLhaveAccountURLarray.length == 2) {
-		codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
-	}
+function addAccountsDropDown() {
 	
 	//if you add income via add incomes then show all available accounts
 	if(codedAccount == "") {
@@ -70,7 +70,7 @@ function addAccountsDropDown() {
 			alert('request.onerror!');
 		}
 	}
-	//if you add income via certain account, then shou only that account in the list
+	//if you add income via certain account, then show only that account in the list
 	else {
 		$("#drop-down-list-account option[value='Cash on hand']").remove();
 		$("#drop-down-list-account option[value='Credit Card']").remove();
@@ -124,6 +124,7 @@ function addCategoriesDropDown() {
 }
 
 function funcIncomeAdd() {
+
 	//get today date
 	var today = new Date();
 	var min = today.getMinutes();	if(min<10){min='0'+min}
@@ -211,7 +212,14 @@ function funcIncomeAdd() {
 						}
 						cursorA.continue();
 					} else {
-						window.location.href = "./incomesList.html";
+						//if you add income via add incomes then show all available accounts
+						if(codedAccount != "") {
+							window.location.href = "./accountsList.html";
+						}
+						//if you add income via certain account, then show only that account in the list
+						else {
+							window.location.href = "./incomesList.html";
+						}						
 					}
 				}
 				

@@ -1,11 +1,11 @@
+var currentURLhaveAccountURLarray = (document.URL).split("?accountExpenseStart=");
+var codedAccount = "";
+if(currentURLhaveAccountURLarray.length == 2) {
+	codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
+}
+	
 function addAccountsDropDown() {
 
-	var currentURLhaveAccountURLarray = (document.URL).split("?accountExpenseStart=");
-	var codedAccount = "";
-	if(currentURLhaveAccountURLarray.length == 2) {
-		codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
-	}
-	
 	//if you add expense via add expenses then show all available accounts
 	if(codedAccount == "") {
 	
@@ -212,7 +212,14 @@ function funcExpenseAdd() {
 						}
 						cursorA.continue();
 					} else {
-						window.location.href = "./expensesList.html";
+						//if you add expense via add expenses then show all available accounts
+						if(codedAccount != "") {
+							window.location.href = "./accountsList.html";
+						}
+						//if you add expense via certain account, then show only that account in the list
+						else {
+							window.location.href = "./expensesList.html";
+						}						
 					}
 				}
 				

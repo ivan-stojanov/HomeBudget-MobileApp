@@ -33,7 +33,7 @@ html5rocks.indexedDB.open = function() {
 												////alert("opened MyTest");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
-											   alert("request onupgradeneeded"); 
+											   //alert("request onupgradeneeded"); 
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 												////alert("before create objectStoreS onupgradeneeded"); 
@@ -149,6 +149,7 @@ function setStyleColor(currentBalance) {
 		return "blue";
 	}
 }
+//sessionStorage.setItem("incomeListCount", 0);
 
 /* 
 //deleting database

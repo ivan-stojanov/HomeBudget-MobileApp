@@ -87,38 +87,91 @@ html5rocks.indexedDB.open = function() {
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
-		if(confirm("Are you sure you want to delete this account?")){	
+		if(confirm("Are you sure you want to delete this income?")){	
 			var html5rocks = {};
 			html5rocks.indexedDB = {};
 			html5rocks.indexedDB.db = null;
 
 			var openedDB = localStorage["openedDB"];	
-			var requestDelete = indexedDB.open(openedDB);	
-//alert("90");
-				requestDelete.onsuccess = function(e) {  
-					html5rocks.indexedDB.db = e.target.result;
-//alert("93");
-					var storeDelete = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-					storeDelete.delete(parseInt(getIncomeID));
-					alert("This account is deleted!");
-				/*	var dbCLOSEdelete;
-					dbCLOSEdelete = requestDelete.result;
-					dbCLOSEdelete.close();*/
-					return true;
-				}
+			var requestDelete = indexedDB.open(openedDB);
+			
+			requestDelete.onsuccess = function(e) {  
+				html5rocks.indexedDB.db = e.target.result;
+				var storeDelete = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
 				
-				requestDelete.onerror = function(e) {
-					alert('request.onerror!');
+				//get the account that is connected with this income, and subtract the amount of this income, from the account balance
+				var replace = new Object;	
+				var openedIndexFindThisID = storeDelete.index("by_incomeName");
+				var cursorFindThisID = openedIndexFindThisID.openCursor();	
+				cursorFindThisID.onsuccess = function (ev){
+					var cursorThisID = ev.target.result;
+					if (cursorThisID){
+						if(cursorThisID.value["id"] == (parseInt(getIncomeID))){/*
+							replace.id = cursorThisID.value.id;
+							replace.expenseAccount = cursorThisID.value.expenseAccount;
+							replace.expenseAmmount = cursorThisID.value.expenseAmmount;
+							if( cursorThisID.value.expenseBillPaid == "paidNo" ){ replace.expenseBillPaid = "paidYes"; }
+							else			 									{ replace.expenseBillPaid = "paidNo";  }
+							replace.expenseCategory = cursorThisID.value.expenseCategory;
+							replace.expenseDueDate = cursorThisID.value.expenseDueDate;
+							replace.expenseName = cursorThisID.value.expenseName;
+							if(cursorThisID.value.expenseRepeatCycle == '') 	{ replace.expenseRepeatCycle = ''; } 
+							else 			 { replace.expenseRepeatCycle = cursorThisID.value.expenseRepeatCycle; }
+							if(cursorThisID.value.expenseRepeatEndDate == '')	{ replace.expenseRepeatEndDate = ''; }
+							else			 { replace.expenseRepeatEndDate = cursorThisID.value.expenseRepeatEndDate; }*/
+						}
+						cursorThisID.continue();
+					} else {/*
+						if(replace.expenseCategory != 'Bill') {	
+							if(confirm("Are you sure you want to delete this expense?")){		
+								storeDelete.delete(parseInt(getExpenseID));
+								alert("This expense is deleted!");
+								window.location.href = "expensesList.html";
+								return true;
+							} else {
+								event.preventDefault();
+								return false;
+							}							
+						} else {
+							if(confirm("Are you sure you want to mark this bill as UnPaid?")){		
+								storeDelete.delete(parseInt(getExpenseID));
+								storeDelete.add(replace);
+								alert("This bill is marked as UnPaid!");
+								window.location.href = "expensesList.html";						
+								return true;
+							} else {
+								event.preventDefault();
+								return false;
+							}		
+						}	
+					*/}
 				}				
-				//return true;
 				
+				
+				
+				
+
+				
+				storeDelete.delete(parseInt(getIncomeID));
+				alert("This income is deleted!");
+				return true;
+			}
+			
+			requestDelete.onerror = function(e) {
+				alert('request.onerror!');
+			}	
+			
 		} else {
 			event.preventDefault();
 			return false;
 		}
-		
-		/*var dbCLOSEdelete;
-		dbCLOSEdelete = requestDelete.result;
-		dbCLOSEdelete.close();*/
 	});
 });
+
+
+
+
+
+
+
+

@@ -105,18 +105,22 @@ $( document ).ready(function() {
 				var cursorThisID = ev.target.result;
 				if (cursorThisID){
 					if(cursorThisID.value["id"] == (parseInt(getExpenseID))){
-						replace.id = cursorThisID.value.id;
-						replace.expenseAccount = cursorThisID.value.expenseAccount;
+						replace.expenseName = cursorThisID.value.expenseName;
 						replace.expenseAmmount = cursorThisID.value.expenseAmmount;
-						if( cursorThisID.value.expenseBillPaid == "paidNo" ){ replace.expenseBillPaid = "paidYes"; }
-						else			 									{ replace.expenseBillPaid = "paidNo";  }
+						replace.expenseAccount = cursorThisID.value.expenseAccount;
 						replace.expenseCategory = cursorThisID.value.expenseCategory;
 						replace.expenseDueDate = cursorThisID.value.expenseDueDate;
-						replace.expenseName = cursorThisID.value.expenseName;
 						if(cursorThisID.value.expenseRepeatCycle == '') 	{ replace.expenseRepeatCycle = ''; } 
 						else 			 { replace.expenseRepeatCycle = cursorThisID.value.expenseRepeatCycle; }
 						if(cursorThisID.value.expenseRepeatEndDate == '')	{ replace.expenseRepeatEndDate = ''; }
 						else			 { replace.expenseRepeatEndDate = cursorThisID.value.expenseRepeatEndDate; }
+						replace.expenseRepeat = cursorThisID.value.expenseRepeat;
+						replace.expenseRepeatLastUpdate = cursorThisID.value.expenseRepeatLastUpdate;
+						replace.expenseCreated = cursorThisID.value.expenseCreated;
+						replace.expenseNumItems = cursorThisID.value.expenseNumItems;
+						if( cursorThisID.value.expenseBillPaid == "paidNo" ){ replace.expenseBillPaid = "paidYes"; }
+						else			 									{ replace.expenseBillPaid = "paidNo";  }
+						replace.id = cursorThisID.value.id;
 					}
 					cursorThisID.continue();
 				} else {
