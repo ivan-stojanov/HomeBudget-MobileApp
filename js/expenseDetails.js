@@ -133,7 +133,7 @@ $( document ).ready(function() {
 						} else {
 							event.preventDefault();
 							return false;
-						}							
+						}
 					} else {
 						if(confirm("Are you sure you want to mark this bill as UnPaid?")){		
 							storeDelete.delete(parseInt(getExpenseID));

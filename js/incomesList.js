@@ -66,13 +66,13 @@ html5rocks.indexedDB.open = function() {
 		else {
 			var storeS = html5rocks.indexedDB.db.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
 		}
-			
+
 		var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
 													////alert("after store"); 
 		// Get everything in the store;
 		//var keyRange = IDBKeyRange.lowerBound(0);
-		
-		
+
+
 		var openedIndex = store.index("by_incomeName");
 		var numItemsRequesr = openedIndex.count();	
 		var countTest = 0;	var classUnderline = "";
@@ -87,7 +87,7 @@ html5rocks.indexedDB.open = function() {
 					if (cursor) {
 						countTest++;
 						if (countTest == numItems) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-						
+
 						var currentClass = (cursor.value.incomeName).toLowerCase().replace(" ","");
 						var currentColor = setStyleColor(cursor.value.incomeAmmount);	//function defined below
 
@@ -100,11 +100,11 @@ html5rocks.indexedDB.open = function() {
 											dbCLOSE = request.result;
 											dbCLOSE.close(); 
 										} 			
-			
+
 		}
-			
+
 		numItemsRequesr.onerror = function(evt) { var numItems = 0; }		
-		
+
 //		var upperBoundOpenKeyRange = IDBKeyRange.upperBound(6, false);	/*store.delete(9);store.delete(8);store.delete(7);*/
 													////alert("created range");	
 //		var cursorRequest = store.openCursor(/*upperBoundOpenKeyRange*/);
@@ -116,16 +116,16 @@ html5rocks.indexedDB.open = function() {
 //				return;
 													//alert(result.value.id);
 			//$('ul'/*'#accountsList'*/).append('<li><a href="accountDetails.html" onclick="callFunction('+ result.value.id +')" rel="external">' + /*'<p class="line1">' + */ result.value.accountName + /*'</p>'*/ '</a></li>');			
-			
+
 //			$('ul'/*'#accountsList'*/).prepend('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ result.value.id +')" rel="external" class="ui-link-inherit">' + result.value.accountName + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 //			result.continue();
 
 //		};
-		
+
 //		cursorRequest.onerror = html5rocks.indexedDB.onerror;  	
 	   // html5rocks.indexedDB.getAllTodoItems();
-	   		
-		
+
+
 		// now let's close the database again!
 	/*	var dbCLOSE;
 	    dbCLOSE = request.result;
@@ -160,4 +160,12 @@ dbreq.onsuccess = function (event) {
 dbreq.onerror = function (event) {
 	// Log or show the error message
 }
+*/
+
+/*
+	$(document).on('pagebeforeshow', '#incomesList', function(){ 
+		$(document).on('click', '#navigateButton', function(){        
+			$.mobile.navigate( "#expensesList", { transition : "slide", info: "info about the #bar hash" });
+		});   
+	});
 */

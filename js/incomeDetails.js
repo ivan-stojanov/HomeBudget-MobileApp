@@ -95,63 +95,58 @@ $( document ).ready(function() {
 			var openedDB = localStorage["openedDB"];	
 			var requestDelete = indexedDB.open(openedDB);
 			
-			requestDelete.onsuccess = function(e) {  
+			requestDelete.onsuccess = function(e) {
 				html5rocks.indexedDB.db = e.target.result;
 				var storeDelete = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-				
 				//get the account that is connected with this income, and subtract the amount of this income, from the account balance
-				var replace = new Object;	
+/*				var accountThatNeedUpdate;
+				var sumThatIsDeleted;
 				var openedIndexFindThisID = storeDelete.index("by_incomeName");
 				var cursorFindThisID = openedIndexFindThisID.openCursor();	
+//alert("106");
 				cursorFindThisID.onsuccess = function (ev){
 					var cursorThisID = ev.target.result;
-					if (cursorThisID){
-						if(cursorThisID.value["id"] == (parseInt(getIncomeID))){/*
-							replace.id = cursorThisID.value.id;
-							replace.expenseAccount = cursorThisID.value.expenseAccount;
-							replace.expenseAmmount = cursorThisID.value.expenseAmmount;
-							if( cursorThisID.value.expenseBillPaid == "paidNo" ){ replace.expenseBillPaid = "paidYes"; }
-							else			 									{ replace.expenseBillPaid = "paidNo";  }
-							replace.expenseCategory = cursorThisID.value.expenseCategory;
-							replace.expenseDueDate = cursorThisID.value.expenseDueDate;
-							replace.expenseName = cursorThisID.value.expenseName;
-							if(cursorThisID.value.expenseRepeatCycle == '') 	{ replace.expenseRepeatCycle = ''; } 
-							else 			 { replace.expenseRepeatCycle = cursorThisID.value.expenseRepeatCycle; }
-							if(cursorThisID.value.expenseRepeatEndDate == '')	{ replace.expenseRepeatEndDate = ''; }
-							else			 { replace.expenseRepeatEndDate = cursorThisID.value.expenseRepeatEndDate; }*/
-						}
+					if (cursorThisID){	
+//alert("eachID: " + cursorThisID.value.id + " + currentID: " + parseInt(getIncomeID));
+						if(cursorThisID.value["id"] == (parseInt(getIncomeID))){
+							accountThatNeedUpdate = cursorThisID.value.incomeAccount;
+							sumThatIsDeleted = cursorThisID.value.incomeAmmount;
+//alert("114 - " + accountThatNeedUpdate + " - " + sumThatIsDeleted);
+						}						
 						cursorThisID.continue();
-					} else {/*
-						if(replace.expenseCategory != 'Bill') {	
-							if(confirm("Are you sure you want to delete this expense?")){		
-								storeDelete.delete(parseInt(getExpenseID));
-								alert("This expense is deleted!");
-								window.location.href = "expensesList.html";
-								return true;
+					} else {
+// alert("finish");
+					
+//alert("118 - " + accountThatNeedUpdate + " - " + sumThatIsDeleted);
+						//after we got the account that need to be updates, subtract the amount of the deleted income from the account balance
+						var storeUpdateAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+						var replace = new Object;
+						
+						var openedIndexFindAccount = storeUpdateAccount.index("by_accountName");
+						var cursorFindAccount = openedIndexFindAccount.openCursor();	
+						cursorFindAccount.onsuccess = function (eve){
+							var cursorThisAccount = eve.target.result;
+							if (cursorThisAccount){
+								if(cursorThisAccount.value["accountName"] == accountThatNeedUpdate){
+									replace.accountName = cursorThisAccount.value.accountName;
+									replace.accountType = cursorThisAccount.value.accountType;
+									replace.accountBalance = (cursorThisAccount.value.accountBalance - sumThatIsDeleted);
+									replace.accountDate = cursorThisAccount.value.accountDate;
+									replace.id = cursorThisAccount.value.id;
+								}
+								cursorThisAccount.continue();
 							} else {
-								event.preventDefault();
-								return false;
-							}							
-						} else {
-							if(confirm("Are you sure you want to mark this bill as UnPaid?")){		
-								storeDelete.delete(parseInt(getExpenseID));
-								storeDelete.add(replace);
-								alert("This bill is marked as UnPaid!");
-								window.location.href = "expensesList.html";						
-								return true;
-							} else {
-								event.preventDefault();
-								return false;
-							}		
-						}	
-					*/}
-				}				
-				
-				
-				
-				
-
-				
+								storeUpdateAccount.delete(parseInt(replace.id));
+								storeUpdateAccount.add(replace);
+								
+				storeDelete.delete(parseInt(getIncomeID));
+				alert("This income is deleted!");
+				return true;
+							}
+						}
+					}
+				}
+*/
 				storeDelete.delete(parseInt(getIncomeID));
 				alert("This income is deleted!");
 				return true;
@@ -168,10 +163,19 @@ $( document ).ready(function() {
 	});
 });
 
-
-
-
-
-
-
-
+/*
+	replace.incomeName = cursorThisID.value.incomeName;
+	replace.incomeAmmount = cursorThisID.value.incomeAmmount;
+	replace.incomeAccount = cursorThisID.value.incomeAccount;
+	replace.incomeCategory = cursorThisID.value.incomeCategory;
+	replace.incomeDueDate = cursorThisID.value.incomeDueDate;
+	if(cursorThisID.value.incomeRepeatCycle == '') 	{ replace.incomeRepeatCycle = ''; } 
+	else 			 { replace.incomeRepeatCycle = cursorThisID.value.incomeRepeatCycle; }
+	if(cursorThisID.value.incomeRepeatEndDate == '')	{ replace.incomeRepeatEndDate = ''; }
+	else			 { replace.incomeRepeatEndDate = cursorThisID.value.incomeRepeatEndDate; }
+	replace.incomeRepeat = cursorThisID.value.incomeRepeat;
+	replace.incomeRepeatLastUpdate = cursorThisID.value.incomeRepeatLastUpdate;
+	replace.incomeCreated = cursorThisID.value.incomeCreated;
+	replace.incomeNumItems = cursorThisID.value.incomeNumItems;
+	replace.id = cursorThisID.value.id;
+*/
