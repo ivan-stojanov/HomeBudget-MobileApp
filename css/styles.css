@@ -18,7 +18,7 @@ body {
 
 	width: : 100%;
 	background: #DCDCDC;
-	zoom: 2; /*1;*/
+	zoom: 1.5; /*2.5;*/
 }
 
 h3 {
@@ -237,7 +237,7 @@ li .line1 {
 	width: 150px;
 }
 
-#drop-down-list-account-menu, #drop-down-list-category-menu, #drop-down-list-cycle-menu, #drop-down-list-period-menu
+#drop-down-list-account-menu, #drop-down-list-category-menu, #drop-down-list-cycle-menu, #drop-down-list-period-menu, #drop-down-list-from-account-menu, #drop-down-list-to-account-menu
 {
 	margin-top: -25px;
 }
