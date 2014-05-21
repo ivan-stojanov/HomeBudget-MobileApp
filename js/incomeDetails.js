@@ -30,6 +30,11 @@ window.addEventListener("DOMContentLoaded", init, false);
 var html5rocks = {};
 html5rocks.indexedDB = {};
 var store;
+var storeAccounts;
+var replace = new Object;
+var thisIncomeAccount = "";
+var thisIncomeAmmount = "";
+
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
@@ -49,8 +54,8 @@ html5rocks.indexedDB.open = function() {
 			var storeS = html5rocks.indexedDB.db.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
 		}
 		
-		var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-		$('#busy').hide();
+		store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
+		//$('#busy').hide();
 		var requestID = store.get(parseInt(getIncomeID));
 		
 		// Get everything in the store;	
@@ -76,18 +81,40 @@ html5rocks.indexedDB.open = function() {
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
 			
-			/*// now let's close the database again!
-			var dbCLOSE;
-			dbCLOSE = request.result;
-			dbCLOSE.close();*/
+			//this informations we need in case user delete this income, then we need to update the account that is related to the income
+			thisIncomeAccount = result.incomeAccount;
+			thisIncomeAmmount = result.incomeAmmount;
+			
+			storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+			var openedIndexFindAccount = storeAccounts.index("by_accountName");
+			var singleKeyRangeAccount = IDBKeyRange.only(thisIncomeAccount);
+			var cursorFindAccount = openedIndexFindAccount.openCursor(singleKeyRangeAccount);	
+		
+			cursorFindAccount.onsuccess = function (eve){
+				var cursorThisAccount = eve.target.result;
+				if (cursorThisAccount){
+					if(cursorThisAccount.value.accountName == thisIncomeAccount){
+						replace.accountName = cursorThisAccount.value.accountName;
+						replace.accountType = cursorThisAccount.value.accountType;
+						replace.accountBalance = (cursorThisAccount.value.accountBalance - thisIncomeAmmount);
+						replace.accountDate = cursorThisAccount.value.accountDate;
+						replace.id = cursorThisAccount.value.id;									
+					}
+					cursorThisAccount.continue();
+				} else {
+					//alert("finish");
+				}
+			}
 		}
+		
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
-		if(confirm("Are you sure you want to delete this income?")){	
+		if(confirm("Are you sure you want to delete this income?")){
+		
 			var html5rocks = {};
 			html5rocks.indexedDB = {};
 			html5rocks.indexedDB.db = null;
@@ -97,59 +124,14 @@ $( document ).ready(function() {
 			
 			requestDelete.onsuccess = function(e) {
 				html5rocks.indexedDB.db = e.target.result;
-				var storeDelete = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-				//get the account that is connected with this income, and subtract the amount of this income, from the account balance
-/*				var accountThatNeedUpdate;
-				var sumThatIsDeleted;
-				var openedIndexFindThisID = storeDelete.index("by_incomeName");
-				var cursorFindThisID = openedIndexFindThisID.openCursor();	
-//alert("106");
-				cursorFindThisID.onsuccess = function (ev){
-					var cursorThisID = ev.target.result;
-					if (cursorThisID){	
-//alert("eachID: " + cursorThisID.value.id + " + currentID: " + parseInt(getIncomeID));
-						if(cursorThisID.value["id"] == (parseInt(getIncomeID))){
-							accountThatNeedUpdate = cursorThisID.value.incomeAccount;
-							sumThatIsDeleted = cursorThisID.value.incomeAmmount;
-//alert("114 - " + accountThatNeedUpdate + " - " + sumThatIsDeleted);
-						}						
-						cursorThisID.continue();
-					} else {
-// alert("finish");
-					
-//alert("118 - " + accountThatNeedUpdate + " - " + sumThatIsDeleted);
-						//after we got the account that need to be updates, subtract the amount of the deleted income from the account balance
-						var storeUpdateAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
-						var replace = new Object;
-						
-						var openedIndexFindAccount = storeUpdateAccount.index("by_accountName");
-						var cursorFindAccount = openedIndexFindAccount.openCursor();	
-						cursorFindAccount.onsuccess = function (eve){
-							var cursorThisAccount = eve.target.result;
-							if (cursorThisAccount){
-								if(cursorThisAccount.value["accountName"] == accountThatNeedUpdate){
-									replace.accountName = cursorThisAccount.value.accountName;
-									replace.accountType = cursorThisAccount.value.accountType;
-									replace.accountBalance = (cursorThisAccount.value.accountBalance - sumThatIsDeleted);
-									replace.accountDate = cursorThisAccount.value.accountDate;
-									replace.id = cursorThisAccount.value.id;
-								}
-								cursorThisAccount.continue();
-							} else {
-								storeUpdateAccount.delete(parseInt(replace.id));
-								storeUpdateAccount.add(replace);
-								
-				storeDelete.delete(parseInt(getIncomeID));
+
+				var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+				storeAccounts.delete(parseInt(replace.id));
+				storeAccounts.add(replace);
+				var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
+				store.delete(parseInt(getIncomeID));
 				alert("This income is deleted!");
-				return true;
-							}
-						}
-					}
-				}
-*/
-				storeDelete.delete(parseInt(getIncomeID));
-				alert("This income is deleted!");
-				return true;
+				return true;				
 			}
 			
 			requestDelete.onerror = function(e) {

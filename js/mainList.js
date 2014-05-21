@@ -41,7 +41,7 @@ var storeBills;
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
-												//alert("openedMain");
+//												alert("html5rocks.indexedDB.open mainList.js");
 	var openedDB = localStorage["openedDB"];	
 	var request = indexedDB.open(openedDB, version);  
 												//alert("opened MyTest Main");
@@ -858,6 +858,10 @@ html5rocks.indexedDB.open = function() {
 						} else {
 							//window.location.href = "./incomesList.html";
 							//alert(howMany);
+			/*var dbCLOSE;
+			dbCLOSE = request.result;
+			dbCLOSE.close();*/
+
 						}
 					}
 					
@@ -868,6 +872,10 @@ html5rocks.indexedDB.open = function() {
 				}
 				//alert(numExpenses);
 			}
+			
+			/*var dbCLOSE;
+			dbCLOSE = request.result;
+			dbCLOSE.close();*/
 			
 			numExpensesRepeated.onerror = function(evt) { 
 				alert("numExpensesRepeated.onerror"); 

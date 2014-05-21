@@ -27,7 +27,7 @@ var store;
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
-												//alert("opened");
+//												alert("html5rocks.indexedDB.open accountsList.js");
 	var openedDB = localStorage["openedDB"];	
 	var request = indexedDB.open(openedDB/*, version*/);  
 												////alert("opened MyTest");
@@ -77,7 +77,7 @@ html5rocks.indexedDB.open = function() {
 							var sign = "";
 							if(cursor.value.accountBalance > 0) {	sign = "+ ";	}
 							
-							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" onclick="callFunction('+ cursor.value.id + ',\'' + cursor.value.accountName + '\'' + ')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.accountBalance + ' MKD</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" rel="external" onclick="callFunction('+ cursor.value.id + ',\'' + cursor.value.accountName + '\'' + ')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.accountBalance + ' MKD</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 							
 						} else if(cursor.value.id == 1) {
 							deleteCashOnHand = 4;
