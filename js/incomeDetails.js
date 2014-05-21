@@ -96,7 +96,7 @@ html5rocks.indexedDB.open = function() {
 					if(cursorThisAccount.value.accountName == thisIncomeAccount){
 						replace.accountName = cursorThisAccount.value.accountName;
 						replace.accountType = cursorThisAccount.value.accountType;
-						replace.accountBalance = (cursorThisAccount.value.accountBalance - thisIncomeAmmount);
+						replace.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) - parseFloat(thisIncomeAmmount));
 						replace.accountDate = cursorThisAccount.value.accountDate;
 						replace.id = cursorThisAccount.value.id;									
 					}

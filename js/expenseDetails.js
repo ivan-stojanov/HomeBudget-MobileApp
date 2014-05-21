@@ -1,3 +1,4 @@
+
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -10,6 +11,7 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
+	//alert('Error:' + e);
 };
 
 var getExpenseID = sessionStorage.getItem("expenseClickedID");
@@ -26,6 +28,11 @@ window.addEventListener("DOMContentLoaded", init, false);
 var html5rocks = {};
 html5rocks.indexedDB = {};
 var store;
+var storeAccounts;
+var replaceAccount = new Object;
+var thisExpenseAccount = "";
+var thisExpenseAmmount = "";
+
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
@@ -46,9 +53,10 @@ html5rocks.indexedDB.open = function() {
 		}
 		
 		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
-		$('#busy').hide();
+		//$('#busy').hide();
 		var requestID = store.get(parseInt(getExpenseID));
-		
+
+		// Get everything in the store;	
 		requestID.onsuccess = function(e) {	
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
@@ -74,7 +82,32 @@ html5rocks.indexedDB.open = function() {
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
 			
+			//this informations we need in case user delete this expense, then we need to update the account that is related to the expense
+			thisExpenseAccount = result.expenseAccount;
+			thisExpenseAmmount = result.expenseAmmount;
+			
+			storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+			var openedIndexFindAccount = storeAccounts.index("by_accountName");
+			var singleKeyRangeAccount = IDBKeyRange.only(thisExpenseAccount);
+			var cursorFindAccount = openedIndexFindAccount.openCursor(singleKeyRangeAccount);	
+			
+			cursorFindAccount.onsuccess = function (eve){
+				var cursorThisAccount = eve.target.result;
+				if (cursorThisAccount){
+					if(cursorThisAccount.value.accountName == thisExpenseAccount){
+						replaceAccount.accountName = cursorThisAccount.value.accountName;
+						replaceAccount.accountType = cursorThisAccount.value.accountType;
+						replaceAccount.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) + parseFloat(thisExpenseAmmount));
+						replaceAccount.accountDate = cursorThisAccount.value.accountDate;
+						replaceAccount.id = cursorThisAccount.value.id;									
+					}
+					cursorThisAccount.continue();
+				} else {
+					//alert("finish");
+				}
+			}
 		}
+		
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
@@ -97,7 +130,7 @@ $( document ).ready(function() {
 		
 			html5rocks.indexedDB.db = e.target.result;
 			var storeDelete = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
-			
+						
 			var replace = new Object;	
 			var openedIndexFindThisID = storeDelete.index("by_expenseName");
 			var cursorFindThisID = openedIndexFindThisID.openCursor();	
@@ -125,7 +158,12 @@ $( document ).ready(function() {
 					cursorThisID.continue();
 				} else {
 					if(replace.expenseCategory != 'Bill') {	
-						if(confirm("Are you sure you want to delete this expense?")){		
+						if(confirm("Are you sure you want to delete this expense?")){
+							//first update the account balance that is connected with this expense
+							var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+							storeAccounts.delete(parseInt(replaceAccount.id));
+							storeAccounts.add(replaceAccount);
+							//then delete the expense
 							storeDelete.delete(parseInt(getExpenseID));
 							alert("This expense is deleted!");
 							window.location.href = "expensesList.html";
