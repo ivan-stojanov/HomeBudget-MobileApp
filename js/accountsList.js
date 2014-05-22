@@ -97,7 +97,7 @@ html5rocks.indexedDB.open = function() {
 							$("#accountsListUL").children().eq(deleteBankAccount).remove(); //3. Bank(2)
 						} else {
 							setStyle = document.getElementsByClassName("bankaccountStyle")[0];
-							if(currentBankAccountBalance >  0) {	sign = "+";	}
+							if(currentBankAccountBalance >  0) {sign = "+";	}	else {	sign = "";	}
 							setStyle.innerHTML = sign + currentBankAccountBalance + " MKD";
 							setStyle.style.color = setStyleColor(currentBankAccountBalance);	//function defined below
 						}
@@ -105,7 +105,7 @@ html5rocks.indexedDB.open = function() {
 							$("#accountsListUL").children().eq(deleteCreditCard).remove(); //2. Credit(1)
 						} else {
 							setStyle = document.getElementsByClassName("creditcardStyle")[0];
-							if(currentCreditCardBalance >  0) {	sign = "+";	}
+							if(currentCreditCardBalance >  0) {	sign = "+";	}	else {	sign = "";	}
 							setStyle.innerHTML = sign + currentCreditCardBalance + " MKD";
 							setStyle.style.color = setStyleColor(currentCreditCardBalance);	//function defined below
 						}
@@ -113,7 +113,7 @@ html5rocks.indexedDB.open = function() {
 							$("#accountsListUL").children().eq(deleteCashOnHand).remove(); //1. Cash(0)
 						} else {
 							setStyle = document.getElementsByClassName("cashonhandStyle")[0];
-							if(currentCashOnHandBalance >  0) {	sign = "+";	}
+							if(currentCashOnHandBalance >  0) {	sign = "+";	}	else {	sign = "";	}
 							setStyle.innerHTML = sign + currentCashOnHandBalance + " MKD";
 							setStyle.style.color = setStyleColor(currentCashOnHandBalance);	//function defined below
 						}

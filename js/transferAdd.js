@@ -64,7 +64,7 @@ function addAccountsDropDowns() {
 	}
 }
 
-function funcIncomeAdd() {/*
+function funcTransferAdd() {
 
 	//get today date
 	var today = new Date();
@@ -75,43 +75,15 @@ function funcIncomeAdd() {/*
 	var yyyy = today.getFullYear(); 
 	today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 	
-	var incomeRepeat = $('#repeat').val();
-	var incomeName = $('#incomeName').val();
-	var incomeAmmount = $('#incomeAmmount').val(); 
-	var incomeAccount = $('#drop-down-list-account').val(); 
-	var incomeCategory = $('#drop-down-list-category').val(); 
-	var incomeDueDate =	$('#incomeDueDate').val(); 
-	var incomeRepeatCycle = $('#drop-down-list-cycle').val();	 
-	var incomeRepeatEndDate = $('#incomeRepeatEndDate').val();
+	var transferAmmount = $('#transferAmmount').val(); 
+	var transferFromAccount = $('#drop-down-list-from-account').val(); 
+	var transferToAccount = $('#drop-down-list-to-account').val(); 
+	var transferDate =	$('#transferDate').val(); 
 		
-	if(incomeRepeat == "off") {
-		incomeRepeatCycle = "";
-		incomeRepeatEndDate = "";
-		incomeRepeat = "no";
-	}
-	
-	if(incomeRepeat == "on") {
-		incomeRepeat = "yes";
-	}
-
-	incomeDueDate = formatDate(incomeDueDate);
-	incomeRepeatEndDate = formatDate(incomeRepeatEndDate);
-
 	var openedDB;
 	var request;
-	var obj =  { 
-			incomeName: incomeName,
-			incomeAmmount: incomeAmmount,
-			incomeAccount: incomeAccount,
-			incomeCategory: incomeCategory,
-			incomeDueDate: incomeDueDate,
-			incomeRepeatCycle: incomeRepeatCycle,
-			incomeRepeatEndDate: incomeRepeatEndDate,
-			incomeRepeat: incomeRepeat,
-			incomeRepeatLastUpdate: today,
-			incomeCreated: today,
-			incomeNumItems: "1"
-		};	
+	var objFromAccount;
+	var objToAccount;
 		
 	var html5rocks = {};
 	html5rocks.indexedDB = {};
@@ -122,45 +94,42 @@ function funcIncomeAdd() {/*
 	
 	request.onsuccess = function(e) {
 		html5rocks.indexedDB.db = e.target.result;			
-		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-		storeIncome.add(obj);
-		var modifyAccountObject;
-	
-	  //we need to loop throught all accounts, to find the chosen one and to update accountBalance by adding incomeAmmount
 		var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
 		var openedIndexx = storeAccount.index("by_accountName");
 		var numItemsRequest = openedIndexx.count();		
 		numItemsRequest.onsuccess = function(evt) {	
 			var numItems = evt.target.result;	
-			//storeAccount.add(obj);			
 			if (openedIndexx) {
-				//var singleKeyRange = IDBKeyRange.only((obj.incomeAccount).toString());
 				var curCursorA = openedIndexx.openCursor();
 
 				curCursorA.onsuccess = function(evt) {
 					var cursorA = evt.target.result;
 					if (cursorA) {
-						if((cursorA.value.accountName).toString() == (obj.incomeAccount).toString()) {		
-							modifyAccountObject =  { 
+						if((cursorA.value.accountName).toString() == transferFromAccount) {		
+							objFromAccount =  { 
 								accountName: cursorA.value.accountName,
 								accountType: cursorA.value.accountType,
-								accountBalance: (parseInt(cursorA.value.accountBalance) + parseInt(obj.incomeAmmount)).toString(),
+								accountBalance: (parseInt(cursorA.value.accountBalance) - parseInt(transferAmmount)).toString(),
 								accountDate: cursorA.value.accountDate,
 								id: cursorA.value.id
 							};	
-							storeAccount.delete(parseInt(modifyAccountObject.id));
-							storeAccount.add(modifyAccountObject);
+						}						
+						if((cursorA.value.accountName).toString() == transferToAccount) {		
+							objToAccount =  { 
+								accountName: cursorA.value.accountName,
+								accountType: cursorA.value.accountType,
+								accountBalance: (parseInt(cursorA.value.accountBalance) + parseInt(transferAmmount)).toString(),
+								accountDate: cursorA.value.accountDate,
+								id: cursorA.value.id
+							};	
 						}
 						cursorA.continue();
 					} else {
-						//if you add income via add incomes then show all available accounts
-						if(codedAccount != "") {
-							window.location.href = "./accountsList.html";
-						}
-						//if you add income via certain account, then show only that account in the list
-						else {
-							window.location.href = "./incomesList.html";
-						}						
+						storeAccount.delete(parseInt(objFromAccount.id));
+						storeAccount.add(objFromAccount);						
+						storeAccount.delete(parseInt(objToAccount.id));
+						storeAccount.add(objToAccount);						
+						window.location.href = "./index.html";
 					}
 				}
 				
@@ -182,7 +151,7 @@ function funcIncomeAdd() {/*
 	request.onerror = function(e) {
 		alert('request.onerror!');
 	}		
-*/}
+}
 
 function formatDate(enteredDate){
 	var dateArray = enteredDate.split('-');
