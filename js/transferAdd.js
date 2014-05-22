@@ -84,6 +84,12 @@ function funcTransferAdd() {
 	var request;
 	var objFromAccount;
 	var objToAccount;
+	var objTransfer = {
+		transferAmmount: transferAmmount.toString(),
+		transferDate: transferDate,	//formatDate(transferDate),
+		transferFromAccount: "",	//this is added below
+		transferToAccount: ""		//this is added below
+	};
 		
 	var html5rocks = {};
 	html5rocks.indexedDB = {};
@@ -93,7 +99,8 @@ function funcTransferAdd() {
 	request = indexedDB.open(openedDB);		
 	
 	request.onsuccess = function(e) {
-		html5rocks.indexedDB.db = e.target.result;			
+		html5rocks.indexedDB.db = e.target.result;	
+	
 		var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
 		var openedIndexx = storeAccount.index("by_accountName");
 		var numItemsRequest = openedIndexx.count();		
@@ -105,7 +112,8 @@ function funcTransferAdd() {
 				curCursorA.onsuccess = function(evt) {
 					var cursorA = evt.target.result;
 					if (cursorA) {
-						if((cursorA.value.accountName).toString() == transferFromAccount) {		
+						if((cursorA.value.accountName).toString() == transferFromAccount) {	
+							objTransfer.transferFromAccount = (cursorA.value.id).toString();
 							objFromAccount =  { 
 								accountName: cursorA.value.accountName,
 								accountType: cursorA.value.accountType,
@@ -114,7 +122,8 @@ function funcTransferAdd() {
 								id: cursorA.value.id
 							};	
 						}						
-						if((cursorA.value.accountName).toString() == transferToAccount) {		
+						if((cursorA.value.accountName).toString() == transferToAccount) {
+							objTransfer.transferToAccount = (cursorA.value.id).toString();						
 							objToAccount =  { 
 								accountName: cursorA.value.accountName,
 								accountType: cursorA.value.accountType,
@@ -125,6 +134,9 @@ function funcTransferAdd() {
 						}
 						cursorA.continue();
 					} else {
+						var storeTransfer = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+						storeTransfer.add(objTransfer);
+						
 						storeAccount.delete(parseInt(objFromAccount.id));
 						storeAccount.add(objFromAccount);						
 						storeAccount.delete(parseInt(objToAccount.id));

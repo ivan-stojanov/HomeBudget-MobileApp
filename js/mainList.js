@@ -37,6 +37,7 @@ var storeIncomes;
 var storeExpenses;
 var storeCategories;
 var storeBills;
+var storeTransfers;
 
 html5rocks.indexedDB.db = null;
 
@@ -156,8 +157,8 @@ html5rocks.indexedDB.open = function() {
 			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Monthly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Yearly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "Bus", expenseCategory: "Ride", expenseAmmount: "400", expenseDueDate: "12/05/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/05/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "Wi-Fi", expenseCategory: "Internet", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Hourly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "27/04/2014/04/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "Laptops", expenseCategory: "Education", expenseAmmount: "400", expenseDueDate: "12/12/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Weekly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Wi-Fi", expenseCategory: "Bill", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Hourly", expenseBillPaid: "paidYes", expenseRepeatEndDate: "27/04/2014/04/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Laptops", expenseCategory: "Bill", expenseAmmount: "400", expenseDueDate: "12/12/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Weekly", expenseBillPaid: "paidNo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
@@ -222,6 +223,38 @@ html5rocks.indexedDB.open = function() {
 		storeCategories.createIndex( "by_isExpense", "isExpense", { unique: false } );
 		storeCategories.createIndex( "by_isBill", "isBill", { unique: false } );
 												////alert("end opened");
+		//var storeTransfers;
+		if(dbS.objectStoreNames.contains("transfers")) {
+			//dbS.deleteObjectStore("transfers");
+			//storeTransfers = dbS.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
+													////alert("before get objectStore onupgradeneeded"); 
+			storeTransfers = request.transaction.objectStore("transfers");//html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+													////alert("after get objectStore onupgradeneeded"); 
+		}
+		else {
+													////alert("before create objectStore onupgradeneeded"); 
+			storeTransfers = html5rocks.indexedDB.db.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
+													////alert("after create objectStore onupgradeneeded"); 
+		}
+													////alert("after objectStoreS onupgradeneeded"); 		
+		//var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+													 //alert("after get objectStore onupgradeneeded"); 
+//this part is to add items in the account objectStore (when app is first Installed)
+		const objTransfers = [
+			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16" },
+			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "200", transferDate: "2014-05-16" },
+			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "300", transferDate: "2014-02-13" },
+		];					/* 1 = Cash on hand */  //these numbers are IDs of the accounts, in case their names are changed
+													//alert("created objects onupgradeneeded");
+		storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);
+
+													//alert("add created objects onupgradeneeded");
+//this part is for creating indexes for each attribute in the transfers													
+		storeTransfers.createIndex( "by_transferFromAccount", "transferFromAccount", { unique: false } );
+		storeTransfers.createIndex( "by_transferToAccount", "transferToAccount", { unique: false } );
+		storeTransfers.createIndex( "by_transferAmmount", "transferAmmount", { unique: false } );
+		storeTransfers.createIndex( "by_transferDate", "transferDate", { unique: false } );
+
 		/*
 		//var storeBills;
 		if(dbS.objectStoreNames.contains("bills")) {
