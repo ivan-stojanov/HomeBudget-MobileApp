@@ -241,12 +241,12 @@ html5rocks.indexedDB.open = function() {
 													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objTransfers = [
-			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16" },
-			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "200", transferDate: "2014-05-16" },
-			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "300", transferDate: "2014-02-13" },
+			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "200", transferDate: "2014-05-16", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "300", transferDate: "2014-02-13", transferStatus: "no" },
 		];					/* 1 = Cash on hand */  //these numbers are IDs of the accounts, in case their names are changed
 													//alert("created objects onupgradeneeded");
-		storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);
+		//storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);
 
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the transfers													
@@ -254,7 +254,8 @@ html5rocks.indexedDB.open = function() {
 		storeTransfers.createIndex( "by_transferToAccount", "transferToAccount", { unique: false } );
 		storeTransfers.createIndex( "by_transferAmmount", "transferAmmount", { unique: false } );
 		storeTransfers.createIndex( "by_transferDate", "transferDate", { unique: false } );
-
+		storeTransfers.createIndex( "by_transferStatus", "transferStatus", { unique: false } );
+		
 		/*
 		//var storeBills;
 		if(dbS.objectStoreNames.contains("bills")) {
@@ -906,13 +907,92 @@ html5rocks.indexedDB.open = function() {
 				//alert(numExpenses);
 			}
 			
-			/*var dbCLOSE;
-			dbCLOSE = request.result;
-			dbCLOSE.close();*/
-			
 			numExpensesRepeated.onerror = function(evt) { 
 				alert("numExpensesRepeated.onerror"); 
 			}
+		
+		//update transfers that were marked as upcoming
+		var storeTransfer = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");	
+			var openedIndexTransfers = storeTransfer.index("by_transferStatus");
+			var numAllTransfers = openedIndexTransfers.count();
+			
+			numAllTransfers.onsuccess = function(evt) {	
+				var numTransfers = evt.target.result;
+				if (openedIndexTransfers) {
+					var singleKeyRangeTransfer = IDBKeyRange.only("no");
+					var curCursorTransfer = openedIndexTransfers.openCursor(singleKeyRangeTransfer);
+					curCursorTransfer.onsuccess = function(evet) {
+					
+						var cursorTrans = evet.target.result;
+						if (cursorTrans) {						
+							var thisTransferDateArray = (cursorTrans.value.transferDate).split('-');
+							var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
+							var todayDate = new Date();
+							if(todayDate >= thisTransferDate) { //it is in the past			
+								//if it is in the past, then update accounts and make transfers
+								var objTransfer = {
+									transferAmmount: (cursorTrans.value.transferAmmount).toString(),
+									transferDate: cursorTrans.value.transferDate,
+									transferFromAccount: cursorTrans.value.transferFromAccount,
+									transferToAccount: cursorTrans.value.transferToAccount,
+									transferStatus: "yes",
+									id: cursorTrans.value.id
+								};
+								storeTransfer.delete(parseInt(objTransfer.id));
+								storeTransfer.add(objTransfer);	
+
+								//update accounts for created transfers
+								var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+
+								var requestAccountFromID = storeAccounts.get(parseInt(objTransfer.transferFromAccount));
+								// Get everything in the storeAccounts so you can set new balance	
+								requestAccountFromID.onsuccess = function(e) {
+									var resultAccountFrom = e.target.result;
+									if(!!resultAccountFrom == false){alert(resultAccountFrom);}
+
+									var objFromAccount =  { 
+										accountName: resultAccountFrom.accountName,
+										accountType: resultAccountFrom.accountType,
+										accountBalance: (parseInt(resultAccountFrom.accountBalance) - parseInt(objTransfer.transferAmmount)).toString(),
+										accountDate: resultAccountFrom.accountDate,
+										id: resultAccountFrom.id
+									};										
+									storeAccounts.delete(parseInt(objFromAccount.id));
+									storeAccounts.add(objFromAccount);
+								}
+								
+								var requestAccountToID = storeAccounts.get(parseInt(objTransfer.transferToAccount));
+								// Get everything in the storeAccounts so you can set new balance	
+								requestAccountToID.onsuccess = function(e) {
+									var resultAccountTo = e.target.result;
+									if(!!resultAccountTo == false){alert(resultAccountTo);}
+
+									var objToAccount =  { 
+										accountName: resultAccountTo.accountName,
+										accountType: resultAccountTo.accountType,
+										accountBalance: (parseInt(resultAccountTo.accountBalance) - parseInt(objTransfer.transferAmmount)).toString(),
+										accountDate: resultAccountTo.accountDate,
+										id: resultAccountTo.id
+									};										
+									storeAccounts.delete(parseInt(objToAccount.id));
+									storeAccounts.add(objToAccount);
+								}	
+								
+							} else {							//it is in the future
+								//if it is in the future, then don't update accounts and set status to not transfered
+							}
+							cursorTrans.continue();
+						} else {
+						
+						}
+					}
+				}
+			}
+			
+			numAllTransfers.onerror = function(evt) { 
+				alert("numAllTransfers.onerror"); 
+			}
+			
 	}	
 	
 	request.onerror = html5rocks.indexedDB.onerror;

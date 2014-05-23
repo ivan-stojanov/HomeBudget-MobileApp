@@ -41,60 +41,93 @@ html5rocks.indexedDB.open = function() {
 		}
 		else {
 			var storeS = html5rocks.indexedDB.db.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
-		}
+		}		
 		
-		storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");	
-		var openedIndexx = storeTransfers.index("by_transferDate");
-		var numItemsRequest = openedIndexx.count();		
-		var numPassed = 0;
-		var numFuture = 0;
-		numItemsRequest.onsuccess = function(evt) {	
-			var numItems = evt.target.result;	
-			if (openedIndexx) {
-				var curCursorT = openedIndexx.openCursor();
-				
-				curCursorT.onsuccess = function(evt) {
-					var cursorT = evt.target.result;
-					if (cursorT) {
-						var dateArrayForm = (cursorT.value.transferDate).split("-");
-						
-						var stringAdd = "";
-						stringAdd += '<br>Date of Transfer: ' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0];
-						stringAdd += '<br>From Account: ' + cursorT.value.transferFromAccount;
-						stringAdd += '<br>To Account: ' + cursorT.value.transferToAccount;
-						stringAdd += '<br>Amount: ' + cursorT.value.transferAmmount;
-						stringAdd += '<hr>';
+		var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+		var openedIndexxAcc = storeAccount.index("by_id");
+		var numItemsRequestAcc = openedIndexxAcc.count();	
+		var arrayAccountNames = new Array();
+		
+		numItemsRequestAcc.onsuccess = function(evt) {	
+			var numItemsAcc = evt.target.result;
 
-						var thisTransferDateArray = (cursorT.value.transferDate).split('-');
-						var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
-						if(today >= thisTransferDate) { //it is in the past
-							numPassed++;
-							$('#pastTransfers').html($('#pastTransfers').html() + stringAdd);							
-						} else {						//it is in the future
-							numFuture++;
-							$('#futureTransfers').html($('#futureTransfers').html() + stringAdd);
-						}
-						cursorT.continue();
+			if (openedIndexxAcc) {
+				var curCursorA = openedIndexxAcc.openCursor();
+
+				curCursorA.onsuccess = function(evt) {
+					var cursorA = evt.target.result;
+					if (cursorA) {
+						arrayAccountNames[cursorA.value.id] = cursorA.value.accountName;
+						cursorA.continue();
 					} else {
-						if(numPassed == 0) {
-							$('#pastTransfers').text($('#pastTransfers').text() + "<br>There are no transfers in the past!");
+					
+						storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");	
+						var openedIndexx = storeTransfers.index("by_transferDate");
+						var numItemsRequest = openedIndexx.count();		
+						var numPassed = 0;
+						var numFuture = 0;
+						numItemsRequest.onsuccess = function(evt) {	
+							var numItems = evt.target.result;	
+							if (openedIndexx) {
+								var curCursorT = openedIndexx.openCursor();
+								
+								curCursorT.onsuccess = function(evt) {
+									var cursorT = evt.target.result;
+									if (cursorT) {
+										var dateArrayForm = (cursorT.value.transferDate).split("-");
+										var displayAccoutFrom = arrayAccountNames[cursorT.value.transferFromAccount];
+										var displayAccoutTo = arrayAccountNames[cursorT.value.transferToAccount];
+										if(!displayAccoutFrom) 	{	displayAccoutFrom = "<del>Deleted Account</del>";	}
+										if(!displayAccoutTo) 	{	displayAccoutTo = "Deleted Account";	}
+										
+										var stringAdd = "";
+										stringAdd += '<br>Date of Transfer: ' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0];
+										stringAdd += '<br>From Account: ' + displayAccoutFrom;
+										stringAdd += '<br>To Account: ' + displayAccoutTo;
+										stringAdd += '<br>Amount: ' + cursorT.value.transferAmmount + " MKD";
+										stringAdd += '<hr>';
+
+										var thisTransferDateArray = (cursorT.value.transferDate).split('-');
+										var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
+										if(today >= thisTransferDate) { //it is in the past
+											numPassed++;
+											$('#pastTransfers').html($('#pastTransfers').html() + stringAdd);							
+										} else {						//it is in the future
+											numFuture++;
+											$('#futureTransfers').html($('#futureTransfers').html() + stringAdd);
+										}
+										cursorT.continue();
+									} else {
+										if(numPassed == 0) {
+											$('#pastTransfers').html($('#pastTransfers').html() + "<br>There are no transfers in the past!");
+										}
+										if(numFuture == 0) {
+											$('#futureTransfers').html($('#futureTransfers').html() + "<br>There are no transfers in the future!");
+										}
+									}
+								}
+								
+								curCursorT.onerror = function(evt) {
+									alert("curCursorT.onerror");					
+								}
+							}
 						}
-						if(numFuture == 0) {
-							$('#futureTransfers').text($('#futureTransfers').text() + "<br>There are no transfers in the future!");
+							
+						numItemsRequest.onerror = function(evt) { 
+							alert("numItemsRequest.onerror"); 
 						}
 					}
 				}
 				
-				curCursorT.onerror = function(evt) {
-					alert("curCursorT.onerror");					
+				curCursorA.onerror = function(evt) {
+					alert("curCursorA.onerror");					
 				}
 			}
 		}
 			
-		numItemsRequest.onerror = function(evt) { 
-			alert("numItemsRequest.onerror"); 
-		}
-		
+		numItemsRequestAcc.onerror = function(evt) { 
+			alert("numItemsRequestAcc.onerror"); 
+		}		
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };

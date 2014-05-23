@@ -88,7 +88,8 @@ function funcTransferAdd() {
 		transferAmmount: transferAmmount.toString(),
 		transferDate: transferDate,	//formatDate(transferDate),
 		transferFromAccount: "",	//this is added below
-		transferToAccount: ""		//this is added below
+		transferToAccount: "",		//this is added below
+		transferStatus: "fail"
 	};
 		
 	var html5rocks = {};
@@ -134,14 +135,23 @@ function funcTransferAdd() {
 						}
 						cursorA.continue();
 					} else {
+						var thisTransferDateArray = transferDate.split('-');
+						var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
+						var todayDate = new Date();
+						if(todayDate >= thisTransferDate) { //it is in the past
+							objTransfer.transferStatus = "yes";
+							//if it is in the past, then update accounts and make transfers
+							storeAccount.delete(parseInt(objFromAccount.id));
+							storeAccount.add(objFromAccount);						
+							storeAccount.delete(parseInt(objToAccount.id));
+							storeAccount.add(objToAccount);
+						} else {							//it is in the future
+							//if it is in the future, then don't update accounts and set status to not transfered
+							objTransfer.transferStatus = "no";
+						}					
 						var storeTransfer = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
-						storeTransfer.add(objTransfer);
-						
-						storeAccount.delete(parseInt(objFromAccount.id));
-						storeAccount.add(objFromAccount);						
-						storeAccount.delete(parseInt(objToAccount.id));
-						storeAccount.add(objToAccount);						
-						window.location.href = "./index.html";
+						storeTransfer.add(objTransfer);						
+						window.location.href = "./transfersListDetails.html";
 					}
 				}
 				

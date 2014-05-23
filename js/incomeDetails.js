@@ -60,7 +60,7 @@ html5rocks.indexedDB.open = function() {
 		
 		// Get everything in the store;	
 		requestID.onsuccess = function(e) {	
-			var result = event.target.result;
+			var result = e.target.result;
 			if(!!result == false){alert(result);}
 			
 			$('#incomeName').text(result.incomeName);
