@@ -87,32 +87,48 @@ html5rocks.indexedDB.open = function() {
 										stringAdd += '<br>From Account: ' + displayAccoutFrom;
 										stringAdd += '<br>To Account: ' + displayAccoutTo;
 										stringAdd += '<br>Amount: ' + cursorT.value.transferAmmount + " MKD";
-										stringAdd += '<hr>';
 
 										var thisTransferDateArray = (cursorT.value.transferDate).split('-');
 										var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
+										
 										if(today >= thisTransferDate) { //it is in the past 
 											if(cursorT.value.transferStatus == "fail") {	// if it is canceled while upcoming, then there is no transfer
 												stringAdd = "<br><b><label class='canceled'>CANCELED:</label></b>" + stringAdd;
-											}
-										
+											}										
 											numPassed++;
+											stringAdd += '<br><input type="button" value="Remove from list" onclick="removePast(' + cursorT.value.id + ')"/>';
+											stringAdd += '<hr>';
 											$('#pastTransfers').html($('#pastTransfers').html() + stringAdd);							
 										} else {						//it is in the future
-											if((!arrayAccountNames[cursorT.value.transferFromAccount]) || (!arrayAccountNames[cursorT.value.transferToAccount])) {
+											if((!arrayAccountNames[cursorT.value.transferFromAccount]) || (!arrayAccountNames[cursorT.value.transferToAccount]) || (cursorT.value.transferStatus == "fail")) {
 												stringAdd = "<br><b><label class='canceled'>CANCELED:</label></b>" + stringAdd;
+											}										
+											numFuture++;											
+							var objTransferCurrent = {
+								transferAmmount: (cursorT.value.transferAmmount).toString(),
+								transferDate: (thisTransferDateArray[0] + "-" + thisTransferDateArray[1] + "-" + thisTransferDateArray[2]),
+								transferFromAccount: cursorT.value.transferFromAccount,
+								transferToAccount: cursorT.value.transferToAccount,
+								transferHistoryFromAccount: cursorT.value.transferHistoryFromAccount,
+								transferHistoryToAccount: cursorT.value.transferHistoryToAccount,
+								transferStatus: cursorT.value.transferStatus,
+								id: cursorT.value.id
+							};	
+											stringAdd += '<br>';
+											if(objTransferCurrent.transferStatus != "fail") {
+												stringAdd += '<input type="button" value="Cancel" onclick="cancelFuture(' + objTransferCurrent.id + ',' +objTransferCurrent.transferAmmount + ',\'' + objTransferCurrent.transferDate + '\',' + objTransferCurrent.transferFromAccount + ',' + objTransferCurrent.transferToAccount + ',\'' + objTransferCurrent.transferStatus + '\',\'' + objTransferCurrent.transferHistoryFromAccount + '\',\'' + objTransferCurrent.transferHistoryToAccount + '\')"/>';
 											}
-										
-											numFuture++;
+											stringAdd += '<input type="button" value="Remove from list" onclick="removeFuture(' + cursorT.value.id + ')"/>';
+											stringAdd += '<hr>';
 											$('#futureTransfers').html($('#futureTransfers').html() + stringAdd);
 										}
 										cursorT.continue();
 									} else {
 										if(numPassed == 0) {
-											$('#pastTransfers').html($('#pastTransfers').html() + "<br>There are no transfers in the past!");
+											$('#pastTransfers').html($('#pastTransfers').html() + "<br>There are no records about transfers in the past!");
 										}
 										if(numFuture == 0) {
-											$('#futureTransfers').html($('#futureTransfers').html() + "<br>There are no transfers in the future!");
+											$('#futureTransfers').html($('#futureTransfers').html() + "<br>There are no records about upcoming transfers!");
 										}
 									}
 								}
@@ -141,3 +157,81 @@ html5rocks.indexedDB.open = function() {
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+function removePast(id) {
+	if(confirm("Are you sure you want to remove this transfer from list?")){	
+	
+		var openedDB = localStorage["openedDB"];	
+		var request = indexedDB.open(openedDB);
+
+		request.onsuccess = function(e) {  
+			html5rocks.indexedDB.db = e.target.result;
+
+			var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+			storeTransfers.delete(id);
+			alert("The transfer is removed!");
+			window.location.href = "transfersListDetails.html";
+			return true;
+		}		
+	} else {
+		event.preventDefault();
+		return false;
+	}
+}
+
+function removeFuture(id) {
+	if(confirm("Are you sure you want to remove this transfer from list?")){	
+	
+		var openedDB = localStorage["openedDB"];	
+		var request = indexedDB.open(openedDB);
+
+		request.onsuccess = function(e) {  
+			html5rocks.indexedDB.db = e.target.result;
+
+			var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+			storeTransfers.delete(id);
+			alert("The transfer is removed from list!");
+			window.location.href = "transfersListDetails.html";
+			return true;
+		}		
+	} else {
+		event.preventDefault();
+		return false;
+	}
+}
+
+function cancelFuture(id,transferAmmount,transferDate,transferFromAccount,transferToAccount,transferStatus,transferHistoryFromAccount,transferHistoryToAccount)
+{
+	var objTransferCurrent = {
+		transferAmmount: (transferAmmount).toString(),
+		transferDate: transferDate,
+		transferFromAccount: transferFromAccount,
+		transferToAccount: transferToAccount,
+		transferHistoryFromAccount: transferHistoryFromAccount,
+		transferHistoryToAccount: transferHistoryToAccount,
+		transferStatus: "fail",
+		id: id
+	};	
+	
+	//alert(transferDate.toString());
+	if(confirm("Are you sure you want to cancel this transfer from list?")){	
+	
+		var openedDB = localStorage["openedDB"];	
+		var request = indexedDB.open(openedDB);
+
+		request.onsuccess = function(e) {  
+			html5rocks.indexedDB.db = e.target.result;
+
+			var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+			storeTransfers.delete(objTransferCurrent.id);
+			storeTransfers.add(objTransferCurrent);
+			
+			alert("The transfer is canceled!");
+			window.location.href = "transfersListDetails.html";
+			return true;
+		}		
+	} else {
+		event.preventDefault();
+		return false;
+	}
+}
