@@ -91,10 +91,18 @@ html5rocks.indexedDB.open = function() {
 
 										var thisTransferDateArray = (cursorT.value.transferDate).split('-');
 										var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
-										if(today >= thisTransferDate) { //it is in the past
+										if(today >= thisTransferDate) { //it is in the past 
+											if(cursorT.value.transferStatus == "fail") {	// if it is canceled while upcoming, then there is no transfer
+												stringAdd = "<br><b><label class='canceled'>CANCELED:</label></b>" + stringAdd;
+											}
+										
 											numPassed++;
 											$('#pastTransfers').html($('#pastTransfers').html() + stringAdd);							
 										} else {						//it is in the future
+											if((!arrayAccountNames[cursorT.value.transferFromAccount]) || (!arrayAccountNames[cursorT.value.transferToAccount])) {
+												stringAdd = "<br><b><label class='canceled'>CANCELED:</label></b>" + stringAdd;
+											}
+										
 											numFuture++;
 											$('#futureTransfers').html($('#futureTransfers').html() + stringAdd);
 										}

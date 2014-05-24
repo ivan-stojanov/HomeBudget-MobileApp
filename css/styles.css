@@ -287,3 +287,8 @@ li .line1 {
 {
 	float: right;
 }
+
+.canceled
+{
+	color: red;
+}

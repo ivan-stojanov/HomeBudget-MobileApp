@@ -913,7 +913,7 @@ html5rocks.indexedDB.open = function() {
 				alert("numExpensesRepeated.onerror"); 
 			}
 		
-		//update transfers that were marked as upcoming
+		//update transfers that were marked as upcoming and are NOT CANCELED
 		var storeTransfer = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");	
 			var openedIndexTransfers = storeTransfer.index("by_transferStatus");
 			var numAllTransfers = openedIndexTransfers.count();
@@ -930,7 +930,7 @@ html5rocks.indexedDB.open = function() {
 							var thisTransferDateArray = (cursorTrans.value.transferDate).split('-');
 							var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
 							var todayDate = new Date();
-							if(todayDate >= thisTransferDate) { //it is in the past			
+							if((todayDate >= thisTransferDate) && (cursorTrans.value.transferStatus != "fail")) { //it is in the past and is not canceled		
 								//if it is in the past, then update accounts and make transfers
 								var objTransfer = {
 									transferAmmount: (cursorTrans.value.transferAmmount).toString(),

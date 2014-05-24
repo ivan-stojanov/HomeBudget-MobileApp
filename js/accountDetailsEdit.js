@@ -121,6 +121,13 @@ html5rocks.indexedDB.open = function() {
 								transferHistoryToAccount: cursorTransAccFrom.value.transferHistoryToAccount,
 								id: cursorTransAccFrom.value.id
 							};
+							
+							var todayDate = new Date();
+							var currentTransferDateArray = (cursorTransAccFrom.value.transferDate).split('-');
+							var currentTransferDate = new Date(currentTransferDateArray[0],currentTransferDateArray[1]-1,currentTransferDateArray[2]);
+							if(todayDate < currentTransferDate) {
+								objTransferFrom.transferStatus = "fail";
+							}
 							//alert("update transfer from: " + objTransferFrom.id);
 							
 ArrayObjectsFrom[indexAarraysFrom] = objTransferFrom;
@@ -154,6 +161,13 @@ indexAarraysFrom++;
 												transferHistoryToAccount: getAccountName,
 												id: cursorTransAccTo.value.id
 											};
+											
+											var todayDate = new Date();
+											var currentTransferDateArray = (cursorTransAccTo.value.transferDate).split('-');
+											var currentTransferDate = new Date(currentTransferDateArray[0],currentTransferDateArray[1]-1,currentTransferDateArray[2]);
+											if(todayDate < currentTransferDate) {
+												objTransferTo.transferStatus = "fail";
+											}
 											//alert("update transfer to: " + objTransferTo.id);
 ArrayObjectsTo[indexAarraysTo] = objTransferTo;
 indexAarraysTo++;						
