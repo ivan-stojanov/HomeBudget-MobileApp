@@ -197,41 +197,46 @@ indexAarraysTo++;
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
-		if(confirm("Are you sure you want to delete this account?")){	
-			var html5rocks = {};
-			html5rocks.indexedDB = {};
-			html5rocks.indexedDB.db = null;
-
-			var openedDB = localStorage["openedDB"];	
-			var requestDelete = indexedDB.open(openedDB);	
-				requestDelete.onsuccess = function(e) {  
-					html5rocks.indexedDB.db = e.target.result;
-					
-					//when delete an account, update transfer store so later to have information what was the name of deleted account
-					var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
-					for(var counterFrom = 0; counterFrom < ArrayObjectsFrom.length; counterFrom++) {
-						storeTransfers.delete(parseInt(ArrayObjectsFrom[counterFrom].id));
-						storeTransfers.add(ArrayObjectsFrom[counterFrom]);								
-					}
-					for(var counterTo = 0; counterTo < ArrayObjectsTo.length; counterTo++) {
-						storeTransfers.delete(parseInt(ArrayObjectsTo[counterTo].id));
-						storeTransfers.add(ArrayObjectsTo[counterTo]);								
-					}
-					
-					var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-					storeDelete.delete(parseInt(getAccountID));
-					alert("This account is deleted!");
-					return true;
-				}
-				
-				requestDelete.onerror = function(e) {
-					alert('request.onerror!');
-				}				
-				//return true;
-				
+		if((getAccountID == 1) || (getAccountID == 2) || (getAccountID == 3)) {
+			alert("This account can not be deleted!");
 		} else {
-			event.preventDefault();
-			return false;
+			if(confirm("Are you sure you want to delete this account?")){	
+				var html5rocks = {};
+				html5rocks.indexedDB = {};
+				html5rocks.indexedDB.db = null;
+
+				var openedDB = localStorage["openedDB"];	
+				var requestDelete = indexedDB.open(openedDB);	
+					requestDelete.onsuccess = function(e) {  
+						html5rocks.indexedDB.db = e.target.result;
+						
+						//when delete an account, update transfer store so later to have information what was the name of deleted account
+						var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+						for(var counterFrom = 0; counterFrom < ArrayObjectsFrom.length; counterFrom++) {
+							storeTransfers.delete(parseInt(ArrayObjectsFrom[counterFrom].id));
+							storeTransfers.add(ArrayObjectsFrom[counterFrom]);								
+						}
+						for(var counterTo = 0; counterTo < ArrayObjectsTo.length; counterTo++) {
+							storeTransfers.delete(parseInt(ArrayObjectsTo[counterTo].id));
+							storeTransfers.add(ArrayObjectsTo[counterTo]);								
+						}
+						
+						var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+						storeDelete.delete(parseInt(getAccountID));
+						alert("This account is deleted!");
+						window.location.href = "accountsList.html";
+						return true;
+					}
+					
+					requestDelete.onerror = function(e) {
+						alert('request.onerror!');
+					}				
+					//return true;
+					
+			} else {
+				event.preventDefault();
+				return false;
+			}
 		}
 	});
 	
