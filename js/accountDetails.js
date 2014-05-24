@@ -31,6 +31,11 @@ function init() {
 }
 window.addEventListener("DOMContentLoaded", init, false);
 
+var ArrayObjectsFrom = new Array();
+var indexAarraysFrom = 0;
+var ArrayObjectsTo = new Array();
+var indexAarraysTo = 0;
+
 var html5rocks = {};
 html5rocks.indexedDB = {};
 var store;
@@ -76,14 +81,91 @@ html5rocks.indexedDB.open = function() {
 				var yyyy = today.getFullYear(); 
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
+		}
+
+		//this info will be stored, in case the account is deleted
+		//when delete an account, update transfer store so later to have information what was the name of deleted account
+		var storeTransfer = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+			//update everywhere when this account is set as FromAccount
+		var openedIndexAccFrom = storeTransfer.index("by_transferFromAccount");					
+		var numAccFrom = openedIndexAccFrom.count();			
+		numAccFrom.onsuccess = function(evt) {	
+			var numberAccountsFrom = evt.target.result;					
 			
-			/*// now let's close the database again!
-			var dbCLOSE;
-			dbCLOSE = request.result;
-			dbCLOSE.close();*/
+			if (openedIndexAccFrom) {
+				var singleKeyRangeTransferAccFrom = IDBKeyRange.only(getAccountID.toString());
+				var curCursorTransferAccFrom = openedIndexAccFrom.openCursor(singleKeyRangeTransferAccFrom);
+				curCursorTransferAccFrom.onsuccess = function(evet) {
+					var cursorTransAccFrom = evet.target.result;								
+					if (cursorTransAccFrom) {
+						if((cursorTransAccFrom.value.transferFromAccount).toString() == getAccountID.toString()) {
+							var objTransferFrom = {
+								transferAmmount: (cursorTransAccFrom.value.transferAmmount).toString(),
+								transferDate: cursorTransAccFrom.value.transferDate,
+								transferFromAccount: cursorTransAccFrom.value.transferFromAccount,
+								transferToAccount: cursorTransAccFrom.value.transferToAccount,
+								transferStatus: cursorTransAccFrom.value.transferStatus,
+								transferHistoryFromAccount: getAccountName,
+								transferHistoryToAccount: cursorTransAccFrom.value.transferHistoryToAccount,
+								id: cursorTransAccFrom.value.id
+							};
+							//alert("update transfer from: " + objTransferFrom.id);
+							
+ArrayObjectsFrom[indexAarraysFrom] = objTransferFrom;
+indexAarraysFrom++;						
+							//storeTransfer.delete(parseInt(objTransferFrom.id));
+							//storeTransfer.add(objTransferFrom);								
+						}
+						cursorTransAccFrom.continue();
+					} else {
+							//update everywhere when this account is set as ToAccount
+						var openedIndexAccTo = storeTransfer.index("by_transferToAccount");
+						
+						var numAccTo = openedIndexAccTo.count();			
+						numAccTo.onsuccess = function(evtn) {	
+							var numberAccountsFrom = evtn.target.result;					
+										
+							if (openedIndexAccTo) {
+								var singleKeyRangeTransferAccTo = IDBKeyRange.only(getAccountID.toString());
+								var curCursorTransferAccFrom = openedIndexAccTo.openCursor(singleKeyRangeTransferAccTo);
+								curCursorTransferAccFrom.onsuccess = function(event) {
+									var cursorTransAccTo = event.target.result;
+									if (cursorTransAccTo) {	
+										if((cursorTransAccTo.value.transferToAccount).toString() == getAccountID.toString()) {
+											var objTransferTo = {
+												transferAmmount: (cursorTransAccTo.value.transferAmmount).toString(),
+												transferDate: cursorTransAccTo.value.transferDate,
+												transferFromAccount: cursorTransAccTo.value.transferFromAccount,
+												transferToAccount: cursorTransAccTo.value.transferToAccount,
+												transferStatus: cursorTransAccTo.value.transferStatus,
+												transferHistoryFromAccount: cursorTransAccTo.value.transferHistoryFromAccount,
+												transferHistoryToAccount: getAccountName,
+												id: cursorTransAccTo.value.id
+											};
+											//alert("update transfer to: " + objTransferTo.id);
+ArrayObjectsTo[indexAarraysTo] = objTransferTo;
+indexAarraysTo++;						
+											//storeTransfer.delete(parseInt(objTransferTo.id));
+											//storeTransfer.add(objTransferTo);								
+										}
+										cursorTransAccTo.continue();										
+									}
+								}
+							} else {
+							}
+						}						
+						numAccTo.onerror = function(evt) { 
+							alert("numAccTo.onerror"); 
+						}
+					}
+				}
+			}
 		}
 		
-
+		numAccFrom.onerror = function(evt) { 
+			alert("numAccFrom.onerror"); 
+		}
+		
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
@@ -97,16 +179,23 @@ $( document ).ready(function() {
 
 			var openedDB = localStorage["openedDB"];	
 			var requestDelete = indexedDB.open(openedDB);	
-//alert("90");
-				requestDelete.onsuccess = function(e) {  
+				requestDelete.onsuccess = function(e) {				
 					html5rocks.indexedDB.db = e.target.result;
-//alert("93");
+					
+					//when delete an account, update transfer store so later to have information what was the name of deleted account
+					var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
+					for(var counterFrom = 0; counterFrom < ArrayObjectsFrom.length; counterFrom++) {
+						storeTransfers.delete(parseInt(ArrayObjectsFrom[counterFrom].id));
+						storeTransfers.add(ArrayObjectsFrom[counterFrom]);								
+					}
+					for(var counterTo = 0; counterTo < ArrayObjectsTo.length; counterTo++) {
+						storeTransfers.delete(parseInt(ArrayObjectsTo[counterTo].id));
+						storeTransfers.add(ArrayObjectsTo[counterTo]);								
+					}
+					
 					var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
 					storeDelete.delete(parseInt(getAccountID));
 					alert("This account is deleted!");
-				/*	var dbCLOSEdelete;
-					dbCLOSEdelete = requestDelete.result;
-					dbCLOSEdelete.close();*/
 					return true;
 				}
 				
@@ -119,12 +208,7 @@ $( document ).ready(function() {
 			event.preventDefault();
 			return false;
 		}
-		
-		/*var dbCLOSEdelete;
-		dbCLOSEdelete = requestDelete.result;
-		dbCLOSEdelete.close();*/
 	});
-	
 	
 	$("#addIncomeAcc").on("click", function(event){
 		window.location.href = "incomeAdd.html?accountIncomeStart=" + getAccountName;

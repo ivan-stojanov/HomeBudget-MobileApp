@@ -241,12 +241,12 @@ html5rocks.indexedDB.open = function() {
 													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objTransfers = [
-			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16", transferStatus: "no" },
-			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "200", transferDate: "2014-05-16", transferStatus: "no" },
-			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "300", transferDate: "2014-02-13", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "200", transferDate: "2014-05-16", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "300", transferDate: "2014-02-13", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
 		];					/* 1 = Cash on hand */  //these numbers are IDs of the accounts, in case their names are changed
 													//alert("created objects onupgradeneeded");
-		//storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);
+		storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);
 
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the transfers													
@@ -254,6 +254,8 @@ html5rocks.indexedDB.open = function() {
 		storeTransfers.createIndex( "by_transferToAccount", "transferToAccount", { unique: false } );
 		storeTransfers.createIndex( "by_transferAmmount", "transferAmmount", { unique: false } );
 		storeTransfers.createIndex( "by_transferDate", "transferDate", { unique: false } );
+		storeTransfers.createIndex( "by_transferHistoryFromAccount", "transferHistoryFromAccount", { unique: false } );
+		storeTransfers.createIndex( "by_transferHistoryToAccount", "transferHistoryToAccount", { unique: false } );
 		storeTransfers.createIndex( "by_transferStatus", "transferStatus", { unique: false } );
 		
 		/*
@@ -935,6 +937,8 @@ html5rocks.indexedDB.open = function() {
 									transferDate: cursorTrans.value.transferDate,
 									transferFromAccount: cursorTrans.value.transferFromAccount,
 									transferToAccount: cursorTrans.value.transferToAccount,
+									transferHistoryFromAccount: cursorTrans.value.transferHistoryFromAccount,
+									transferHistoryToAccount: cursorTrans.value.transferHistoryToAccount,
 									transferStatus: "yes",
 									id: cursorTrans.value.id
 								};

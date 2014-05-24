@@ -77,8 +77,10 @@ html5rocks.indexedDB.open = function() {
 										var dateArrayForm = (cursorT.value.transferDate).split("-");
 										var displayAccoutFrom = arrayAccountNames[cursorT.value.transferFromAccount];
 										var displayAccoutTo = arrayAccountNames[cursorT.value.transferToAccount];
-										if(!displayAccoutFrom) 	{	displayAccoutFrom = "<del>Deleted Account</del>";	}
-										if(!displayAccoutTo) 	{	displayAccoutTo = "Deleted Account";	}
+										if(!displayAccoutFrom) 	
+										{	displayAccoutFrom = "<del>" + cursorT.value.transferHistoryFromAccount + "</del>(Deleted Account)";	}
+										if(!displayAccoutTo) 	
+										{	displayAccoutTo = "<del>" + cursorT.value.transferHistoryToAccount + "</del>(Deleted Account)";		}
 										
 										var stringAdd = "";
 										stringAdd += '<br>Date of Transfer: ' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0];

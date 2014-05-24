@@ -89,6 +89,8 @@ function funcTransferAdd() {
 		transferDate: transferDate,	//formatDate(transferDate),
 		transferFromAccount: "",	//this is added below
 		transferToAccount: "",		//this is added below
+		transferHistoryFromAccount: "",	//this is added while deleting the account
+		transferHistoryToAccount: "",	//this is added while deleting the account
 		transferStatus: "fail"
 	};
 		
