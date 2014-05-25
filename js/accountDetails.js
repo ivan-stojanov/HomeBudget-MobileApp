@@ -35,6 +35,10 @@ var ArrayObjectsFrom = new Array();
 var indexAarraysFrom = 0;
 var ArrayObjectsTo = new Array();
 var indexAarraysTo = 0;
+var ArrayObjectsIncomes = new Array();
+var indexAarraysIncomes = 0;
+var ArrayObjectsExpenses = new Array();
+var indexAarraysExpenses = 0;
 
 var html5rocks = {};
 html5rocks.indexedDB = {};
@@ -83,7 +87,7 @@ html5rocks.indexedDB.open = function() {
 			$('#currentDate').text(today);
 		}
 
-		//this info will be stored, in case the account is deleted
+	//this info will be stored, in case the account is deleted
 		//when delete an account, update transfer store so later to have information what was the name of deleted account
 		var storeTransfer = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
 			//update everywhere when this account is set as FromAccount
@@ -116,12 +120,8 @@ html5rocks.indexedDB.open = function() {
 							if(todayDate < currentTransferDate) {
 								objTransferFrom.transferStatus = "fail";
 							}
-							//alert("update transfer from: " + objTransferFrom.id);
-							
-ArrayObjectsFrom[indexAarraysFrom] = objTransferFrom;
-indexAarraysFrom++;						
-							//storeTransfer.delete(parseInt(objTransferFrom.id));
-							//storeTransfer.add(objTransferFrom);								
+							ArrayObjectsFrom[indexAarraysFrom] = objTransferFrom;
+							indexAarraysFrom++;						
 						}
 						cursorTransAccFrom.continue();
 					} else {
@@ -156,11 +156,8 @@ indexAarraysFrom++;
 											if(todayDate < currentTransferDate) {
 												objTransferTo.transferStatus = "fail";
 											}
-											//alert("update transfer to: " + objTransferTo.id);
-ArrayObjectsTo[indexAarraysTo] = objTransferTo;
-indexAarraysTo++;						
-											//storeTransfer.delete(parseInt(objTransferTo.id));
-											//storeTransfer.add(objTransferTo);								
+											ArrayObjectsTo[indexAarraysTo] = objTransferTo;
+											indexAarraysTo++;						
 										}
 										cursorTransAccTo.continue();										
 									}
@@ -174,12 +171,89 @@ indexAarraysTo++;
 					}
 				}
 			}
-		}
-		
+		}		
 		numAccFrom.onerror = function(evt) { 
 			alert("numAccFrom.onerror"); 
-		}
+		}		
 		
+		//when delete an account, update income store and replace incomeAccout to "Bank Account" where the account is set to this account
+		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
+			//update everywhere where the account is set to this account
+		var openedIndexIncomeUpdate = storeIncome.index("by_incomeAccount");					
+		var numIncomeUpdates = openedIndexIncomeUpdate.count();			
+		numIncomeUpdates.onsuccess = function(evt) {
+			var numberIncomeUpdates = evt.target.result;										
+			if (openedIndexIncomeUpdate) {
+				var singleKeyRangeIncomeUpdate = IDBKeyRange.only(getAccountName.toString());
+				var curCursorIncomeUpdate = openedIndexIncomeUpdate.openCursor(singleKeyRangeIncomeUpdate);
+				curCursorIncomeUpdate.onsuccess = function(event) {
+					var cursorIncomeUpdate = event.target.result;
+					if (cursorIncomeUpdate) {	
+						//alert(cursorIncomeUpdate.value.incomeName);
+						var objIncome = {
+							incomeName: cursorIncomeUpdate.value.incomeName,
+							incomeAmmount: cursorIncomeUpdate.value.incomeAmmount,
+							incomeAccount: "Bank Account",	//cursorIncomeUpdate.value.incomeAccount,
+							incomeCategory: cursorIncomeUpdate.value.incomeCategory,
+							incomeDueDate: cursorIncomeUpdate.value.incomeDueDate,
+							incomeRepeatCycle: cursorIncomeUpdate.value.incomeRepeatCycle,
+							incomeRepeatEndDate: cursorIncomeUpdate.value.incomeRepeatEndDate,
+							incomeRepeat: cursorIncomeUpdate.value.incomeRepeat,
+							incomeRepeatLastUpdate: cursorIncomeUpdate.value.incomeRepeatLastUpdate,
+							incomeCreated: cursorIncomeUpdate.value.incomeCreated,
+							incomeNumItems: cursorIncomeUpdate.value.incomeNumItems,
+							id: cursorIncomeUpdate.value.id
+						};						
+						ArrayObjectsIncomes[indexAarraysIncomes] = objIncome;
+						indexAarraysIncomes++;				
+						cursorIncomeUpdate.continue();
+					}
+				}
+			}
+		}
+		numIncomeUpdates.onerror = function(evt) { 
+			alert("numIncomeUpdates.onerror"); 
+		}
+
+		//when delete an account, update expense store and replace expenseAccout to "Bank Account" where the account is set to this account
+		var storeExpense = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
+			//update everywhere where the account is set to this account
+		var openedIndexExpenseUpdate = storeExpense.index("by_expenseAccount");					
+		var numExpenseUpdates = openedIndexExpenseUpdate.count();			
+		numExpenseUpdates.onsuccess = function(evt) {
+			var numberExpenseUpdates = evt.target.result;										
+			if (openedIndexExpenseUpdate) {
+				var singleKeyRangeExpenseUpdate = IDBKeyRange.only(getAccountName.toString());
+				var curCursorExpenseUpdate = openedIndexExpenseUpdate.openCursor(singleKeyRangeExpenseUpdate);
+				curCursorExpenseUpdate.onsuccess = function(event) {
+					var cursorExpenseUpdate = event.target.result;
+					if (cursorExpenseUpdate) {	
+						//alert(cursorExpenseUpdate.value.incomeName);
+						var objExpense = {
+							expenseName: cursorExpenseUpdate.value.expenseName,
+							expenseAmmount: cursorExpenseUpdate.value.expenseAmmount,
+							expenseAccount: "Credit Card",	//cursorExpenseUpdate.value.expenseAccount,
+							expenseCategory: cursorExpenseUpdate.value.expenseCategory,
+							expenseDueDate: cursorExpenseUpdate.value.expenseDueDate,
+							expenseRepeatCycle: cursorExpenseUpdate.value.expenseRepeatCycle,
+							expenseRepeatEndDate: cursorExpenseUpdate.value.expenseRepeatEndDate,
+							expenseRepeat: cursorExpenseUpdate.value.expenseRepeat,
+							expenseRepeatLastUpdate: cursorExpenseUpdate.value.expenseRepeatLastUpdate,
+							expenseCreated: cursorExpenseUpdate.value.expenseCreated,
+							expenseNumItems: cursorExpenseUpdate.value.expenseNumItems,
+							expenseBillPaid: cursorExpenseUpdate.value.expenseBillPaid,
+							id: cursorExpenseUpdate.value.id
+						};						
+						ArrayObjectsExpenses[indexAarraysExpenses] = objExpense;
+						indexAarraysExpenses++;				
+						cursorExpenseUpdate.continue();
+					}
+				}
+			}
+		}
+		numExpenseUpdates.onerror = function(evt) { 
+			alert("numExpenseUpdates.onerror"); 
+		}
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
@@ -209,6 +283,20 @@ $( document ).ready(function() {
 						for(var counterTo = 0; counterTo < ArrayObjectsTo.length; counterTo++) {
 							storeTransfers.delete(parseInt(ArrayObjectsTo[counterTo].id));
 							storeTransfers.add(ArrayObjectsTo[counterTo]);								
+						}
+						
+						//when delete an account, update income store and replace incomeAccout to "Bank Account" where the account is set to this account
+						var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
+						for(var counterIncome = 0; counterIncome < ArrayObjectsIncomes.length; counterIncome++) {
+							storeIncomes.delete(parseInt(ArrayObjectsIncomes[counterIncome].id));
+							storeIncomes.add(ArrayObjectsIncomes[counterIncome]);								
+						}
+						
+						//when delete an account, update expense store and replace expenseAccout to "Bank Account" where the account is set to this account
+						var storeExpenses = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
+						for(var counterExpense = 0; counterExpense < ArrayObjectsExpenses.length; counterExpense++) {
+							storeExpenses.delete(parseInt(ArrayObjectsExpenses[counterExpense].id));
+							storeExpenses.add(ArrayObjectsExpenses[counterExpense]);								
 						}
 						
 						var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
