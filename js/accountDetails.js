@@ -40,6 +40,9 @@ var indexAarraysIncomes = 0;
 var ArrayObjectsExpenses = new Array();
 var indexAarraysExpenses = 0;
 
+var thisBalance = "0";
+var objAccount = new Object();
+
 var html5rocks = {};
 html5rocks.indexedDB = {};
 var store;
@@ -71,6 +74,7 @@ html5rocks.indexedDB.open = function() {
 			var result = event.target.result;
 			if(!!result == false){alert(result);}
 			
+			thisBalance = (result.accountBalance).toString();
 			$('#accName').text(result.accountName);
 			$('#accNameValue').attr("value",result.accountName);
 			$('#accType').text(result.accountType);
@@ -85,6 +89,21 @@ html5rocks.indexedDB.open = function() {
 				var yyyy = today.getFullYear(); 
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
+		}
+		
+		var requestCashOnHand = store.get(parseInt(1));
+		//transfer the amount from deleted account into cash on hand account	
+		requestCashOnHand.onsuccess = function(e) {	
+			var resultCashOnHand = e.target.result;
+			if(!!resultCashOnHand == false){alert(resultCashOnHand);}
+			
+			objAccount = { 
+				accountName: resultCashOnHand.accountName,
+				accountType: resultCashOnHand.accountType,
+				accountBalance: (parseInt(resultCashOnHand.accountBalance) + parseInt(thisBalance)).toString(),
+				accountDate: resultCashOnHand.accountDate,
+				id: resultCashOnHand.id
+			};
 		}
 
 	//this info will be stored, in case the account is deleted
@@ -259,7 +278,6 @@ html5rocks.indexedDB.open = function() {
 };
 
 $( document ).ready(function() {
-
 	$(".confirmDelete").on("click", function(event){		
 		if((getAccountID == 1) || (getAccountID == 2) || (getAccountID == 3)) {
 			alert("This account can not be deleted!");
@@ -274,6 +292,23 @@ $( document ).ready(function() {
 					requestDelete.onsuccess = function(e) {				
 						html5rocks.indexedDB.db = e.target.result;
 						
+						//create a transfer to all the money from this account into cash on hand
+						var todayTransfer = new Date();
+						var dd = todayTransfer.getDate();		if(dd<10){dd='0'+dd}
+						var mm = todayTransfer.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
+						var yyyy = todayTransfer.getFullYear(); 
+						todayTransfer = (yyyy + '-' + mm + '-' + dd).toString();
+
+						var objNewTransferToCashOnHand = {
+							transferAmmount: (thisBalance).toString(),
+							transferDate: todayTransfer,
+							transferFromAccount: (getAccountID).toString(),
+							transferToAccount: "1",
+							transferStatus: "yes",
+							transferHistoryFromAccount: getAccountName.toString(),
+							transferHistoryToAccount: ""
+						};
+							
 						//when delete an account, update transfer store so later to have information what was the name of deleted account
 						var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
 						for(var counterFrom = 0; counterFrom < ArrayObjectsFrom.length; counterFrom++) {
@@ -284,6 +319,7 @@ $( document ).ready(function() {
 							storeTransfers.delete(parseInt(ArrayObjectsTo[counterTo].id));
 							storeTransfers.add(ArrayObjectsTo[counterTo]);								
 						}
+						storeTransfers.add(objNewTransferToCashOnHand);	
 						
 						//when delete an account, update income store and replace incomeAccout to "Bank Account" where the account is set to this account
 						var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
@@ -299,7 +335,11 @@ $( document ).ready(function() {
 							storeExpenses.add(ArrayObjectsExpenses[counterExpense]);								
 						}
 						
-						var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+						var storeDelete = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+						//transfer the money first because we don't want to lost them
+						storeDelete.delete(parseInt(objAccount.id));
+						storeDelete.add(objAccount);
+						//delete the account
 						storeDelete.delete(parseInt(getAccountID));
 						alert("This account is deleted!");
 						return true;
