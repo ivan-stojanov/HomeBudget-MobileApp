@@ -1006,7 +1006,7 @@ html5rocks.indexedDB.open = function() {
 									var objToAccount =  { 
 										accountName: resultAccountTo.accountName,
 										accountType: resultAccountTo.accountType,
-										accountBalance: (parseInt(resultAccountTo.accountBalance) - parseInt(objTransfer.transferAmmount)).toString(),
+										accountBalance: (parseInt(resultAccountTo.accountBalance) + parseInt(objTransfer.transferAmmount)).toString(),
 										accountDate: resultAccountTo.accountDate,
 										id: resultAccountTo.id
 									};										

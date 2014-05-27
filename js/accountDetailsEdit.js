@@ -241,127 +241,133 @@ $( document ).ready(function() {
 	});
 	
 	$("#saveAcc").on("click", function(event){
-		if(confirm("Are you sure you want to update this account?")){	
-			var html5rocks = {};
-			html5rocks.indexedDB = {};
-			html5rocks.indexedDB.db = null;
-			var modifyAccountObject;
-			
-			var openedDB = localStorage["openedDB"];	
-			var requestEdit = indexedDB.open(openedDB);	
-				requestEdit.onsuccess = function(e) {  
-					html5rocks.indexedDB.db = e.target.result;
-					var storeEdit = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+		var condition = (($("#accNameValue").val().length > 0) && ($("#accNameValue").val().length > 0) && ($("#accTypeValue").val().length > 0) && ($("#accBalanceValue").val().length > 0) && ($("#accDate").html().length > 0));
+		if(!condition) {
+			alert("Please fill all the fields with corresponding informations!");
+			return false;
+		} else {
+			if(confirm("Are you sure you want to update this account?")){	
+				var html5rocks = {};
+				html5rocks.indexedDB = {};
+				html5rocks.indexedDB.db = null;
+				var modifyAccountObject;
+				
+				var openedDB = localStorage["openedDB"];	
+				var requestEdit = indexedDB.open(openedDB);	
+					requestEdit.onsuccess = function(e) {  
+						html5rocks.indexedDB.db = e.target.result;
+						var storeEdit = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
 
-					modifyAccountObject =  { 
-						accountName: $("#accNameValue").val(),
-						accountType: $("#accTypeValue").val(),
-						accountBalance: $("#accBalanceValue").val(),
-						accountDate: $("#accDate").html(),
-						id: parseInt(getAccountID)
-					};
-					
-					storeEdit.delete(parseInt(modifyAccountObject.id));
-					storeEdit.add(modifyAccountObject);
-					
-					if(getAccountName != $("#accNameValue").val()) {
-						//alert("name changed we should update this account name at all places");
-						//update all incomes
-						var storeEditIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
-						var openedIndexIncomes = storeEditIncomes.index("by_incomeAccount");
-						var numItemsIncomes = openedIndexIncomes.count();	
-						var countTestIncomes = 0;
-						numItemsIncomes.onsuccess = function(evt) {   		
-							var numItemsIn = evt.target.result;
-							var range = IDBKeyRange.only(getAccountName);
-							if (openedIndexIncomes) {
-								var curCursorIncomes = openedIndexIncomes.openCursor(range);		
-								curCursorIncomes.onsuccess = function(evt) {
-									var cursorIncomeAccount = evt.target.result;
-									if (cursorIncomeAccount) {
-										countTestIncomes++;
-										//here we update income //alert("Income: " + countTestIncomes);
-										var objIncomeAccount =  { 
-											incomeName: cursorIncomeAccount.value.incomeName,
-											incomeAmmount: cursorIncomeAccount.value.incomeAmmount,
-											incomeAccount: $("#accNameValue").val(),
-											incomeCategory: cursorIncomeAccount.value.incomeCategory,
-											incomeDueDate: cursorIncomeAccount.value.incomeDueDate,
-											incomeRepeatCycle: cursorIncomeAccount.value.incomeRepeatCycle,
-											incomeRepeatEndDate: cursorIncomeAccount.value.incomeRepeatEndDate,
-											incomeRepeat: cursorIncomeAccount.value.incomeRepeat,
-											incomeRepeatLastUpdate: cursorIncomeAccount.value.incomeRepeatLastUpdate,
-											incomeCreated: cursorIncomeAccount.value.incomeCreated,
-											incomeNumItems: cursorIncomeAccount.value.incomeNumItems,
-											id: cursorIncomeAccount.value.id
-										};
-										storeEditIncomes.delete(parseInt(objIncomeAccount.id));
-										storeEditIncomes.add(objIncomeAccount);
-										cursorIncomeAccount.continue();
-									} else {
-										//update all expenses
-										var storeEditExpenses = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
-										var openedIndexExpenses = storeEditExpenses.index("by_expenseAccount");
-										var numItemsExpenses = openedIndexExpenses.count();	
-										var countTestExpenses = 0;
-										numItemsExpenses.onsuccess = function(evt) {   		
-											var numItemsEx = evt.target.result;
-											var rangeEx = IDBKeyRange.only(getAccountName);
-											if (openedIndexExpenses) {
-												var curCursorExpenses = openedIndexExpenses.openCursor(rangeEx);		
-												curCursorExpenses.onsuccess = function(evt) {
-													var cursorExpenseAccount = evt.target.result;
-													if (cursorExpenseAccount) {
-														countTestExpenses++;
-														//here we update expense //alert("Expense: " + countTestExpenses);
-														var objExpenseAccount =  { 
-															expenseName: cursorExpenseAccount.value.expenseName,
-															expenseAmmount: cursorExpenseAccount.value.expenseAmmount,
-															expenseAccount: $("#accNameValue").val(),
-															expenseCategory: cursorExpenseAccount.value.expenseCategory,
-															expenseDueDate: cursorExpenseAccount.value.expenseDueDate,
-															expenseRepeatCycle: cursorExpenseAccount.value.expenseRepeatCycle,
-															expenseRepeatEndDate: cursorExpenseAccount.value.expenseRepeatEndDate,
-															expenseRepeat: cursorExpenseAccount.value.expenseRepeat,
-															expenseRepeatLastUpdate: cursorExpenseAccount.value.expenseRepeatLastUpdate,
-															expenseCreated: cursorExpenseAccount.value.expenseCreated,
-															expenseNumItems: cursorExpenseAccount.value.expenseNumItems,
-															expenseBillPaid: cursorExpenseAccount.value.expenseBillPaid,
-															id: cursorExpenseAccount.value.id
-														};
-														storeEditExpenses.delete(parseInt(objExpenseAccount.id));
-														storeEditExpenses.add(objExpenseAccount);
-														cursorExpenseAccount.continue();
-													} else {
-														sessionStorage.setItem("accountClickedName", $("#accNameValue").val());
-														alert("This account is updated!");
-														window.location.href = "accountDetails.html";
-														return true;
+						modifyAccountObject =  { 
+							accountName: $("#accNameValue").val(),
+							accountType: $("#accTypeValue").val(),
+							accountBalance: $("#accBalanceValue").val(),
+							accountDate: $("#accDate").html(),
+							id: parseInt(getAccountID)
+						};
+						
+						storeEdit.delete(parseInt(modifyAccountObject.id));
+						storeEdit.add(modifyAccountObject);
+						
+						if(getAccountName != $("#accNameValue").val()) {
+							//alert("name changed we should update this account name at all places");
+							//update all incomes
+							var storeEditIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
+							var openedIndexIncomes = storeEditIncomes.index("by_incomeAccount");
+							var numItemsIncomes = openedIndexIncomes.count();	
+							var countTestIncomes = 0;
+							numItemsIncomes.onsuccess = function(evt) {   		
+								var numItemsIn = evt.target.result;
+								var range = IDBKeyRange.only(getAccountName);
+								if (openedIndexIncomes) {
+									var curCursorIncomes = openedIndexIncomes.openCursor(range);		
+									curCursorIncomes.onsuccess = function(evt) {
+										var cursorIncomeAccount = evt.target.result;
+										if (cursorIncomeAccount) {
+											countTestIncomes++;
+											//here we update income //alert("Income: " + countTestIncomes);
+											var objIncomeAccount =  { 
+												incomeName: cursorIncomeAccount.value.incomeName,
+												incomeAmmount: cursorIncomeAccount.value.incomeAmmount,
+												incomeAccount: $("#accNameValue").val(),
+												incomeCategory: cursorIncomeAccount.value.incomeCategory,
+												incomeDueDate: cursorIncomeAccount.value.incomeDueDate,
+												incomeRepeatCycle: cursorIncomeAccount.value.incomeRepeatCycle,
+												incomeRepeatEndDate: cursorIncomeAccount.value.incomeRepeatEndDate,
+												incomeRepeat: cursorIncomeAccount.value.incomeRepeat,
+												incomeRepeatLastUpdate: cursorIncomeAccount.value.incomeRepeatLastUpdate,
+												incomeCreated: cursorIncomeAccount.value.incomeCreated,
+												incomeNumItems: cursorIncomeAccount.value.incomeNumItems,
+												id: cursorIncomeAccount.value.id
+											};
+											storeEditIncomes.delete(parseInt(objIncomeAccount.id));
+											storeEditIncomes.add(objIncomeAccount);
+											cursorIncomeAccount.continue();
+										} else {
+											//update all expenses
+											var storeEditExpenses = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
+											var openedIndexExpenses = storeEditExpenses.index("by_expenseAccount");
+											var numItemsExpenses = openedIndexExpenses.count();	
+											var countTestExpenses = 0;
+											numItemsExpenses.onsuccess = function(evt) {   		
+												var numItemsEx = evt.target.result;
+												var rangeEx = IDBKeyRange.only(getAccountName);
+												if (openedIndexExpenses) {
+													var curCursorExpenses = openedIndexExpenses.openCursor(rangeEx);		
+													curCursorExpenses.onsuccess = function(evt) {
+														var cursorExpenseAccount = evt.target.result;
+														if (cursorExpenseAccount) {
+															countTestExpenses++;
+															//here we update expense //alert("Expense: " + countTestExpenses);
+															var objExpenseAccount =  { 
+																expenseName: cursorExpenseAccount.value.expenseName,
+																expenseAmmount: cursorExpenseAccount.value.expenseAmmount,
+																expenseAccount: $("#accNameValue").val(),
+																expenseCategory: cursorExpenseAccount.value.expenseCategory,
+																expenseDueDate: cursorExpenseAccount.value.expenseDueDate,
+																expenseRepeatCycle: cursorExpenseAccount.value.expenseRepeatCycle,
+																expenseRepeatEndDate: cursorExpenseAccount.value.expenseRepeatEndDate,
+																expenseRepeat: cursorExpenseAccount.value.expenseRepeat,
+																expenseRepeatLastUpdate: cursorExpenseAccount.value.expenseRepeatLastUpdate,
+																expenseCreated: cursorExpenseAccount.value.expenseCreated,
+																expenseNumItems: cursorExpenseAccount.value.expenseNumItems,
+																expenseBillPaid: cursorExpenseAccount.value.expenseBillPaid,
+																id: cursorExpenseAccount.value.id
+															};
+															storeEditExpenses.delete(parseInt(objExpenseAccount.id));
+															storeEditExpenses.add(objExpenseAccount);
+															cursorExpenseAccount.continue();
+														} else {
+															sessionStorage.setItem("accountClickedName", $("#accNameValue").val());
+															alert("This account is updated!");
+															window.location.href = "accountDetails.html";
+															return true;
+														}
 													}
 												}
 											}
+											numItemsExpenses.onerror = function(evt) { var numItemsEx = 0; }
 										}
-										numItemsExpenses.onerror = function(evt) { var numItemsEx = 0; }
 									}
 								}
-							}
-						}	
-						numItemsIncomes.onerror = function(evt) { var numItemsIn = 0; }
-					} else {
-						//alert("name no changed");
-						sessionStorage.setItem("accountClickedName", $("#accNameValue").val());
-						alert("This account is updated!");
-						window.location.href = "accountDetails.html";
-						return true;
-					}					
-				}
-				
-				requestEdit.onerror = function(e) {
-					alert('request.onerror!');
-				}				
-		} else {
-			event.preventDefault();
-			return false;
+							}	
+							numItemsIncomes.onerror = function(evt) { var numItemsIn = 0; }
+						} else {
+							//alert("name no changed");
+							sessionStorage.setItem("accountClickedName", $("#accNameValue").val());
+							alert("This account is updated!");
+							window.location.href = "accountDetails.html";
+							return true;
+						}					
+					}
+					
+					requestEdit.onerror = function(e) {
+						alert('request.onerror!');
+					}				
+			} else {
+				event.preventDefault();
+				return false;
+			}
 		}
 	});
 });
