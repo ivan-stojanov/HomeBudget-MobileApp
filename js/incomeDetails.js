@@ -34,6 +34,7 @@ var storeAccounts;
 var replace = new Object;
 var thisIncomeAccount = "";
 var thisIncomeAmmount = "";
+var replaceDeletedInstance;
 
 html5rocks.indexedDB.db = null;
 
@@ -68,7 +69,6 @@ html5rocks.indexedDB.open = function() {
 			$('#incomeAccount').text(result.incomeAccount);
 			$('#incomeCategory').text(result.incomeCategory);			
 			//$('#incomeDueDate').text(result.incomeDueDate);
-			$('#incomeDueDate').text(result.incomeCreated);
 			$('#incomeRepeatCycle').text(result.incomeRepeatCycle);
 			$('#incomeRepeatEndDate').text(result.incomeRepeatEndDate);
 				//get today date
@@ -80,6 +80,12 @@ html5rocks.indexedDB.open = function() {
 				var yyyy = today.getFullYear(); 
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
+			
+			var listDates = (result.incomeCreated).split("+");
+			for(var countDates = 0; countDates < listDates.length; countDates++) {
+				$('#incomeCreated').html($('#incomeCreated').html() + "<br><br>Date of income: " + listDates[countDates]);
+				$('#incomeCreated').html($('#incomeCreated').html() + "<input type='submit' value='Delete This' onclick=deleteDate('" + result.incomeCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "')>");				
+			}	
 			
 			//this informations we need in case user delete this income, then we need to update the account that is related to the income
 			thisIncomeAccount = result.incomeAccount;
@@ -104,12 +110,97 @@ html5rocks.indexedDB.open = function() {
 				} else {
 					//alert("finish");
 				}
-			}
+			}			
+			replaceDeletedInstance =  {
+				incomeName: result.incomeName,
+				incomeAmmount: result.incomeAmmount,
+				incomeAccount: result.incomeAccount,
+				incomeCategory: result.incomeCategory,
+				incomeDueDate: result.incomeDueDate,
+				incomeRepeatCycle: result.incomeRepeatCycle,
+				incomeRepeatEndDate: result.incomeRepeatEndDate,
+				incomeRepeat: result.incomeRepeat,
+				incomeRepeatLastUpdate: result.incomeRepeatLastUpdate,
+				incomeCreated: result.incomeCreated,
+				incomeNumItems: parseInt(result.incomeCreated) - 1,
+				id: result.id
+			};			
 		}
 		
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPositions) {
+	//alert(comleteStringDate);
+	//var completeString = comleteStringDate;
+	
+	if(totalPositions == 1) {
+		if(confirm("Are you sure you want to completely delete this income?")){		
+			var html5rocks = {};
+			html5rocks.indexedDB = {};
+			html5rocks.indexedDB.db = null;
+			var openedDB = localStorage["openedDB"];	
+			var requestDelete = indexedDB.open(openedDB);			
+			requestDelete.onsuccess = function(e) {
+				html5rocks.indexedDB.db = e.target.result;
+				var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+				storeAccounts.delete(parseInt(replace.id));
+				storeAccounts.add(replace);
+				var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
+				store.delete(parseInt(getIncomeID));
+				alert("This income is deleted!");
+				window.location.href = "incomesList.html";
+				return true;				
+			}			
+			requestDelete.onerror = function(e) {
+				alert('request.onerror!');
+			}				
+		} else {
+			event.preventDefault();
+			return false;
+		}
+	} else {
+		if(confirm("Are you sure you want to delete this instance of the income created at " + dateToDelete + " ?")){
+			if (currentPosition == 0) {					//if the first instance of the income is deleted
+				var allStringDates = comleteStringDate;
+				var allWithoutDeletedDate = allStringDates.replace(dateToDelete + "+", "");
+				replaceDeletedInstance.incomeCreated = allWithoutDeletedDate;
+				//alert(allWithoutDeletedDate);
+			} else {									//if the other then first instance of the income is deleted
+				var allStringDates = comleteStringDate;
+				var allWithoutDeletedDate = allStringDates.replace("+" + dateToDelete, "");
+				replaceDeletedInstance.incomeCreated = allWithoutDeletedDate;
+				//alert(allWithoutDeletedDate);
+			}
+			
+			var html5rocks = {};
+			html5rocks.indexedDB = {};
+			html5rocks.indexedDB.db = null;
+			var openedDB = localStorage["openedDB"];	
+			var requestDelete = indexedDB.open(openedDB);			
+			requestDelete.onsuccess = function(e) {
+				html5rocks.indexedDB.db = e.target.result;
+				var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+				storeAccounts.delete(parseInt(replace.id));
+				storeAccounts.add(replace);
+				var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");				
+				store.delete(parseInt(getIncomeID));
+				store.add(replaceDeletedInstance);
+				alert("This instance of the income is deleted!");
+				window.location.href = "incomeDetails.html";
+				return true;				
+			}			
+			requestDelete.onerror = function(e) {
+				alert('request.onerror!');
+			}		
+		} else {
+			event.preventDefault();
+			return false;
+		}
+	}
+	//completeString.replace(dateToDelete, "");
+}
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
