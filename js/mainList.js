@@ -297,11 +297,12 @@ html5rocks.indexedDB.open = function() {
 	*/	
 	};
 
-	request.onsuccess = function(e) {  
-		//upgrade incomes and expenses that have repeat cycle
+	request.onsuccess = function(e) {
+
+	//upgrade incomes that have repeat cycle
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
-		
+
 		var storeIncome = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");		
 			var openedIndexIncomes = storeIncome.index("by_incomeRepeat");			
 			var numIncomesRepeated = openedIndexIncomes.count();
@@ -360,7 +361,8 @@ html5rocks.indexedDB.open = function() {
 								difference_ms = difference_ms/60;	var minutes = Math.floor(difference_ms % 60);
 								difference_ms = difference_ms/60;	var hours = Math.floor(difference_ms % 24);  
 																	var days = Math.floor(difference_ms/24);
-																	
+								
+								var numberTimesIncomeAdded;
 								if (repeatPeriodIncome == "Hourly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
 									if(days > 0) {
@@ -368,6 +370,7 @@ html5rocks.indexedDB.open = function() {
 									}
 									if(hours > 0) {
 										var numberUpdates = hours;
+										numberTimesIncomeAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each hour, if repeated hourly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -400,11 +403,14 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-									}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesIncomeAdded,obj.incomeAmmount,obj.incomeAccount,"income");
+									}								
 								} else if (repeatPeriodIncome == "Dayly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
 									if(days > 0) {
 										var numberUpdates = days;
+										numberTimesIncomeAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each day, if repeated dayly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -441,6 +447,8 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesIncomeAdded,obj.incomeAmmount,obj.incomeAccount,"income");
 									}								
 								} else if (repeatPeriodIncome == "Weekly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
@@ -450,6 +458,7 @@ html5rocks.indexedDB.open = function() {
 									}
 									if(weeks > 0) {
 										var numberUpdates = weeks;
+										numberTimesIncomeAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each hour, if repeated hourly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -482,7 +491,9 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-									}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesIncomeAdded,obj.incomeAmmount,obj.incomeAccount,"income");
+									}								
 								} else if (repeatPeriodIncome == "Monthly") {
 									var monthss = 0;
 						/*	START - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
@@ -500,6 +511,7 @@ html5rocks.indexedDB.open = function() {
 						/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(monthss > 0) {
 										var numberUpdates = monthss;
+										numberTimesIncomeAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each day, if repeated dayly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -533,6 +545,8 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesIncomeAdded,obj.incomeAmmount,obj.incomeAccount,"income");
 									}								
 								} else if (repeatPeriodIncome == "Yearly") {
 									var yearss = 0;
@@ -551,6 +565,7 @@ html5rocks.indexedDB.open = function() {
 						/*	END - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(yearss > 0) {
 										var numberUpdates = yearss;
+										numberTimesIncomeAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each day, if repeated dayly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -584,9 +599,10 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextIncomeDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesIncomeAdded,obj.incomeAmmount,obj.incomeAccount,"income");
 									}								
 								}
-								//howMany++;
 							}
 							cursorIncome.continue();
 						} else {
@@ -606,7 +622,7 @@ html5rocks.indexedDB.open = function() {
 			numIncomesRepeated.onerror = function(evt) { 
 				alert("numIncomesRepeated.onerror"); 
 			}
-
+		//upgrade expenses that have repeat cycle
 		var storeExpence = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 			var openedIndexExpenses = storeExpence.index("by_expenseRepeat");
 			var numExpensesRepeated = openedIndexExpenses.count();
@@ -666,7 +682,8 @@ html5rocks.indexedDB.open = function() {
 								difference_ms = difference_ms/60;	var minutes = Math.floor(difference_ms % 60);
 								difference_ms = difference_ms/60;	var hours = Math.floor(difference_ms % 24);  
 																	var days = Math.floor(difference_ms/24);
-																	
+								
+								var numberTimesExpenseAdded;
 								if (repeatPeriodExpense == "Hourly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
 									if(days > 0) {
@@ -674,6 +691,7 @@ html5rocks.indexedDB.open = function() {
 									}
 									if(hours > 0) {
 										var numberUpdates = hours;
+										numberTimesExpenseAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each hour, if repeated hourly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -706,11 +724,14 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-									}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+									}								
 								} else if (repeatPeriodExpense == "Dayly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
 									if(days > 0) {
 										var numberUpdates = days;
+										numberTimesExpenseAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each day, if repeated dayly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -743,6 +764,8 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
 									}								
 								} else if (repeatPeriodExpense == "Weekly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
@@ -752,6 +775,7 @@ html5rocks.indexedDB.open = function() {
 									}
 									if(weeks > 0) {
 										var numberUpdates = weeks;
+										numberTimesExpenseAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each hour, if repeated hourly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -784,7 +808,9 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-									}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+									}								
 								} else if (repeatPeriodExpense == "Monthly") {
 									var monthss = 0;
 						/*	START - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate	*/
@@ -802,6 +828,7 @@ html5rocks.indexedDB.open = function() {
 						/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(monthss > 0) {
 										var numberUpdates = monthss;
+										numberTimesExpenseAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each day, if repeated dayly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -835,6 +862,8 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
 									}								
 								} else if (repeatPeriodExpense == "Yearly") {
 									var yearss = 0;
@@ -853,6 +882,7 @@ html5rocks.indexedDB.open = function() {
 						/*	END - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(yearss > 0) {
 										var numberUpdates = yearss;
+										numberTimesExpenseAdded = numberUpdates;
 										while(numberUpdates > 0) {
 											//add the new income each day, if repeated dayly
 											//HERE IS THE CODE FOR ADD NEW INCOME IN DATABASE
@@ -886,6 +916,8 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
+										//when updating in repeat cycle, then also update account balance
+										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
 									}								
 								}
 								//howMany++;
@@ -1005,4 +1037,53 @@ html5rocks.indexedDB.open = function() {
 function callFunction(idGet) {												
 	//localStorage["clickedID"] = idGet;		//alert("id: " + idGet); 
 	sessionStorage.setItem("clickedID", idGet);
+}
+
+function updateAccountBalanceRepeat(numberTimesAdded,ammountUpdate,accountUpdate,type) {	
+	var html5rocks = {};
+	html5rocks.indexedDB = {};
+	html5rocks.indexedDB.db = null;
+
+	var openedDBUpdate = localStorage["openedDB"];	
+	var requestUpdate = indexedDB.open(openedDBUpdate);		
+	
+	requestUpdate.onsuccess = function(e) {
+		html5rocks.indexedDB.db = e.target.result;			
+		//when income/expense is added in repeat cycle, update account balance
+		//we need to loop throught all accounts, to find the chosen one and to update accountBalance by adding ammountUpdate
+		var storeAccountUpdate = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
+		var openedIndexUpdate = storeAccountUpdate.index("by_accountName");
+		var numItemsRequestAccountUpdate = openedIndexUpdate.count();	
+		var modifyAccountObjectUpdate;
+		numItemsRequestAccountUpdate.onsuccess = function(evet) {
+			var numItemsAccountUpdate = evet.target.result;
+			if (openedIndexUpdate) {
+				//var singleKeyRange = IDBKeyRange.only((accountUpdate).toString());
+				var curCursorAUpdate = openedIndexUpdate.openCursor(/*singleKeyRange.toString()*/);
+				curCursorAUpdate.onsuccess = function(evt) {
+					var cursorAUpdate = evt.target.result;
+					if (cursorAUpdate) {
+						if((cursorAUpdate.value.accountName).toString() == (accountUpdate).toString()) {
+							var newBalance;
+							if(type == "income") {
+								newBalance = (parseInt(cursorAUpdate.value.accountBalance) + ((numberTimesAdded) * parseInt(ammountUpdate))).toString()
+							} else {				//if(type = "expense") {
+								newBalance = (parseInt(cursorAUpdate.value.accountBalance) - ((numberTimesAdded) * parseInt(ammountUpdate))).toString()
+							}
+							modifyAccountObjectUpdate =  { 
+								accountName: cursorAUpdate.value.accountName,
+								accountType: cursorAUpdate.value.accountType,
+								accountBalance: newBalance,
+								accountDate: cursorAUpdate.value.accountDate,
+								id: cursorAUpdate.value.id
+							};	
+							storeAccountUpdate.delete(parseInt(modifyAccountObjectUpdate.id));
+							storeAccountUpdate.add(modifyAccountObjectUpdate);
+						}
+						cursorAUpdate.continue();
+					}
+				}
+			}
+		}
+	}
 }
