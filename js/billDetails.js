@@ -33,6 +33,7 @@ var store;
 var storeAccounts;
 var replaceAccount = new Object;
 var replaceAccountComplete = new Object;
+var replaceAccountInstances = new Object;
 var thisBillAccount = "";
 var thisBillAmmount = "";
 var replaceDeletedInstance;
@@ -88,9 +89,11 @@ html5rocks.indexedDB.open = function() {
 				if(result.expenseBillPaid == "paidYes") {
 					$('#changeBillIDinitialPAID').show();
 					$('#changeBillIDinitialUNPAID').hide();
+					var numPaidItems = 1;
 				} else {
 					$('#changeBillIDinitialUNPAID').show();
 					$('#changeBillIDinitialPAID').hide();
+					var numPaidItems = 0;
 				}
 			} else {
 				$('#changeBillIDinitialPAID').hide();
@@ -99,10 +102,12 @@ html5rocks.indexedDB.open = function() {
 				
 				var listDates = (result.expenseCreated).split("+");
 				var listPaidStatus = (result.expenseBillPaid).split("+");
+				var numPaidItems = 0;
 				for(var countDates = 0; countDates < listDates.length; countDates++) {
 					var selectPaid = "";	var selectUnPaid = "";
 					if(listPaidStatus[countDates] == "paidYes"){
 						selectPaid = "selected=''";
+						numPaidItems++;
 					} else if(listPaidStatus[countDates] == "paidNoo"){
 						selectUnPaid = "selected=''";
 					}
@@ -128,12 +133,18 @@ html5rocks.indexedDB.open = function() {
 						replaceAccount.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) + parseFloat(thisBillAmmount));
 						replaceAccount.accountDate = cursorThisAccount.value.accountDate;
 						replaceAccount.id = cursorThisAccount.value.id;
-						//this is when delete by button from header, then we need to extract sum for all instances
+						//this is when delete by button from header, then we need to extract sum for all instances (not bills)
 						replaceAccountComplete.accountName = cursorThisAccount.value.accountName;
 						replaceAccountComplete.accountType = cursorThisAccount.value.accountType;
 						replaceAccountComplete.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) + (parseFloat(thisBillAmmount) * parseFloat(result.expenseNumItems)));
 						replaceAccountComplete.accountDate = cursorThisAccount.value.accountDate;
 						replaceAccountComplete.id = cursorThisAccount.value.id;
+						//this is when delete by button from header, then we need to extract sum for all instances (bills only)
+						replaceAccountInstances.accountName = cursorThisAccount.value.accountName;
+						replaceAccountInstances.accountType = cursorThisAccount.value.accountType;
+						replaceAccountInstances.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) + (parseFloat(thisBillAmmount) * parseFloat(numPaidItems)));
+						replaceAccountInstances.accountDate = cursorThisAccount.value.accountDate;
+						replaceAccountInstances.id = cursorThisAccount.value.id;
 					}
 					cursorThisAccount.continue();
 				} else {
@@ -239,7 +250,7 @@ function changeStatus(comleteStringStatus, statusToChange, currentPosition, date
 							messageStatus = "Paid";
 						}								
 						alert("Bill that was created at " + dateThisInstance + " has been changed as " + messageStatus);
-						//window.location.href = "./billsDetails.html";						
+						window.location.href = "billDetails.html";
 					}
 				}
 				
@@ -292,7 +303,8 @@ function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPosit
   	} else {
   		if(confirm("Are you sure you want to delete this instance of the bill created at " + dateToDelete + " ?")){		
 			//get info for updating replaceDeletedInstance.expenseBillPaid
-			var originalStringPaidStatus = comleteStringPaidStatus;			
+			var originalStringPaidStatus = comleteStringPaidStatus;		
+			var newOriginalPaidStatusString;
 			if(currentPosition == 0) {
 				newOriginalPaidStatusString = originalStringPaidStatus.replaceBetween(currentPosition, 8, "");		
 			} else {
@@ -355,6 +367,11 @@ $( document ).ready(function() {
 			var requestDelete = indexedDB.open(openedDB);	
 				requestDelete.onsuccess = function(e) {  
 					html5rocks.indexedDB.db = e.target.result;
+					//first update the account balance that is connected with this bill
+					var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+					storeAccounts.delete(parseInt(replaceAccountInstances.id));
+					storeAccounts.add(replaceAccountInstances);
+					//then delete the bill
 					var storeDelete = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
 					storeDelete.delete(parseInt(getBillID));
 					alert("This bill is deleted!");

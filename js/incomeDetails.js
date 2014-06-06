@@ -82,11 +82,13 @@ html5rocks.indexedDB.open = function() {
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
 			
-			var listDates = (result.incomeCreated).split("+");
-			for(var countDates = 0; countDates < listDates.length; countDates++) {
-				$('#incomeCreated').html($('#incomeCreated').html() + "<br><br>Date of income: " + listDates[countDates]);
-				$('#incomeCreated').html($('#incomeCreated').html() + "<input type='submit' value='Delete This' onclick=deleteDate('" + result.incomeCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "')>");				
-			}	
+			if(result.incomeNumItems > 1){
+				var listDates = (result.incomeCreated).split("+");
+				for(var countDates = 0; countDates < listDates.length; countDates++) {
+					$('#incomeCreated').html($('#incomeCreated').html() + "<br><br>Date of income: " + listDates[countDates]);
+					$('#incomeCreated').html($('#incomeCreated').html() + "<input type='submit' value='Delete This' onclick=deleteIncome('" + result.incomeCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + result.incomeBillPaid + "')>");	
+				}	
+			}			
 			
 			//this informations we need in case user delete this income, then we need to update the account that is related to the income
 			thisIncomeAccount = result.incomeAccount;
@@ -138,7 +140,11 @@ html5rocks.indexedDB.open = function() {
 	request.onerror = html5rocks.indexedDB.onerror;
 };
 
-function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPositions) {
+String.prototype.replaceBetween = function(start, end, what) {
+	return this.substring(0, start) + what + this.substring(end);
+};
+
+function deleteIncome(comleteStringDate, dateToDelete, currentPosition, totalPositions, comleteStringPaidStatus) {
 	//alert(comleteStringDate);
 	//var completeString = comleteStringDate;
 	
@@ -169,15 +175,27 @@ function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPosit
 		}
 	} else {
 		if(confirm("Are you sure you want to delete this instance of the income created at " + dateToDelete + " ?")){
+			//get info for updating replaceDeletedInstance.expenseBillPaid
+			var originalStringPaidStatus = comleteStringPaidStatus;		
+			var newOriginalPaidStatusString;			
+			if(currentPosition == 0) {
+				newOriginalPaidStatusString = originalStringPaidStatus.replaceBetween(currentPosition, 8, "");		
+			} else {
+				var deleteStartPosition8 = ((8 * (parseInt(currentPosition))) - 1);				
+				newOriginalPaidStatusString = originalStringPaidStatus.replaceBetween(deleteStartPosition8, parseInt(deleteStartPosition8) + 8, "");
+			}	
+		
 			if (currentPosition == 0) {					//if the first instance of the income is deleted
 				var allStringDates = comleteStringDate;
 				var allWithoutDeletedDate = allStringDates.replace(dateToDelete + "+", "");
 				replaceDeletedInstance.incomeCreated = allWithoutDeletedDate;
+				replaceDeletedInstance.incomeBillPaid = newOriginalPaidStatusString;
 				//alert(allWithoutDeletedDate);
 			} else {									//if the other then first instance of the income is deleted
 				var allStringDates = comleteStringDate;
 				var allWithoutDeletedDate = allStringDates.replace("+" + dateToDelete, "");
 				replaceDeletedInstance.incomeCreated = allWithoutDeletedDate;
+				replaceDeletedInstance.incomeBillPaid = newOriginalPaidStatusString;
 				//alert(allWithoutDeletedDate);
 			}
 			

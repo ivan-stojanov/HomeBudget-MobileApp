@@ -76,6 +76,9 @@ html5rocks.indexedDB.open = function() {
 			{ accountName: "Ivan", accountType: "PrivatenIvan2", accountBalance: "30000", accountDate: "20/10/2010" },
 			{ accountName: "Zoran", accountType: "PrivatenZoran2", accountBalance: "1000", accountDate: "21/11/2011" },
 			{ accountName: "Niko", accountType: "PrivatenNiko2", accountBalance: "60000", accountDate: "21/10/2013" },
+			{ accountName: "testIncomes", accountType: "test", accountBalance: "0", accountDate: "20/10/2010" },
+			{ accountName: "testExpenses", accountType: "test", accountBalance: "0", accountDate: "21/11/2011" },
+			{ accountName: "testBills", accountType: "test", accountBalance: "0", accountDate: "21/10/2013" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeAccounts.add(objAccounts[0]);storeAccounts.add(objAccounts[1]);storeAccounts.add(objAccounts[2]);
@@ -114,6 +117,7 @@ html5rocks.indexedDB.open = function() {
 			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "150", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "26/04/2014/20/30", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "Clothes Sell", incomeCategory: "Pay", incomeAmmount: "2000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Weekly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "Other Sources", incomeCategory: "Other", incomeAmmount: "20000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Ivan", incomeRepeat: "yes", incomeRepeatCycle: "Yearly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "testIN", incomeCategory: "Other", incomeAmmount: "10", incomeDueDate: "10/10/2015/23/59", incomeAccount: "testIncomes", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 		];	
 		
 													//alert("created objects onupgradeneeded");
@@ -159,6 +163,8 @@ html5rocks.indexedDB.open = function() {
 			{ expenseName: "Bus", expenseCategory: "Ride", expenseAmmount: "400", expenseDueDate: "12/05/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/05/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "Bill: Wi-Fi", expenseCategory: "Bill", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Hourly", expenseBillPaid: "paidYes", expenseRepeatEndDate: "27/04/2014/04/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "Bill: Laptops", expenseCategory: "Bill", expenseAmmount: "400", expenseDueDate: "12/12/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Weekly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Bill: testBL", expenseCategory: "Bill", expenseAmmount: "0", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testBills", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "testEX", expenseCategory: "Clothes", expenseAmmount: "0", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testExpenses", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
