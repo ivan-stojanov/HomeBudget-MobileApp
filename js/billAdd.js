@@ -121,7 +121,7 @@ function funcBillAdd() {
 	var billPaid = $('#paid').val();
 	var billAmmount = $('#billAmmount').val(); 
 	var billAccount = $('#drop-down-list-account').val(); 
-	var billDueDate =	$('#billDueDate').val(); 
+	var billDueDate =	"2020-01-01";//$('#billDueDate').val(); 
 	var billRepeatCycle = $('#drop-down-list-cycle').val();	 
 	var billRepeatEndDate = $('#billRepeatEndDate').val();
 	

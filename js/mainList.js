@@ -1,5 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
-var version = 2;
+var version = 1;
 												// alert("startMain");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -83,7 +83,7 @@ html5rocks.indexedDB.open = function() {
 													//alert("created objects onupgradeneeded");
 		storeAccounts.add(objAccounts[0]);storeAccounts.add(objAccounts[1]);storeAccounts.add(objAccounts[2]);
 		storeAccounts.add(objAccounts[3]);storeAccounts.add(objAccounts[4]);storeAccounts.add(objAccounts[5]);
-
+		storeAccounts.add(objAccounts[6]);storeAccounts.add(objAccounts[7]);storeAccounts.add(objAccounts[8]);
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the accounts													
 		storeAccounts.createIndex( "by_accountName", "accountName", { unique: false } );
@@ -122,7 +122,7 @@ html5rocks.indexedDB.open = function() {
 		
 													//alert("created objects onupgradeneeded");
 		storeIncomes.add(objIncomes[0]);storeIncomes.add(objIncomes[1]);storeIncomes.add(objIncomes[2]);
-		storeIncomes.add(objIncomes[3]);storeIncomes.add(objIncomes[4]);storeIncomes.add(objIncomes[5]);
+		storeIncomes.add(objIncomes[3]);storeIncomes.add(objIncomes[4]);storeIncomes.add(objIncomes[5]);storeIncomes.add(objIncomes[6]);
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the incomes			
 		storeIncomes.createIndex( "by_incomeName", "incomeName", { unique: false } );
@@ -169,6 +169,7 @@ html5rocks.indexedDB.open = function() {
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
 		storeExpenses.add(objExpenses[3]);storeExpenses.add(objExpenses[4]);storeExpenses.add(objExpenses[5]);
+		storeExpenses.add(objExpenses[6]);storeExpenses.add(objExpenses[7]);
 													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the expenses			
 		storeExpenses.createIndex( "by_expenseName", "expenseName", { unique: false } );

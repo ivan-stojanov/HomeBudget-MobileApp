@@ -139,7 +139,7 @@ function funcIncomeAdd() {
 	var incomeAmmount = $('#incomeAmmount').val(); 
 	var incomeAccount = $('#drop-down-list-account').val(); 
 	var incomeCategory = $('#drop-down-list-category').val(); 
-	var incomeDueDate =	$('#incomeDueDate').val(); 
+	var incomeDueDate =	"2020-01-01";//$('#incomeDueDate').val(); 
 	var incomeRepeatCycle = $('#drop-down-list-cycle').val();	 
 	var incomeRepeatEndDate = $('#incomeRepeatEndDate').val();
 		

@@ -32,9 +32,9 @@ $(document).ready(function() {
 	$("#save").on("click", function(event){
 		var condition;
 		if($('#repeat').val() == "on") {	
-			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && ($('#billDueDate').val().length > 0) && ($('#drop-down-list-cycle').val().length > 0) && ($('#billRepeatEndDate').val().length > 0));
+			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) /*&& ($('#billDueDate').val().length > 0)*/ && ($('#drop-down-list-cycle').val().length > 0) && ($('#billRepeatEndDate').val().length > 0));
 		} else {
-			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && ($('#billDueDate').val().length > 0));
+			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) /*&& ($('#billDueDate').val().length > 0)*/);
 		}
 		
 		if(condition == true) {
@@ -94,13 +94,11 @@ $(document).ready(function() {
 						<option value="points" disable> . . . </option>
 					</select>
 					<!--	
-					<br><br><label for="incomeAccount">Account:</label><br>
-					<input type="text" name="incomeAccount" id="incomeAccount" value="" placeholder="Enter bill account...">	
-					-->				
 					
 					<br><br><label for="billDueDate">Due Date:</label><br>
-					<input type="date" name="billDueDate" id="billDueDate" value=""  />	
+					<input type="date" name="billDueDate" id="billDueDate" value="2020-01-01"  />	
 					
+					-->				
 					<br><br>					
 					<label for="paid">Paid:</label>
 					<div id="leftRadioPaid"><select name="paid" id="paid" data-role="slider" data-mini="true">

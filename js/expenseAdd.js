@@ -138,7 +138,7 @@ function funcExpenseAdd() {
 	var expenseAmmount = $('#expenseAmmount').val(); 
 	var expenseAccount = $('#drop-down-list-account').val(); 
 	var expenseCategory = $('#drop-down-list-category').val(); 
-	var expenseDueDate =	$('#expenseDueDate').val(); 
+	var expenseDueDate =	"2020-01-01";//$('#expenseDueDate').val(); 
 	var expenseRepeatCycle = $('#drop-down-list-cycle').val();	 
 	var expenseRepeatEndDate = $('#expenseRepeatEndDate').val();
 	
