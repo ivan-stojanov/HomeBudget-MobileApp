@@ -44,7 +44,7 @@ html5rocks.indexedDB.open = function() {
 		}
 		
 		var store = html5rocks.indexedDB.db.transaction(["categories"], "readwrite").objectStore("categories");	
-		$('#busy').hide();
+		//$('#busy').hide();
 		var requestID = store.get(parseInt(getCategoryID));
 		
 		// Get everything in the store;	

@@ -60,7 +60,7 @@ html5rocks.indexedDB.open = function() {
 		}
 		
 		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
-		$('#busy').hide();
+		//$('#busy').hide();
 		var requestID = store.get(parseInt(getBillID));
 		
 		requestID.onsuccess = function(event) {	//function(e)

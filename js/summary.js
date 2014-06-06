@@ -44,7 +44,7 @@ html5rocks.indexedDB.open = function() {
 		}
 		
 		var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
-		$('#busy').hide();
+		//$('#busy').hide();
 		var openedIndexIncomes = storeIncomes.index("by_id");
 		var numItemsIncomes = openedIndexIncomes.count();	
 		var countTestIncomes = 0;	
@@ -170,7 +170,7 @@ html5rocks.indexedDB.open = function() {
 		}
 		
 		var storeExpenses = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
-		$('#busy').hide();
+		//$('#busy').hide();
 		var openedIndexExpenses = storeExpenses.index("by_id");
 		var numItemsExpenses = openedIndexExpenses.count();	
 		var countTestExpenses = 0;	

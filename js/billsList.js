@@ -150,7 +150,7 @@ html5rocks.indexedDB.open = function() {
 							labelaText += '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + parseInt(cursor.value.expenseAmmount) * parseInt(numberAllUnPaid) + ' MKD, &nbsp </label>';
 						}
 
-						$('#billsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.expenseName /*+ " - " + cursor.value.expenseBillPaid*/ + labelaText + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						$('#billsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + /*cursor.value.id + "." +*/ cursor.value.expenseName /*+ " - " + cursor.value.expenseBillPaid*/ + labelaText + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
 					} else {
 						if(countTest == 0) { alert("no bills"); }

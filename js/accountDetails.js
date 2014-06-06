@@ -66,7 +66,7 @@ html5rocks.indexedDB.open = function() {
 		}
 		
 		var store = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-		$('#busy').hide();
+		//$('#busy').hide();
 		var requestID = store.get(parseInt(getAccountID));
 		
 		// Get everything in the store;	
