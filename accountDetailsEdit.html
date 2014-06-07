@@ -40,19 +40,32 @@
 		</div>
 		
 		<div data-role="content">	
-			<!--<div id="header2">
-				<h2>Account Details</h2>
-			</div>-->
-
 			<div id="wrapper">
-					<br>
-					<div id="accountDetails"> 		  		
-						<input type="text" name="accName" id="accNameValue">
-						<h3 id="accName"></h3>
-						<p id="accType"><input type="text" name="accType" id="accTypeValue"></p>
-						<p id="accBalance"><input type="number" name="accBalance" id="accBalanceValue"></p>
-						<p id="accDate"></p>
-						<p id="currentDate"></p>
+					<div id="accountDetails">
+					<table width="100%">
+						<tr>
+							<td>
+								<table>
+									<tr><td class="accTexStyle"><span class="nameEditAcc">Name of Account: </span></td><td><input type="text" name="accName" id="accNameValue"></td></tr>
+									<tr><td colspan="2"><h3 id="accName"></h3></td></tr>								
+									<tr><td class="accTexStyle">Type of Account:  </td><td><span id="accType" class="fontStyle"><input type="text" name="accType" id="accTypeValue"></span></td></tr>
+									<tr><td class="accTexStyle">Current Balance:  </td><td><span id="accBalance" class="fontStyle"><input type="number" name="accBalance" id="accBalanceValue"></span></td><td style="font-family: cursive;">MKD</td></tr>
+									<tr><td class="accTexStyle">Date of Activation:  </td><td><span id="accDate" class="fontStyle"></span></td></tr>		
+								</table>
+							</td>	
+							<td style="float: right;">
+								<table>
+									<ol>
+										<li> &nbsp </li>
+										<li id='addIncomeAcc'><a rel="external" data-icon="arrow-d">Add Income to this Account</a></li>
+										<li id='addExpenseAcc'><a rel="external" data-icon="arrow-u">Add Expense to this Account</a></li>
+									</ol>
+								</table>
+							</td>
+						</tr>
+					</table>
+						<br>
+						<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
 					</div> 
 					<ul id="actionList"></ul>
 			</div>
@@ -69,3 +82,8 @@
 </body>
 
 </html>
+
+
+
+
+

@@ -82,10 +82,12 @@ html5rocks.indexedDB.open = function() {
 				//if we have account that we created than we can change the name
 				$('#accName').hide();
 				$('#accNameValue').parent().show();
+				$('.nameEditAcc').show();
 			} else {
 				//we can not change account name of the first 3 accounts
 				$('#accName').show();
 				$('#accNameValue').parent().hide();
+				$('.nameEditAcc').hide();
 			}
 			//$('#accType').text(result.accountType);
 			$('#accTypeValue').attr("value",result.accountType);
@@ -507,5 +509,13 @@ $( document ).ready(function() {
 				return false;
 			}
 		}
+	});
+	
+	$("#addIncomeAcc").on("click", function(event){
+		window.location.href = "incomeAdd.html?accountIncomeStart=" + getAccountName;
+	});
+	
+	$("#addExpenseAcc").on("click", function(event){
+		window.location.href = "expenseAdd.html?accountExpenseStart=" + getAccountName;
 	});
 });
