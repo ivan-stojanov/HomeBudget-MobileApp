@@ -33,8 +33,6 @@
 			  <ul>
 				<li><a href="main.html" data-icon="home">Home</a></li>
 				<li><a href="accountDetailsEdit.html" rel="external" data-icon="edit">Edit This Account</a></li>
-				<li id='addIncomeAcc'><a rel="external" data-icon="arrow-d">Add Income</a></li>
-				<li id='addExpenseAcc'><a rel="external" data-icon="arrow-u">Add Expense</a></li>
 				<li id='deleteAcc'><a href="#" rel="external" data-icon="delete" data-rel="back" class="confirmDelete">Delete This Account</a></li>
 			  </ul>
 			</div>
@@ -47,12 +45,30 @@
 			</div>-->
 
 			<div id="wrapper">
-					<div id="accountDetails"> 		  		
-						<h3 id="accName"></h3>
-						<p id="accType"></p>
-						<p id="accBalance"></p>
-						<p id="accDate"></p>
-						<p id="currentDate"></p>
+					<div id="accountDetails"> 
+					<table width="100%">
+						<tr>
+							<td width="60%">
+								<table>
+									<tr><td colspan="2"><h3 id="accName"></h3></td></tr>								
+									<tr><td class="accTexStyle">Type of Account:  </td><td><span id="accType" class="fontStyle"></span></td></tr>
+									<tr><td class="accTexStyle">Current Balance:  </td><td><span id="accBalance" class="fontStyle"></span></td></tr>
+									<tr><td class="accTexStyle">Date of Activation:  </td><td><span id="accDate" class="fontStyle"></span></td></tr>		
+								</table>
+							</td>	
+							<td style="float: right;">
+								<table>
+									<ol>
+										<li> &nbsp </li>
+										<li id='addIncomeAcc'><a rel="external" data-icon="arrow-d">Add Income to this Account</a></li>
+										<li id='addExpenseAcc'><a rel="external" data-icon="arrow-u">Add Expense to this Account</a></li>
+									</ol>
+								</table>
+							</td>
+						</tr>
+					</table>
+						<br>
+						<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
 					</div> 
 					<ul id="actionList"></ul>
 			</div>

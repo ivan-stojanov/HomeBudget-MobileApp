@@ -78,7 +78,14 @@ html5rocks.indexedDB.open = function() {
 			$('#accName').text(result.accountName);
 			$('#accNameValue').attr("value",result.accountName);
 			$('#accType').text(result.accountType);
-			$('#accBalance').text(result.accountBalance);
+			$('#accBalance').text(result.accountBalance + " MKD");
+			if(result.accountBalance < 0){
+				$('#accBalance').css("color","red");
+			} else if(result.accountBalance > 0){
+				$('#accBalance').css("color","green");
+			} else {
+				$('#accBalance').css("color","blue");
+			}
 			$('#accDate').text(result.accountDate);
 				//get today date
 				var today = new Date();
@@ -88,7 +95,8 @@ html5rocks.indexedDB.open = function() {
 				var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
 				var yyyy = today.getFullYear(); 
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
-			$('#currentDate').text(today);
+				var todayDMY = dd+'/'+mm+'/'+yyyy;
+			$('#currentDate').text(todayDMY);
 		}
 		
 		var requestCashOnHand = store.get(parseInt(1));

@@ -292,3 +292,24 @@ li .line1 {
 {
 	color: red;
 }
+
+.fontStyle
+{
+	font-family: cursive;
+}
+
+#addIncomeAcc, #addExpenseAcc
+{
+	cursor:pointer;
+}
+
+.fantasyStyle, #currentDate
+{
+	font-family: monospace;
+	font-weight: bold;
+}
+
+.accTexStyle
+{
+	font-style: italic;
+}

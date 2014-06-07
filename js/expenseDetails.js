@@ -85,7 +85,8 @@ html5rocks.indexedDB.open = function() {
 				var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
 				var yyyy = today.getFullYear(); 
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
-			$('#currentDate').text(today);
+				var todayDMY = dd+'/'+mm+'/'+yyyy;
+			$('#currentDate').text(todayDMY);
 			
 			if(result.expenseCategory == "Bill"){
 				if(result.expenseNumItems > 1){
