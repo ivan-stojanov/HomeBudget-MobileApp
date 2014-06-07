@@ -77,7 +77,12 @@ html5rocks.indexedDB.open = function() {
 							var sign = "";
 							if(cursor.value.accountBalance > 0) {	sign = "+ ";	}
 							
-							$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" rel="external" onclick="callFunction('+ cursor.value.id + ',\'' + cursor.value.accountName + '\'' + ')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.accountBalance + ' MKD</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+							var arrayDateAccount = (cursor.value.accountDate).split("/");
+							var dateAccount = new Date(arrayDateAccount[2],arrayDateAccount[1] - 1,arrayDateAccount[0]);
+							var dateToday = new Date();
+							if(dateToday >= dateAccount){	//ovdeka						
+								$('#accountsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="accountDetails.html" rel="external" onclick="callFunction('+ cursor.value.id + ',\'' + cursor.value.accountName + '\'' + ')" rel="external" class="ui-link-inherit">' + cursor.value.accountName + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.accountBalance + ' MKD</label>' + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+							}	//ovdeka
 							
 						} else if(cursor.value.id == 1) {
 							deleteCashOnHand = 4;

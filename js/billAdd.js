@@ -14,7 +14,7 @@ function addAccountsDropDown() {
 			var openedIndex = store.index("by_accountName");
 			var numItemsRequesr = openedIndex.count();	
 		//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
-			numItemsRequesr.onsuccess = function(evt) {   
+			numItemsRequesr.onsuccess = function(evt) {
 				var numItems = evt.target.result;	
 				/*alert(numItems);*/
 				if (openedIndex) {
@@ -28,8 +28,13 @@ function addAccountsDropDown() {
 							else if(cursor.value.id == 2) 	{	haveCreditCard = true;	}
 							else if(cursor.value.id == 3) 	{	haveBankAccount = true;	}
 							else {
-								$('#drop-down-list-account').append('<option value="' + cursor.value.accountName + '">' + cursor.value.accountName + '</option>');
-								deletePoints++;
+								var arrayDateAccount = (cursor.value.accountDate).split("/");
+								var dateAccount = new Date(arrayDateAccount[2],arrayDateAccount[1] - 1,arrayDateAccount[0]);
+								var dateToday = new Date();
+								if(dateToday >= dateAccount){	//ovdeka
+									$('#drop-down-list-account').append('<option value="' + cursor.value.accountName + '">' + cursor.value.accountName + '</option>');
+									deletePoints++;
+								}	//ovdeka
 							}								
 							cursor.continue();
 						}else {
