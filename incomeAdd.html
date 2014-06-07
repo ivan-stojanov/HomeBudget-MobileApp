@@ -35,9 +35,9 @@ $(document).ready(function() {
 	$("#save").on("click", function(event){
 		var condition;
 		if($('#repeat').val() == "on") {	
-			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) /*&& ($('#incomeDueDate').val().length > 0)*/ && ($('#drop-down-list-cycle').val().length > 0) && ($('#incomeRepeatEndDate').val().length > 0));
+			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && (parseFloat($('#incomeAmmount').val()) != 0) /*&& ($('#incomeDueDate').val().length > 0)*/ && ($('#drop-down-list-cycle').val().length > 0) && ($('#incomeRepeatEndDate').val().length > 0));
 		} else {
-			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) /*&& ($('#incomeDueDate').val().length > 0)*/);
+			condition = (($('#incomeName').val().length > 0) && ($('#incomeAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && (parseFloat($('#incomeAmmount').val()) != 0)  /*&& ($('#incomeDueDate').val().length > 0)*/);
 		}
 		
 		if(condition == true) {
@@ -49,7 +49,7 @@ $(document).ready(function() {
 			}
 				
 		} else {	
-			alert('Please fill all fields');
+			alert('Please fill all fields with corresponding values!');
 			return false;
 		}			
 	});

@@ -36,9 +36,9 @@ $(document).ready(function() {
 	$("#save").on("click", function(event){
 		var condition;
 		if($('#repeat').val() == "on") {	
-			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) /*&& ($('#billDueDate').val().length > 0)*/ && ($('#drop-down-list-cycle').val().length > 0) && ($('#billRepeatEndDate').val().length > 0));
+			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && (parseFloat($('#billAmmount').val()) != 0) /*&& ($('#billDueDate').val().length > 0)*/ && ($('#drop-down-list-cycle').val().length > 0) && ($('#billRepeatEndDate').val().length > 0));
 		} else {
-			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) /*&& ($('#billDueDate').val().length > 0)*/);
+			condition = (($('#billAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-account').val() != "points") && ($('#drop-down-list-category').val().length > 0) && (parseFloat($('#billAmmount').val()) != 0) /*&& ($('#billDueDate').val().length > 0)*/);
 		}
 		
 		if(condition == true) {
@@ -50,7 +50,7 @@ $(document).ready(function() {
 			}
 				
 		} else {	
-			alert('Please fill all fields');
+			alert('Please fill all fields with corresponding values!');
 			return false;
 		}			
 	});
