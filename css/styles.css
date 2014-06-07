@@ -262,6 +262,11 @@ li .line1 {
 	color: white;
 }
 
+.ui-btn-text
+{
+	font-size: 10px;
+}
+
 #billsListULe
 {
 	margin-top: -25px;

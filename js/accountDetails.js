@@ -86,7 +86,7 @@ html5rocks.indexedDB.open = function() {
 			} else {
 				$('#accBalance').css("color","blue");
 			}
-			$('#accDate').text(result.accountDate);
+			$('#accDate').text((result.accountDate).substr(0,10));
 				//get today date
 				var today = new Date();
 				var min = today.getMinutes();	if(min<10){min='0'+min}
