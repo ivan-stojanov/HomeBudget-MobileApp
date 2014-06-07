@@ -53,16 +53,34 @@ $(document).ready(function() {
 		<div data-role="content">			
 		    <form id="formDetails">    
 				<div data-role="fieldcontain">
-					<br><label for="accountName">Account:</label><br>
-					<input type="text" name="accountName" id="accountName" value="" placeholder="Enter account name...">	
-					<br><br><label for="accountType">Type:</label><br>
-					<input type="text" name="accountType" id="accountType" value="" placeholder="Enter account type...">	
-					<br><br><label for="accountBalance">Opening balance:</label><br>
-					<input type="number" name="accountBalance" id="accountBalance" value="" placeholder="Enter amount...">
-					<br><br><label for="accountDate">Date:</label><br>
-					<input type="date" name="accountDate" id="accountDate" value=""  />					
+					<table width="100%">
+						<tr>
+							<td width="40%"><label for="accountName" class="accTexStyle"><b>Account Name:</b></label></td>
+							<td><input type="text" name="accountName" id="accountName" value="" placeholder="Enter account name..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="accountType" class="accTexStyle">Type of Account:</label></td>
+							<td><input type="text" name="accountType" id="accountType" value="" placeholder="Enter account type..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="accountBalance" class="accTexStyle">Opening Balance (MKD):</label></td>
+							<td><input type="number" name="accountBalance" id="accountBalance" value="" placeholder="Enter amount..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="accountDate" class="accTexStyle">Date of Activation:</label></td>
+							<td><input type="date" name="accountDate" id="accountDate" value=""  /></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td> &nbsp </td>
+							<td><input type="submit" id="save" data-inline="true" value="Create the account"></td>
+						</tr>
+					</table>
 				</div>
-				<input type="submit" id="save" data-inline="true" value="Save">
+				
 				<div id="resultLog"></div>
 			</form> 			
 			<div id="busy">Loading...</div>

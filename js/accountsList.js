@@ -75,7 +75,7 @@ html5rocks.indexedDB.open = function() {
 							var currentClass = (cursor.value.accountName).toLowerCase().replace(" ","");
 							var currentColor = setStyleColor(cursor.value.accountBalance);	//function defined below
 							var sign = "";
-							if(cursor.value.accountBalance > 0) {	sign = "+ ";	}
+							if(cursor.value.accountBalance > 0) {	sign = "+";	}
 							
 							var arrayDateAccount = (cursor.value.accountDate).split("/");
 							var dateAccount = new Date(arrayDateAccount[2],arrayDateAccount[1] - 1,arrayDateAccount[0]);

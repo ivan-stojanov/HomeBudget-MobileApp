@@ -323,3 +323,7 @@ li .line1 {
 {
 	font-size: 12px;
 }
+
+.ui-field-contain label.ui-input-text {
+	width: auto;
+}
