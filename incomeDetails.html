@@ -35,36 +35,59 @@
 				<li><a href="#" rel="external" data-icon="delete" data-rel="back" class="confirmDelete">Delete This Income</a></li>
 			  </ul>
 			</div>
-
 		</div>
 		
-		<div data-role="content">	
-			<!--<div id="header2">
-				<h2>Account Details</h2>
-			</div>-->
-
+		<div data-role="content">
 			<div id="wrapper">
-					<div id="incomeDetails"> 		  		
-						<h3 id="incomeName"></h3>
-						<p id="incomeAmmount"></p>
-						<p id="incomeAccount"></p>
-						<p id="incomeCategory"></p>
-						<p id="incomeRepeatCycle"></p>
-						<p id="incomeRepeatEndDate"></p>
-						<p id="currentDate"></p>
-						<p id="incomeCreated"></p>
-					</div> 
-					<ul id="actionList"></ul>					
+				<div id="incomeDetails"> 
+					<table width="100%">
+						<tr>
+							<td colspan="2"><h3 id="incomeName"></h3></td>
+						</tr>								
+						<tr>
+							<td class="accTexStyle">Amount:  </td>
+							<td><span id="incomeAmmount" class="fontStyle"></span></td>
+						</tr>
+						<tr class="incomeTotalAmount">
+							<td class="accTexStyle">Total Amount:  </td>
+							<td><span id="incomeTotalAmmount" class="fontStyle"></span></td>
+						</tr>
+						<tr>
+							<td class="accTexStyle">Related Account:  </td>
+							<td><span id="incomeAccount" class="fontStyle"></span></td>
+						</tr>
+						<tr>
+							<td class="accTexStyle">Income Category:  </td>
+							<td><span id="incomeCategory" class="fontStyle"></span></td>
+						</tr>	
+						<tr>
+							<td class="accTexStyle repeatTXT">Repeat Cycle:  </td>
+							<td><span id="incomeRepeatCycle" class="fontStyle"></span></td>
+						</tr>
+						<tr>
+							<td class="accTexStyle repeatTXT">Repeat Until:  </td>
+							<td><span id="incomeRepeatEndDate" class="fontStyle"></span></td>
+						</tr>	
+						<tr class="incCreatedTXT">
+							<td class="accTexStyle">Date of Creation:  </td>
+							<td><span id="incomeCreated" class="fontStyle"></span></td>
+						</tr>		
+					</table>
+						<br>
+						<span id="incomeCreatedList" class="fontStyle"></span>
+						<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
+				</div> 
+				<ul id="actionList"></ul>					
 			</div>
 			
 			<div id="busy">Loading...</div>	
-			</div>
-
-			<div data-role="footer" class="footer">
-				<h1><span class="titleTXT">Income Details</span></h1>
-			</div>
-			
 		</div>
+
+		<div data-role="footer" class="footer">
+				<h1><span class="titleTXT">Income Details</span></h1>
+		</div>
+			
+	</div>
 
 </body>
 

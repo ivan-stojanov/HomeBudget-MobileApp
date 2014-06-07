@@ -66,12 +66,20 @@ html5rocks.indexedDB.open = function() {
 			if(!!result == false){alert(result);}
 			
 			$('#incomeName').text(result.incomeName);
-			$('#incomeAmmount').text(result.incomeAmmount);
+			$('#incomeAmmount').html("<b><label style='color:green;'>" + result.incomeAmmount + " MKD</label></b>");
+			$('#incomeTotalAmmount').html("<b> <label style='color:green;'>" + parseFloat(result.incomeNumItems) * parseFloat(result.incomeAmmount) + " MKD</label></b> (<b>" + result.incomeNumItems + " * <label style='color:green;'>" + result.incomeAmmount + " MKD</label></b>)");
 			$('#incomeAccount').text(result.incomeAccount);
 			$('#incomeCategory').text(result.incomeCategory);			
 			//$('#incomeDueDate').text(result.incomeDueDate);
-			$('#incomeRepeatCycle').text(result.incomeRepeatCycle);
-			$('#incomeRepeatEndDate').text(result.incomeRepeatEndDate);
+			if(result.incomeRepeat == "yes"){
+				$('#incomeRepeatCycle').text(result.incomeRepeatCycle);
+				var arrayRepeatEndDate = (result.incomeRepeatEndDate).split("/");
+				var printRepeatEndDate = arrayRepeatEndDate[0] + "/" + arrayRepeatEndDate[1] + "/" + arrayRepeatEndDate[2] + " at " + arrayRepeatEndDate[3] + ":" + arrayRepeatEndDate[4];
+				$('#incomeRepeatEndDate').text(printRepeatEndDate);
+				$('.repeatTXT').show();
+			} else {
+				$('.repeatTXT').hide();
+			}
 				//get today date
 				var today = new Date();
 				var min = today.getMinutes();	if(min<10){min='0'+min}
@@ -84,11 +92,21 @@ html5rocks.indexedDB.open = function() {
 			$('#currentDate').text(todayDMY);
 			
 			if(result.incomeNumItems > 1){
+				$('.incomeTotalAmount').show();
+				$('.incCreatedTXT').hide();
 				var listDates = (result.incomeCreated).split("+");
+				$('#incomeCreatedList').html("<hr>List of Incomes (by Date):<br>");
 				for(var countDates = 0; countDates < listDates.length; countDates++) {
-					$('#incomeCreated').html($('#incomeCreated').html() + "<br><br>Date of income: " + listDates[countDates]);
-					$('#incomeCreated').html($('#incomeCreated').html() + "<input type='submit' value='Delete This' onclick=deleteIncome('" + result.incomeCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + result.incomeBillPaid + "')>");	
+					var arrayCreationInstanceDate = (listDates[countDates]).split("/");
+					var printCreationInstanceDate = arrayCreationInstanceDate[0] + "/" + arrayCreationInstanceDate[1] + "/" + arrayCreationInstanceDate[2] + " at " + arrayCreationInstanceDate[3] + ":" + arrayCreationInstanceDate[4];
+					$('#incomeCreatedList').html($('#incomeCreatedList').html() + "<br>" + printCreationInstanceDate + "&nbsp&nbsp&nbsp <-> &nbsp&nbsp&nbsp");
+					$('#incomeCreatedList').html($('#incomeCreatedList').html() + "<input type='submit' value='Delete this instance' onclick=deleteIncome('" + result.incomeCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + result.incomeBillPaid + "')>");	
 				}	
+			} else {
+				$('.incomeTotalAmount').hide();
+				var arrayCreationDate = (result.incomeCreated).split("/");
+				var printCreationDate = arrayCreationDate[0] + "/" + arrayCreationDate[1] + "/" + arrayCreationDate[2] + " at " + arrayCreationDate[3] + ":" + arrayCreationDate[4];
+				$('#incomeCreated').text(printCreationDate);
 			}			
 			
 			//this informations we need in case user delete this income, then we need to update the account that is related to the income
