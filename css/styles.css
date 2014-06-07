@@ -98,8 +98,8 @@ li .action-icon {
 	border-bottom: solid 1px #444444;
 }
 
-.header > h1 {
-	font-size: 16px;
+.header > h1 > span{
+	/*font-size: 16px;*/
 	font-weight: bold;
 	color: #FFFFFF;
 }
@@ -206,8 +206,8 @@ padding-top: 25px; /* ako data-inset="true" ovaj red da se komentira */
 }
 /* override end */
 
-.footer > h1 {
-	font-size: 16px;
+.footer > h1 > span {
+	/*font-size: 16px;*/
 	font-weight: bold;
 	color: #FFFFFF;
 }
@@ -317,4 +317,9 @@ li .line1 {
 .accTexStyle
 {
 	font-style: italic;
+}
+
+.titleTXT
+{
+	font-size: 12px;
 }
