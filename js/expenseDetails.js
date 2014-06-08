@@ -37,6 +37,7 @@ var thisExpenseAmmount = "";
 var replaceDeletedInstance;
 var currentObj;
 var currentObjMarkUnPaid;
+var numPaidItemsAmount = 0;
 
 html5rocks.indexedDB.db = null;
 
@@ -72,11 +73,29 @@ html5rocks.indexedDB.open = function() {
 				document.getElementById('spanMSG').innerHTML="Mark this Bill as UnPaid";
 			}	
 			$('#expenseName').text(result.expenseName);
-			$('#expenseAmmount').text(result.expenseAmmount);
+			$('#expenseAmmount').html("<b><label style='color:red;'>" + result.expenseAmmount + " MKD</label></b>");
+			if(result.expenseCategory != "Bill"){			
+				$('#expenseTotalAmmount').html("<b> <label style='color:red;'>" + parseFloat(result.expenseNumItems) * parseFloat(result.expenseAmmount) + " MKD</label></b> (<b>" + result.expenseNumItems + " * <label style='color:red;'>" + result.expenseAmmount + " MKD</label></b>)");
+			} else {				
+				var listPaidStatusAmount = (result.expenseBillPaid).split("+");
+				for(var countPaidStatusAmount = 0; countPaidStatusAmount < listPaidStatusAmount.length; countPaidStatusAmount++) {
+					if(listPaidStatusAmount[countPaidStatusAmount] == "paidYes"){
+						numPaidItemsAmount++;
+					}
+				}
+				$('#expenseTotalAmmount').html("<b> <label style='color:red;'>" + parseFloat(numPaidItemsAmount) * parseFloat(result.expenseAmmount) + " MKD</label></b> (<b>" + numPaidItemsAmount + " * <label style='color:red;'>" + result.expenseAmmount + " MKD</label></b>)");
+			}
 			$('#expenseAccount').text(result.expenseAccount);
 			$('#expenseCategory').text(result.expenseCategory);			
-			$('#expenseRepeatCycle').text(result.expenseRepeatCycle);
-			$('#expenseRepeatEndDate').text(result.expenseRepeatEndDate);
+			if(result.expenseRepeat == "yes"){
+				$('#expenseRepeatCycle').text(result.expenseRepeatCycle);
+				var arrayRepeatEndDate = (result.expenseRepeatEndDate).split("/");
+				var printRepeatEndDate = arrayRepeatEndDate[0] + "/" + arrayRepeatEndDate[1] + "/" + arrayRepeatEndDate[2] + " at " + arrayRepeatEndDate[3] + ":" + arrayRepeatEndDate[4];
+				$('#expenseRepeatEndDate').text(printRepeatEndDate);
+				$('.repeatTXT').show();
+			} else {
+				$('.repeatTXT').hide();
+			}				
 				//get today date
 				var today = new Date();
 				var min = today.getMinutes();	if(min<10){min='0'+min}
@@ -89,10 +108,13 @@ html5rocks.indexedDB.open = function() {
 			$('#currentDate').text(todayDMY);
 			
 			if(result.expenseCategory == "Bill"){
-				if(result.expenseNumItems > 1){
+				if(numPaidItemsAmount > 1){
+					$('.expenseTotalAmount').show();
+					$('.exCreatedTXT').hide();
 					var listDates = (result.expenseCreated).split("+");
 					var listPaidStatus = (result.expenseBillPaid).split("+");
 					var numPaidItems = 0;				
+					$('#expenseCreatedList').html("<hr>List of Bills (by Date):<br>");
 					for(var countDates = 0; countDates < listDates.length; countDates++) {
 						var selectPaid = "";	var selectUnPaid = "";
 						if(listPaidStatus[countDates] == "paidYes"){
@@ -102,9 +124,10 @@ html5rocks.indexedDB.open = function() {
 							selectUnPaid = "selected=''";
 						}
 						if(listPaidStatus[countDates] == "paidYes"){
-							$('#expenseCreated').html($('#expenseCreated').html() + "<br><br>Date of bill: " + listDates[countDates]);
-							$('#expenseCreated').html($('#expenseCreated').html() + "<select name='changeBill1' class='changeBill1' onchange=changeStatus('" + result.expenseBillPaid + "','" + listPaidStatus[countDates] + "','" + countDates + "','" + listDates[countDates] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select>");	
-							//$('#expenseCreated').html($('#expenseCreated').html() + "<input type='submit' value='Delete This' onclick=deleteBill('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + listPaidStatus[countDates] + "','" + result.expenseBillPaid + "')>")
+							var arrayCreationInstanceDate = (listDates[countDates]).split("/");
+							var printCreationInstanceDate = arrayCreationInstanceDate[0] + "/" + arrayCreationInstanceDate[1] + "/" + arrayCreationInstanceDate[2] + " at " + arrayCreationInstanceDate[3] + ":" + arrayCreationInstanceDate[4];
+							$('#expenseCreatedList').html($('#expenseCreatedList').html() + "<br>" + printCreationInstanceDate + "&nbsp&nbsp&nbsp <-> &nbsp&nbsp&nbsp");
+							$('#expenseCreatedList').html($('#expenseCreatedList').html() + "<select name='changeBill1' class='changeBill1' onchange=changeStatus('" + result.expenseBillPaid + "','" + listPaidStatus[countDates] + "','" + countDates + "','" + listDates[countDates] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select>");	
 						}
 					}
 					if(numPaidItems == 1){
@@ -113,20 +136,48 @@ html5rocks.indexedDB.open = function() {
 						$('#expenseCreated').show();
 					}
 				} else {
+					var indexPaidItemAmount = 0;
+					var listPaidStatusAmount1 = (result.expenseBillPaid).split("+");
+					for(var countPaidStatusAmount1 = 0; countPaidStatusAmount1 < listPaidStatusAmount1.length; countPaidStatusAmount1++) {
+						if(listPaidStatusAmount1[countPaidStatusAmount1] == "paidYes"){
+							indexPaidItemAmount = countPaidStatusAmount1;
+						}
+					}
+					var stringToSplit = result.expenseCreated;
+					var listPaidStatusDate1 = (result.expenseCreated).split("+");
+					for(var countPaidStatusDate1 = 0; countPaidStatusDate1 < listPaidStatusDate1.length; countPaidStatusDate1++) {
+						if(countPaidStatusDate1 == indexPaidItemAmount){
+							stringToSplit = listPaidStatusDate1[indexPaidItemAmount];
+						}
+					}
+					$('.expenseTotalAmount').hide();
+					var arrayCreationDate = (stringToSplit).split("/");
+					var printCreationDate = arrayCreationDate[0] + "/" + arrayCreationDate[1] + "/" + arrayCreationDate[2] + " at " + arrayCreationDate[3] + ":" + arrayCreationDate[4];
+					$('#expenseCreated').text(printCreationDate);
 					if(result.expenseBillPaid == "paidYes") {
 						var numPaidItems = 1;
 					} else {
 						var numPaidItems = 0;
 					}
-				}
+				}					
 			} else { //if(result.expenseCategory != "Bill"){
 				if(result.expenseNumItems > 1){
+					$('.expenseTotalAmount').show();
+					$('.exCreatedTXT').hide();
 					var listDates = (result.expenseCreated).split("+");
+					$('#expenseCreatedList').html("<hr>List of Expenses (by Date):<br>");
 					for(var countDates = 0; countDates < listDates.length; countDates++) {
-						$('#expenseCreated').html($('#expenseCreated').html() + "<br><br>Date of expense: " + listDates[countDates]);
-						$('#expenseCreated').html($('#expenseCreated').html() + "<input type='submit' value='Delete This' onclick=deleteExpense('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + result.expenseBillPaid + "')>");	
-					}
-				}
+						var arrayCreationInstanceDate = (listDates[countDates]).split("/");
+						var printCreationInstanceDate = arrayCreationInstanceDate[0] + "/" + arrayCreationInstanceDate[1] + "/" + arrayCreationInstanceDate[2] + " at " + arrayCreationInstanceDate[3] + ":" + arrayCreationInstanceDate[4];
+						$('#expenseCreatedList').html($('#expenseCreatedList').html() + "<br>" + printCreationInstanceDate + "&nbsp&nbsp&nbsp <-> &nbsp&nbsp&nbsp");
+						$('#expenseCreatedList').html($('#expenseCreatedList').html() + "<input type='submit' value='Delete this instance' onclick=deleteExpense('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + result.expenseBillPaid + "')>");	
+					}	
+				} else {
+					$('.expenseTotalAmount').hide();
+					var arrayCreationDate = (result.expenseCreated).split("/");
+					var printCreationDate = arrayCreationDate[0] + "/" + arrayCreationDate[1] + "/" + arrayCreationDate[2] + " at " + arrayCreationDate[3] + ":" + arrayCreationDate[4];
+					$('#expenseCreated').text(printCreationDate);
+				}				
 			}
 			
 			//this informations we need in case user delete this expense, then we need to update the account that is related to the expense
@@ -522,4 +573,46 @@ function deleteBill(comleteStringDate, dateToDelete, currentPosition, totalPosit
   	}
   	//completeString.replace(dateToDelete, "");
   }
+*/
+/*
+	...} else { //if(result.expenseCategory != "Bill"){
+		/*if(result.expenseNumItems > 1){
+			var listDates = (result.expenseCreated).split("+");
+			for(var countDates = 0; countDates < listDates.length; countDates++) {
+				$('#expenseCreated').html($('#expenseCreated').html() + "<br><br>Date of expense: " + listDates[countDates]);
+				$('#expenseCreated').html($('#expenseCreated').html() + "<input type='submit' value='Delete This' onclick=deleteExpense('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + result.expenseBillPaid + "')>");	
+			}
+		}
+*/	
+/*
+				if(result.expenseNumItems > 1){
+					var listDates = (result.expenseCreated).split("+");
+					var listPaidStatus = (result.expenseBillPaid).split("+");
+					var numPaidItems = 0;				
+					for(var countDates = 0; countDates < listDates.length; countDates++) {
+						var selectPaid = "";	var selectUnPaid = "";
+						if(listPaidStatus[countDates] == "paidYes"){
+							selectPaid = "selected=''";
+							numPaidItems++;
+						} else if(listPaidStatus[countDates] == "paidNoo"){
+							selectUnPaid = "selected=''";
+						}
+						if(listPaidStatus[countDates] == "paidYes"){
+							$('#expenseCreated').html($('#expenseCreated').html() + "<br><br>Date of bill: " + listDates[countDates]);
+							$('#expenseCreated').html($('#expenseCreated').html() + "<select name='changeBill1' class='changeBill1' onchange=changeStatus('" + result.expenseBillPaid + "','" + listPaidStatus[countDates] + "','" + countDates + "','" + listDates[countDates] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select>");	
+							//$('#expenseCreated').html($('#expenseCreated').html() + "<input type='submit' value='Delete This' onclick=deleteBill('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + listPaidStatus[countDates] + "','" + result.expenseBillPaid + "')>")
+						}
+					}
+					if(numPaidItems == 1){
+						$('#expenseCreated').hide();
+					} else {
+						$('#expenseCreated').show();
+					}
+				} else {
+					if(result.expenseBillPaid == "paidYes") {
+						var numPaidItems = 1;
+					} else {
+						var numPaidItems = 0;
+					}
+				}
 */

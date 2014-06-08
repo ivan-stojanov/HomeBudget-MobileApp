@@ -43,17 +43,45 @@
 			</div>-->
 
 			<div id="wrapper">
-					<div id="expenseDetails"> 		  		
-						<h3 id="expenseName"></h3>
-						<p id="expenseAmmount"></p>
-						<p id="expenseAccount"></p>
-						<p id="expenseCategory"></p>
-						<p id="expenseRepeatCycle"></p>
-						<p id="expenseRepeatEndDate"></p>
-						<p id="currentDate"></p>
-						<p id="expenseCreated"></p>
-					</div> 
-					<ul id="actionList"></ul>					
+				<div id="expenseDetails"> 
+					<table width="100%">
+						<tr>
+							<td colspan="2"><h3 id="expenseName"></h3></td>
+						</tr>								
+						<tr>
+							<td class="accTexStyle">Amount:  </td>
+							<td><span id="expenseAmmount" class="fontStyle"></span></td>
+						</tr>
+						<tr class="expenseTotalAmount">
+							<td class="accTexStyle">Total Amount:  </td>
+							<td><span id="expenseTotalAmmount" class="fontStyle"></span></td>
+						</tr>
+						<tr>
+							<td class="accTexStyle">Related Account:  </td>
+							<td><span id="expenseAccount" class="fontStyle"></span></td>
+						</tr>
+						<tr>
+							<td class="accTexStyle">Expense Category:  </td>
+							<td><span id="expenseCategory" class="fontStyle"></span></td>
+						</tr>	
+						<tr>
+							<td class="accTexStyle repeatTXT">Repeat Cycle:  </td>
+							<td><span id="expenseRepeatCycle" class="fontStyle"></span></td>
+						</tr>
+						<tr>
+							<td class="accTexStyle repeatTXT">Repeat Until:  </td>
+							<td><span id="expenseRepeatEndDate" class="fontStyle"></span></td>
+						</tr>	
+						<tr class="exCreatedTXT">
+							<td class="accTexStyle">Date of Creation:  </td>
+							<td><span id="expenseCreated" class="fontStyle"></span></td>
+						</tr>		
+					</table>
+						<br>
+						<span id="expenseCreatedList" class="fontStyle"></span>
+						<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
+				</div> 
+				<ul id="actionList"></ul>					
 			</div>
 			
 			<div id="busy">Loading...</div>	
