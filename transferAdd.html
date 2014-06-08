@@ -17,7 +17,7 @@ $(document).ready(function() {
 	addAccountsDropDowns();
 	$("#transferBtn").on("click", function(event){
 		var condition;
-		condition = (($('#transferAmmount').val().length > 0) && ($('#drop-down-list-from-account').val().length > 0) && ($('#drop-down-list-from-account').val() != "points") && ($('#drop-down-list-to-account').val() != "points") && ($('#drop-down-list-to-account').val().length > 0) && ($('#drop-down-list-from-account').val() != $('#drop-down-list-to-account').val()) && ($('#transferDate').val().length > 0));
+		condition = (($('#transferAmmount').val().length > 0) && ($('#drop-down-list-from-account').val().length > 0) && ($('#drop-down-list-from-account').val() != "points") && ($('#drop-down-list-to-account').val() != "points") && ($('#drop-down-list-to-account').val().length > 0) && ($('#drop-down-list-from-account').val() != $('#drop-down-list-to-account').val()) && (parseFloat($('#transferAmmount').val()) != 0) && ($('#transferDate').val().length > 0));
 		
 		if(condition == true) {
 			if(confirm("Are you sure you want to create this transfer?")){											
@@ -51,32 +51,46 @@ $(document).ready(function() {
 		</div>		
 		<div data-role="content">				
 		    <form id="formDetails">
-				<div data-role="fieldcontain">					
-					<br><label for="drop-down-list-from-account" class="select">From Account:</label>
-					<br>
-					<select name="drop-down-list-from-account" id="drop-down-list-from-account" data-native-menu="false">
-						<option value="">Choose the account to transfer from</option>
-						<option value="Cash on hand">Cash on hand</option>
-						<option value="Credit Card">Credit Card</option>
-						<option value="Bank Account">Bank Account</option>
-						<option value="points" disable> . . . </option>
-					</select>					
-					<br>
-					<br><label for="drop-down-list-to-account" class="select">To Account:</label>
-					<br>
-					<select name="drop-down-list-to-account" id="drop-down-list-to-account" data-native-menu="false">
-						<option value="">Choose the account to transfer to</option>
-						<option value="Cash on hand">Cash on hand</option>
-						<option value="Credit Card">Credit Card</option>
-						<option value="Bank Account">Bank Account</option>
-						<option value="points" disable> . . . </option>
-					</select>
-					<br><br><label for="transferAmmount">Amount:</label><br>
-					<input type="number" name="transferAmmount" id="transferAmmount" value="" placeholder="Enter transfer amount...">
-					<br><br><label for="transferDate">Transfer Date:</label><br>
-					<input type="date" name="transferDate" id="transferDate" value=""  />	
-					<br><br>
-					<input type="submit" id="transferBtn" data-inline="true" value="Make a Transfer">
+				<div data-role="fieldcontain">
+					<table width="100%">
+						<tr>
+							<td><label for="drop-down-list-from-account" class="accTexStyle select">Transfer From:</label></td>
+							<td><select name="drop-down-list-from-account" id="drop-down-list-from-account" data-native-menu="false">
+									<option value="">Choose the Account</option>
+									<option value="Cash on hand">Cash on hand</option>
+									<option value="Credit Card">Credit Card</option>
+									<option value="Bank Account">Bank Account</option>
+									<option value="points" disable> . . . </option>
+								</select></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="drop-down-list-to-account" class="accTexStyle select">Transfer To:</label></td>
+							<td><select name="drop-down-list-to-account" id="drop-down-list-to-account" data-native-menu="false">
+									<option value="">Choose the Account</option>
+									<option value="Cash on hand">Cash on hand</option>
+									<option value="Credit Card">Credit Card</option>
+									<option value="Bank Account">Bank Account</option>
+									<option value="points" disable> . . . </option>
+								</select></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="transferAmmount" class="accTexStyle">Transfer Amount (MKD):</label></td>
+							<td><input type="number" name="transferAmmount" id="transferAmmount" value="" placeholder="Enter amount..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="transferDate" class="accTexStyle">Transfer at Date:</label></td>
+							<td><input type="date" name="transferDate" id="transferDate" value=""></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td width="40%"> &nbsp </td>
+							<td><input type="submit" id="transferBtn" data-inline="true" value="Make a Transfer"></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+					</table>	
 					<div id="resultLog"></div>
 				</div>	
 			</form> 			
