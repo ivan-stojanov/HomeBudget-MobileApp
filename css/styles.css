@@ -237,6 +237,11 @@ li .line1 {
 	width: 150px;
 }
 
+#leftRadioIncome
+{
+	width: 150px;
+}
+
 #drop-down-list-account-menu, #drop-down-list-category-menu, #drop-down-list-cycle-menu, #drop-down-list-period-menu, #drop-down-list-from-account-menu, #drop-down-list-to-account-menu
 {
 	margin-top: -25px;
@@ -263,6 +268,11 @@ li .line1 {
 }
 
 .ui-btn-text
+{
+	font-size: 10px;
+}
+
+.ui-btn-text > span
 {
 	font-size: 10px;
 }
