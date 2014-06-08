@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 	addAccountsDropDown();
 	addCategoriesDropDown();
-	$("#repeatPeriod").hide();	
+	$(".repeatPeriod").hide();	
 	$('#repeat').value == "off";
 	/*touchEvent = (navigator.userAgent.match(/iPad|iPhone|Android/i)) ? "touchstart" : "click";    
     $(document).on(touchEvent, '.ui-radio', function(){ 
@@ -26,9 +26,9 @@ $(document).ready(function() {
 	$('#repeat').change(
 		function(){//*/
 			if(this.value == "on") {				
-					$("#repeatPeriod").show();
+					$(".repeatPeriod").show();
 			} else {
-					$("#repeatPeriod").hide();
+					$(".repeatPeriod").hide();
 			}
 		}
 	);
@@ -79,69 +79,72 @@ $(document).ready(function() {
 		<div data-role="content">	
 			
 		    <form id="formDetails">
-				<div data-role="fieldcontain">
-					<br><label for="expenseName">Name:</label><br>
-					<input type="text" name="expenseName" id="expenseName" value="" placeholder="Enter expense name...">	
-					<br><br><label for="expenseAmmount">Ammount:</label><br>
-					<input type="number" name="expenseAmmount" id="expenseAmmount" value="" placeholder="Enter expense ammount..."><!--pattern="[0-9]*"--> 
+				<div data-role="fieldcontain">				
+					<table width="100%">
+						<tr>
+							<td width="40%"><label for="expenseName" class="accTexStyle"><b>Expense Name:</b></label></td>
+							<td><input type="text" name="expenseName" id="expenseName" value="" placeholder="Enter name..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="expenseAmmount" class="accTexStyle">Expense Amount (MKD):</label></td>
+							<td><input type="number" name="expenseAmmount" id="expenseAmmount" value="" placeholder="Enter amount..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="drop-down-list-account" class="accTexStyle select">Choose Account:</label></td>
+							<td><select name="drop-down-list-account" id="drop-down-list-account" data-native-menu="false">
+									<option value="">Choose account</option>
+									<option value="Cash on hand">Cash on hand</option>
+									<option value="Credit Card">Credit Card</option>
+									<option value="Bank Account">Bank Account</option>
+									<option value="points" disable> . . . </option>
+								</select></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="drop-down-list-category" class="accTexStyle select">Choose Category:</label></td>
+							<td><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
+									<option value="">Choose category</option>
+									<option value="" disable> . . . </option>
+								</select></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+					</table>	
 					
-					<br><br><label for="drop-down-list-account" class="select">Account:</label>
-					<br><select name="drop-down-list-account" id="drop-down-list-account" data-native-menu="false">
-						<option value="">Choose expense account</option>
-						<option value="Cash on hand">Cash on hand</option>
-						<option value="Credit Card">Credit Card</option>
-						<option value="Bank Account">Bank Account</option>
-						<option value="points" disable> . . . </option>
-					</select>
-					<!--	
-					<br><br><label for="incomeAccount">Account:</label><br>
-					<input type="text" name="incomeAccount" id="incomeAccount" value="" placeholder="Enter income account...">	
-					-->				
+					<label for="repeat" class="accTexStyle">Repeat:</label>
+					<div id="leftRadioIncome">
+						<select name="repeat" id="repeat" data-role="slider" data-mini="true">
+							<option value="on">Yes</option>
+							<option value="off" selected="">No</option>
+						</select>
+					</div>				
 					
-					<br><br><label for="drop-down-list-category" class="select">Category:</label>
-					<br><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
-						<option value="">Choose expense category</option>
-						<option value="" disable> . . . </option>
-					</select>
-					<!--	
-					
-					<br><br><label for="expenseDueDate">Due Date:</label><br>
-					<input type="date" name="expenseDueDate" id="expenseDueDate" value="2020-01-01"  />	
-					
-					-->					
-					<br><br>					
-					<label for="repeat">Repeat:</label>
-					<div id="leftRadio"><select name="repeat" id="repeat" data-role="slider" data-mini="true">
-						<option value="on">Yes</option>
-						<option value="off" selected="">No</option>
-					</select></div>
-					<!--<fieldset data-role="controlgroup" data-theme="b" data-mini="true" data-type="vertical" id="leftRadio">
-						<legend>Repeat:</legend><br><br>
-							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6a" value="on">
-							<label for="radio-choice-t-6a">Yes</label>
-							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6b" value="off" checked="checked">
-							<label for="radio-choice-t-6b">No</label>
-					</fieldset>-->
-					<div id="repeatPeriod">
-						<!--<br><label for="incomeRepeatPeriod">Repeat Period:</label><br>
-						<input type="number" name="incomeRepeatPeriod" id="incomeRepeatPeriod" value="" />-->						
-						<!--<br><br><label for="drop-down-list-cycle" class="select">Cycle:</label>-->
-						<br>
-						<!--<div class=ui-grid-a id="my-block">
-						<div class=ui-block-a>-->
-						<select name="expenseRepeatCycle" id="drop-down-list-cycle" data-native-menu="false">		
-							<option value="">Cycle</option>
-							<option value="Hourly">Hourly</option>
-							<option value="Dayly">Dayly</option>
-							<option value="Weekly">Weekly</option>
-							<option value="Monthly">Monthly</option>
-							<option value="Yearly">Yearly</option>
-						</select>	   
-						<br><br><label for="expenseRepeatEndDate">End Date:</label><br><br>
-						<input type="date" name="expenseRepeatEndDate" id="expenseRepeatEndDate" value=""  />
-					</div>
+					<table width="100%">
+						<tr class="repeatPeriod"><td colspan="2"><hr></td></tr>
+						<tr class="repeatPeriod">
+							<td><label for="drop-down-list-cycle" class="accTexStyle">Choose Repeat Cycle:</label></td>
+							<td><select name="expenseRepeatCycle" id="drop-down-list-cycle" data-native-menu="false">		
+									<option value="">Cycle</option>
+									<option value="Hourly">Hourly</option>
+									<option value="Dayly">Dayly</option>
+									<option value="Weekly">Weekly</option>
+									<option value="Monthly">Monthly</option>
+									<option value="Yearly">Yearly</option>
+								</select></td>
+						</tr>
+						<tr class="repeatPeriod"><td colspan="2"><hr></td></tr>
+						<tr class="repeatPeriod">
+							<td><label for="expenseRepeatEndDate" class="accTexStyle">Repeat Until:</label></td>
+							<td><input type="date" name="expenseRepeatEndDate" id="expenseRepeatEndDate" value=""></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td width="40%"> &nbsp </td>
+							<td><input type="submit" id="save" data-inline="true" value="Create the expense"></td>
+						</tr>
+					</table>
 				</div>					
-				<input type="submit" id="save" data-inline="true" value="Save">
 				<div id="resultLog"></div>
 			</form> 			
 			<div id="busy">Loading...</div>	
@@ -152,7 +155,5 @@ $(document).ready(function() {
 		</div>
 	
 	</div>
-
 </body>
-
 </html>
