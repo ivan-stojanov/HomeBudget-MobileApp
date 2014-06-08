@@ -43,6 +43,16 @@ html5rocks.indexedDB.open = function() {
 			var storeS = html5rocks.indexedDB.db.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
 		}		
 		
+		//get today date
+		var today1 = new Date();
+		var min1 = today1.getMinutes();	if(min1<10){min1='0'+min1}
+		var h1 = today1.getHours();		if(h1<10){h1='0'+h1}
+		var dd1 = today1.getDate();		if(dd1<10){dd1='0'+dd1}
+		var mm1 = today1.getMonth()+1;	if(mm1<10){mm1='0'+mm1}	//January is 0!
+		var yyyy1 = today1.getFullYear(); 
+		var todayDMY1 = dd1+'/'+mm1+'/'+yyyy1;
+		$('#currentDate').text(todayDMY1);
+			
 		var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
 		var openedIndexxAcc = storeAccount.index("by_id");
 		var numItemsRequestAcc = openedIndexxAcc.count();	
@@ -78,15 +88,15 @@ html5rocks.indexedDB.open = function() {
 										var displayAccoutFrom = arrayAccountNames[cursorT.value.transferFromAccount];
 										var displayAccoutTo = arrayAccountNames[cursorT.value.transferToAccount];
 										if(!displayAccoutFrom) 	
-										{	displayAccoutFrom = "<del>" + cursorT.value.transferHistoryFromAccount + "</del>(Deleted Account)";	}
+										{	displayAccoutFrom = "<del><label style='color:red;'>" + cursorT.value.transferHistoryFromAccount + "</label></del> (<label style='color:blue;'>Deleted Account</label>)";	}
 										if(!displayAccoutTo) 	
-										{	displayAccoutTo = "<del>" + cursorT.value.transferHistoryToAccount + "</del>(Deleted Account)";		}
+										{	displayAccoutTo = "<del><label style='color:green;'>" + cursorT.value.transferHistoryToAccount + "</label></del> (<label style='color:blue;'>Deleted Account</label>)";		}
 										
 										var stringAdd = "";
-										stringAdd += '<tr><td>Date of Transfer: </td><td>' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0] + "</td></tr>";
-										stringAdd += '<tr><td>From Account: </td><td>' + displayAccoutFrom + "</td></tr>";
-										stringAdd += '<tr><td>To Account: </td><td>' + displayAccoutTo + "</td></tr>";
-										stringAdd += '<tr><td>Amount: </td><td>' + cursorT.value.transferAmmount + " MKD" + "</td></tr>";
+										stringAdd += '<tr><td class=\'accTexStyle\' width=\'40%\'>Date of Transfer: </td><td>' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0] + "</td></tr>";
+										stringAdd += '<tr><td class=\'accTexStyle\'>From Account: </td><td><label style=\'color:red;\'>' + displayAccoutFrom + "</label></td></tr>";
+										stringAdd += '<tr><td class=\'accTexStyle\'>To Account: </td><td><label style=\'color:green;\'>' + displayAccoutTo + "</label></td></tr>";
+										stringAdd += '<tr><td class=\'accTexStyle\'>Amount: </td><td><b>' + cursorT.value.transferAmmount + " MKD" + "</b></td></tr>";
 
 										var thisTransferDateArray = (cursorT.value.transferDate).split('-');
 										var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);

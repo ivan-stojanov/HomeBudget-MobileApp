@@ -22,7 +22,7 @@
 			<div data-role="navbar" id="navBarGoUP" data-iconpos="left">
 			  <ul>
 				<li><a href="main.html" data-icon="home">Home</a></li>
-				<li><a href="transfersListDetails.html" rel="external" data-icon="refresh">Refresh</a></li>
+				<li><a href="./calculator/calculator.html" data-icon="grid" data-transition="fade" rel="external">Calculator</a></li>
 			  </ul>
 			</div>
 		</div>
@@ -31,15 +31,20 @@
 			<div id="wrapper">
 				<div id="transfersListDetails1"> 		  		
 					<h3 id="transfersListDetailsHeader">Transfers List</h3>
+					<hr>
 					<p><div id="pastTransfers">
 						<span id="transPast"><b><u>Passed Transfers</u></b></span>
-						<table id="pastTransfersTable"></table>
+						<table id="pastTransfersTable" width="100%"></table>
 					</div></p>
+					<hr>
 					<p><div id="futureTransfers">
 						<span id="transFuture"><b><u>Upcoming Transfers</u></b></span>
-						<table id="futureTransfersTable"></table>
+						<table id="futureTransfersTable" width="100%"></table>
 					</div></p>
-				</div> 
+					<hr>
+				</div>
+						<br>
+						<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
 				<ul id="actionList"></ul>					
 			</div>			
 			<div id="busy">Loading...</div>	
