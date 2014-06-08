@@ -60,34 +60,51 @@ $(document).ready(function() {
 				<li><a href="categoriesList.html" data-icon="bars" data-transition="slide" rel="external">Categories</a></li>
 			  </ul>
 			</div>
-
 		</div>
 		
-		<div data-role="content">	
-			
+		<div data-role="content">				
 		    <form id="formDetails">
 				<div data-role="fieldcontain">
-					<br><label for="categoryType">Type:</label><br>
-					<input type="text" name="categoryType" id="categoryType" value="" placeholder="Enter category type...">	
-
-					<br><br><label for="categoryIsIncome">isIncome:</label>
-					<div id="leftRadio"><select name="categoryIsIncome" id="categoryIsIncome" data-role="slider" data-mini="true">
-						<option value="off">No</option>
-						<option value="on" selected="">Yes</option>
-					</select></div>					
-					<label for="categoryIsExpense">isExpense:</label>
-					<div id="leftRadio"><select name="categoryIsExpense" id="categoryIsExpense" data-role="slider" data-mini="true">
-						<option value="off">No</option>
-						<option value="on" selected="">Yes</option>
-					</select></div>
-					<label for="categoryIsBill">isBill:</label>
-					<div id="leftRadio"><select name="categoryIsBill" id="categoryIsBill" data-role="slider" data-mini="true">
-						<option value="off">No</option>
-						<option value="on" selected="">Yes</option>
-					</select></div>
-
-				</div>					
-				<input type="submit" id="save" data-inline="true" value="Save">
+					<table width="100%">
+						<tr>
+							<td width="40%"><label for="categoryType" class="accTexStyle"><b>Category Name:</b></label></td>
+							<td><input type="text" name="categoryType" id="categoryType" value="" placeholder="Enter name..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+					</table>			
+			
+					<label id="leftRadio">
+						<select name="categoryIsIncome" id="categoryIsIncome" data-role="slider" data-mini="true">
+							<option value="off">No</option>
+							<option value="on" selected="">Yes</option>
+						</select>
+					</label>
+					<label style="width:60%;" for="categoryIsIncome" class="accTexStyle"> &nbsp   Marked as Income Category</label>
+					<hr>
+					<label id="leftRadio">
+						<select name="categoryIsExpense" id="categoryIsExpense" data-role="slider" data-mini="true">
+							<option value="off">No</option>
+							<option value="on" selected="">Yes</option>
+						</select>
+					</label>
+					<label style="width:60%;" for="categoryIsIncome" class="accTexStyle"> &nbsp   Marked as Expense Category</label>
+					<hr>
+					<label id="leftRadio">
+						<select name="categoryIsBill" id="categoryIsBill" data-role="slider" data-mini="true">
+							<option value="off">No</option>
+							<option value="on" selected="">Yes</option>
+						</select>
+					</label>
+					<label style="width:60%;" for="categoryIsBill" class="accTexStyle"> &nbsp   Marked as Bill Category</label>
+					<hr>
+				</div>
+				
+				<table width="100%">
+					<tr>
+						<td width="40%"> &nbsp </td>
+						<td style="width:60%;"><input type="submit" id="save" data-inline="true" value="Create the category"/></td>
+					</tr>
+				</table>				
 				<div id="resultLog"></div>
 			</form> 			
 		</div>
