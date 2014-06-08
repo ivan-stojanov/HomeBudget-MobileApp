@@ -1,3 +1,15 @@
+$( document ).ready(function() {
+	//get today date
+	var today1 = new Date();
+	var min1 = today1.getMinutes();	if(min1<10){min1='0'+min1}
+	var h1 = today1.getHours();		if(h1<10){h1='0'+h1}
+	var dd1 = today1.getDate();		if(dd1<10){dd1='0'+dd1}
+	var mm1 = today1.getMonth()+1;	if(mm1<10){mm1='0'+mm1}	//January is 0!
+	var yyyy1 = today1.getFullYear(); 
+	var todayDMY1 = dd1+'/'+mm1+'/'+yyyy1;
+	$('#currentDate').text(todayDMY1);
+});
+
 function funcAccountAdd() {
 	var openedDB;
 	var request;
