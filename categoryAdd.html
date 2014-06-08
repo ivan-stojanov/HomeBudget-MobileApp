@@ -26,8 +26,9 @@ $(document).ready(function() {
 	);
 */
 
-	$("#save").on("click", function(event){
-		var condition = (($('#categoryType').val().length > 0) /*&& ($('#expenseAmmount').val().length > 0) && ($('#drop-down-list-account').val().length > 0) && ($('#drop-down-list-category').val().length > 0) && ($('#expenseDueDate').val().length > 0)*/);
+
+	$("#save").on("click", function(event){ 
+		var condition = (($('#categoryType').val().length > 0) /*&& ($('#categoryIsIncome').val() == "on") || ($('#categoryIsExpense').val() == "on") || ($('#categoryIsBill').val() == "on")*/);
 		
 		if(condition == true) {
 			if(confirm("Are you sure you want to create this category?")){											
@@ -87,7 +88,7 @@ $(document).ready(function() {
 							<option value="on" selected="">Yes</option>
 						</select>
 					</label>
-					<label style="width:60%;" for="categoryIsIncome" class="accTexStyle"> &nbsp   Marked as Expense Category</label>
+					<label style="width:60%;" for="categoryIsExpense" class="accTexStyle"> &nbsp   Marked as Expense Category</label>
 					<hr>
 					<label id="leftRadio">
 						<select name="categoryIsBill" id="categoryIsBill" data-role="slider" data-mini="true">
