@@ -121,9 +121,16 @@ html5rocks.indexedDB.open = function() {
 						cursorIn.continue();
 					} else {
 						$('#todayIncomes').text($('#todayIncomes').html() + "+" + incomesToday);
+						if(incomesToday > 0) {	$('#todayIncomes').css("color","green");		} else {	$('#todayIncomes').css("color","blue");		}
+						
 						$('#past7daysIncomes').text($('#past7daysIncomes').html() + "+" + incomes7days);
+						if(incomes7days > 0) {	$('#past7daysIncomes').css("color","green");	} else {	$('#past7daysIncomes').css("color","blue");	}
+						
 						$('#thisMonthIncomes').text($('#thisMonthIncomes').html() + "+" + incomesThisMonth);
+						if(incomesThisMonth > 0) {	$('#thisMonthIncomes').css("color","green");} else {	$('#thisMonthIncomes').css("color","blue");	}
+						
 						$('#thisYearIncomes').text($('#thisYearIncomes').html() + "+" + incomesThisYear);
+						if(incomesThisYear > 0) {	$('#thisYearIncomes').css("color","green");} else {		$('#thisYearIncomes').css("color","blue");	}
 						
 						totalTodaySum = parseInt(totalTodaySum) + parseInt(incomesToday);
 						total7daysSum = parseInt(total7daysSum) + parseInt(incomes7days);
@@ -152,14 +159,6 @@ html5rocks.indexedDB.open = function() {
 		}
 			
 		numItemsIncomes.onerror = function(evt) { var numItemsIncomesCount = 0; }
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("expenses");
@@ -301,9 +300,16 @@ html5rocks.indexedDB.open = function() {
 						}
 					} else {
 						$('#todayExpenses').text($('#todayExpenses').html() + "-" + expensesToday);
+						if(expensesToday > 0) {	$('#todayExpenses').css("color","red");		} else {	$('#todayExpenses').css("color","blue");		}
+
 						$('#past7daysExpenses').text($('#past7daysExpenses').html() + "-" + expenses7days);
+						if(expenses7days > 0) {	$('#past7daysExpenses').css("color","red");	} else {	$('#past7daysExpenses').css("color","blue");	}
+						
 						$('#thisMonthExpenses').text($('#thisMonthExpenses').html() + "-" + expensesThisMonth);
+						if(expensesThisMonth > 0) {	$('#thisMonthExpenses').css("color","red");	} else {$('#thisMonthExpenses').css("color","blue");	}
+						
 						$('#thisYearExpenses').text($('#thisYearExpenses').html() + "-" + expensesThisYear);
+						if(expensesThisYear > 0) {	$('#thisYearExpenses').css("color","red");	} else {$('#thisYearExpenses').css("color","blue");	}
 						
 						totalTodaySum = parseInt(totalTodaySum) - parseInt(expensesToday);
 						total7daysSum = parseInt(total7daysSum) - parseInt(expenses7days);
@@ -336,3 +342,15 @@ html5rocks.indexedDB.open = function() {
 	
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+$( document ).ready(function() {
+	//get today date
+	var today1 = new Date();
+	var min1 = today1.getMinutes();	if(min1<10){min1='0'+min1}
+	var h1 = today1.getHours();		if(h1<10){h1='0'+h1}
+	var dd1 = today1.getDate();		if(dd1<10){dd1='0'+dd1}
+	var mm1 = today1.getMonth()+1;	if(mm1<10){mm1='0'+mm1}	//January is 0!
+	var yyyy1 = today1.getFullYear(); 
+	var todayDMY1 = dd1+'/'+mm1+'/'+yyyy1;
+	$('#currentDate').text(todayDMY1);
+});

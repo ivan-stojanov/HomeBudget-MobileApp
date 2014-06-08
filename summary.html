@@ -36,34 +36,48 @@
 				<li><a href="./calculator/calculator.html" data-icon="grid" data-transition="fade" rel="external">Calculator</a></li>
 			  </ul>
 			</div>
-
 		</div>
 		
-		<div data-role="content">	
-			<!--<div id="header2">
-				<h2>Account Details</h2>
-			</div>-->
-
+		<div data-role="content">
 			<div id="wrapper">
 					<div id="incomeDetails"> 		  		
-						<h3 id="Summary">Summary</h3><br>
-						Today<p id="todayIncomes"></p><p id="todayExpenses"></p><hr width="10%" align="left"><p id="todaySum"></p><br>
-						Past 7 Days<p id="past7daysIncomes"></p><p id="past7daysExpenses"></p><hr width="10%" align="left"><p id="past7daysSum"></p><br>
-						This Month<p id="thisMonthIncomes"></p><p id="thisMonthExpenses"></p><hr width="10%" align="left"><p id="thisMonthSum"></p><br>
-						This Year<p id="thisYearIncomes"></p><p id="thisYearExpenses"></p><hr width="10%" align="left"><p id="thisYearSum"></p><br>
+						<table width="100%">
+							<tr><td colspan="2" align="center"><h3 id="Summary">Summary</h3></td></tr>
+							<tr><td colspan="2"> &nbsp </td></tr>
+							<tr><td>
+									<span class="accTexStyle"><b>Today</b></span>
+									<p id="todayIncomes"></p><p id="todayExpenses"></p><hr width="50%" align="left"><p id="todaySum"></p>
+								</td>
+								<td>
+									<span class="accTexStyle"><b>Past 7 Days</b></span>
+									<p id="past7daysIncomes"></p><p id="past7daysExpenses"></p><hr width="50%" align="left"><p id="past7daysSum"></p>
+								</td>
+							</tr>
+							<tr><td colspan="2"><hr></td></tr>
+							<tr>
+								<td>
+									<span class="accTexStyle"><b>This Month</b></span>
+									<p id="thisMonthIncomes"></p><p id="thisMonthExpenses"></p><hr width="50%" align="left"><p id="thisMonthSum"></p>
+								</td>
+								<td>
+									<span class="accTexStyle"><b>This Year</b></span>
+									<p id="thisYearIncomes"></p><p id="thisYearExpenses"></p><hr width="50%" align="left"><p id="thisYearSum"></p>
+								</td>
+							</tr>
+							<tr><td colspan="2"><hr></td></tr>
+						</table>
 					</div> 
 					<ul id="actionList"></ul>					
-			</div>
-			
+			</div>			
 			<div id="busy">Loading...</div>	
-			</div>
-
-			<div data-role="footer" class="footer">
-				<h1><span class="titleTXT">Summary</span></h1>
-			</div>
-			
+				<br>
+				<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
 		</div>
 
+		<div data-role="footer" class="footer">
+			<h1><span class="titleTXT">Summary</span></h1>
+		</div>
+			
+	</div>
 </body>
-
 </html>
