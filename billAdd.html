@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 	addAccountsDropDown();
 	addBillCategoriesDropDown();
-	$("#repeatPeriod").hide();	
+	$(".repeatPeriod").hide();	
 	$('#repeat').value == "off";
 	/*touchEvent = (navigator.userAgent.match(/iPad|iPhone|Android/i)) ? "touchstart" : "click";    
     $(document).on(touchEvent, '.ui-radio', function(){ 
@@ -26,9 +26,9 @@ $(document).ready(function() {
 	$('#repeat').change(
 		function(){//*/
 			if(this.value == "on") {				
-					$("#repeatPeriod").show();
+					$(".repeatPeriod").show();
 			} else {
-					$("#repeatPeriod").hide();
+					$(".repeatPeriod").hide();
 			}
 		}
 	);
@@ -57,7 +57,10 @@ $(document).ready(function() {
 });	
 //data-ajax="false" method="post" action="incomesList.html" 
 </script>
-
+<!--					
+<br><br><label for="billDueDate">Due Date:</label><br>
+<input type="date" name="billDueDate" id="billDueDate" value="2020-01-01"  />						
+-->	
 </head>
     
 <body>
@@ -79,70 +82,75 @@ $(document).ready(function() {
 			
 		    <form id="formDetails">
 				<div data-role="fieldcontain">	
-
-					<br><label for="drop-down-list-category" class="select">Bill Category:</label>
-					<br><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
-						<option value="">Choose bill category</option>
-						<option value="" disable> . . . </option>
-					</select>
+					<table width="100%">
+						<tr>
+							<td><label for="drop-down-list-category" class="accTexStyle select">Choose Bill Category:</label></td>
+							<td><select name="drop-down-list-category" id="drop-down-list-category" data-native-menu="false">
+									<option value="">Choose category</option>
+									<option value="" disable> . . . </option>
+								</select></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="billAmmount" class="accTexStyle">Bill Amount (MKD):</label></td>
+							<td><input type="number" name="billAmmount" id="billAmmount" value="" placeholder="Enter amount..."></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td><label for="drop-down-list-account" class="accTexStyle select">Choose Account:</label></td>
+							<td><select name="drop-down-list-account" id="drop-down-list-account" data-native-menu="false">
+									<option value="">Choose account</option>
+									<option value="Cash on hand">Cash on hand</option>
+									<option value="Credit Card">Credit Card</option>
+									<option value="Bank Account">Bank Account</option>
+									<option value="points" disable> . . . </option>
+								</select></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+					</table>	
 				
-					<br><br><label for="billAmmount">Ammount:</label><br>
-					<input type="number" name="billAmmount" id="billAmmount" value="" placeholder="Enter bill ammount..."><!--pattern="[0-9]*"--> 
-					
-					<br><br><label for="drop-down-list-account" class="select">Account:</label>
-					<br><select name="drop-down-list-account" id="drop-down-list-account" data-native-menu="false">
-						<option value="">Choose bill account</option>
-						<option value="Cash on hand">Cash on hand</option>
-						<option value="Credit Card">Credit Card</option>
-						<option value="Bank Account">Bank Account</option>
-						<option value="points" disable> . . . </option>
-					</select>
-					<!--	
-					
-					<br><br><label for="billDueDate">Due Date:</label><br>
-					<input type="date" name="billDueDate" id="billDueDate" value="2020-01-01"  />	
-					
-					-->				
-					<br><br>					
-					<label for="paid">Paid:</label>
-					<div id="leftRadioPaid"><select name="paid" id="paid" data-role="slider" data-mini="true">
-						<option value="paidYes">Yes</option>
-						<option value="paidNoo" selected="">No</option>
-					</select></div>
-
-					<br><br>					
-					<label for="repeat">Repeat:</label>
-					<div id="leftRadio"><select name="repeat" id="repeat" data-role="slider" data-mini="true">
-						<option value="on">Yes</option>
-						<option value="off" selected="">No</option>
-					</select></div>
-					<!--<fieldset data-role="controlgroup" data-theme="b" data-mini="true" data-type="vertical" id="leftRadio">
-						<legend>Repeat:</legend><br><br>
-							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6a" value="on">
-							<label for="radio-choice-t-6a">Yes</label>
-							<input type="radio" name="radio-choice-t-6" id="radio-choice-t-6b" value="off" checked="checked">
-							<label for="radio-choice-t-6b">No</label>
-					</fieldset>-->
-					<div id="repeatPeriod">
-						<!--<br><label for="incomeRepeatPeriod">Repeat Period:</label><br>
-						<input type="number" name="incomeRepeatPeriod" id="incomeRepeatPeriod" value="" />-->						
-						<!--<br><br><label for="drop-down-list-cycle" class="select">Cycle:</label>-->
-						<br>
-						<!--<div class=ui-grid-a id="my-block">
-						<div class=ui-block-a>-->
-						<select name="billRepeatCycle" id="drop-down-list-cycle" data-native-menu="false">		
-							<option value="">Cycle</option>
-							<option value="Hourly">Hourly</option>
-							<option value="Dayly">Dayly</option>
-							<option value="Weekly">Weekly</option>
-							<option value="Monthly">Monthly</option>
-							<option value="Yearly">Yearly</option>
-						</select>	   
-						<br><br><label for="billRepeatEndDate">End Date:</label><br><br>
-						<input type="date" name="billRepeatEndDate" id="billRepeatEndDate" value=""  />
+					<label for="paid" class="accTexStyle">Paid:</label>
+					<div id="leftRadioPaid">
+						<select name="paid" id="paid" data-role="slider" data-mini="true">
+							<option value="paidYes">Yes</option>
+							<option value="paidNoo" selected="">No</option>
+						</select>
 					</div>
+					<hr>
+					<label for="repeat" class="accTexStyle">Repeat:</label>
+					<div id="leftRadioIncome">
+						<select name="repeat" id="repeat" data-role="slider" data-mini="true">
+							<option value="on">Yes</option>
+							<option value="off" selected="">No</option>
+						</select>
+					</div>						
+				
+					<table width="100%">
+						<tr class="repeatPeriod"><td colspan="2"><hr></td></tr>
+						<tr class="repeatPeriod">
+							<td><label for="drop-down-list-cycle" class="accTexStyle">Choose Repeat Cycle:</label></td>
+							<td><select name="billRepeatCycle" id="drop-down-list-cycle" data-native-menu="false">		
+									<option value="">Cycle</option>
+									<option value="Hourly">Hourly</option>
+									<option value="Dayly">Dayly</option>
+									<option value="Weekly">Weekly</option>
+									<option value="Monthly">Monthly</option>
+									<option value="Yearly">Yearly</option>
+								</select></td>
+						</tr>
+						<tr class="repeatPeriod"><td colspan="2"><hr></td></tr>
+						<tr class="repeatPeriod">
+							<td><label for="billRepeatEndDate" class="accTexStyle">Repeat Until:</label></td>
+							<td><input type="date" name="billRepeatEndDate" id="billRepeatEndDate" value=""></td>
+						</tr>
+						<tr><td colspan="2"><hr></td></tr>
+						<tr>
+							<td width="40%"> &nbsp </td>
+							<td><input type="submit" id="save" data-inline="true" value="Create the expense"></td>
+						</tr>
+					</table>
+					
 				</div>					
-				<input type="submit" id="save" data-inline="true" value="Save">
 				<div id="resultLog"></div>
 			</form> 			
 			<div id="busy">Loading...</div>	
@@ -153,7 +161,5 @@ $(document).ready(function() {
 		</div>
 	
 	</div>
-
 </body>
-
 </html>
