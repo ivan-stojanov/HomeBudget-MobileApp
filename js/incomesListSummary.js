@@ -69,6 +69,17 @@ html5rocks.indexedDB.open = function() {
 		var numItemsRequesr = openedIndex.count();	
 		var countTest = 0;	var classUnderline = "";
 		var conditionItem = sessionStorage.getItem("summaryType");
+		if(conditionItem == "today"){
+			$('#noIncomes').html("<br><h3>List of Incomes from Today</h3><hr><br>There are no records about incomes from Today!<br><br><hr>");				
+		} else if(conditionItem == "past7days"){
+			$('#noIncomes').html("<br><h3>List of Incomes from last 7 days</h3><hr><br>There are no records about incomes from last 7 days!<br><br><hr>");	
+		} else if(conditionItem == "thisMonth"){
+			$('#noIncomes').html("<br><h3>List of Incomes from this month</h3><hr><br>There are no records about incomes from this month!<br><br><hr>");	
+		} else if(conditionItem == "thisYear"){
+			$('#noIncomes').html("<br><h3>List of Incomes from this year</h3><hr><br>There are no records about incomes from this year!<br><br><hr>");		
+		} else {
+			$('#noIncomes').html("<br><h3>List of Incomes</h3><hr><br>There are no records about incomes!<br><br><hr>");				
+		}
 		var condition;
 
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
@@ -87,13 +98,13 @@ html5rocks.indexedDB.open = function() {
 							dateFormatIncomeCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
 							var currentTime = new Date();
 							if(conditionItem == "today"){
-								condition = ((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+								condition = ((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 							} else if(conditionItem == "past7days"){
-								condition = ((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+								condition = ((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 							} else if(conditionItem == "thisMonth"){
-								condition = ((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+								condition = ((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 							} else if(conditionItem == "thisYear"){
-								condition = ((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+								condition = ((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 							} else {
 								condition = true;
 							}
@@ -113,13 +124,13 @@ html5rocks.indexedDB.open = function() {
 								dateFormatIncomeCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
 								var currentTime = new Date();
 								if(conditionItem == "today"){
-									condition = ((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+									condition = ((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 								} else if(conditionItem == "past7days"){
-									condition = ((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+									condition = ((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 								} else if(conditionItem == "thisMonth"){
-									condition = ((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+									condition = ((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 								} else if(conditionItem == "thisYear"){
-									condition = ((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
+									condition = ((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));
 								} else {
 									condition = true;
 								}

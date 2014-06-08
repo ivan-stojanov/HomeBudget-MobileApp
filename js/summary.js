@@ -146,7 +146,9 @@ html5rocks.indexedDB.open = function() {
 							if((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 								incomesThisYear = parseInt(incomesThisYear) + parseInt(ammountIncome);
 							}
-							incomesTotal = parseInt(incomesTotal) + parseInt(ammountIncome);
+							if(currentTime - dateFormatIncomeCreated > 0) {
+								incomesTotal = parseInt(incomesTotal) + parseInt(ammountIncome);
+							}
 						} else {
 							for(var i=0; i<differentDatesIncomes.length; i++) {
 								datePartsIterate = differentDatesIncomes[i].split("/");	//	17/04/2014/23/59
@@ -164,7 +166,9 @@ html5rocks.indexedDB.open = function() {
 								if((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 									incomesThisYear = parseInt(incomesThisYear) + parseInt(ammountIncome);
 								}
-								incomesTotal = parseInt(incomesTotal) + parseInt(ammountIncome);
+								if(currentTime - dateFormatIncomeCreated > 0) {
+									incomesTotal = parseInt(incomesTotal) + parseInt(ammountIncome);
+								}
 							}
 						}
 						cursorIn.continue();
@@ -309,37 +313,42 @@ html5rocks.indexedDB.open = function() {
 							if(differentDatesExpenses.length == 1) {
 								datePartsIterate = dateStringExpenseCreated.split("/");	//	17/04/2014/23/59
 								dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-								if(dateFormatExpenseCreated - todayStartDate > 0) {								
+								var currentTimeE = new Date();
+								if((dateFormatExpenseCreated - todayStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 									expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
 								}
-								if(dateFormatExpenseCreated - weekStartDate > 0) {								
+								if((dateFormatExpenseCreated - weekStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 									expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
 								}
-								if(dateFormatExpenseCreated - monthStartDate > 0) {								
+								if((dateFormatExpenseCreated - monthStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 									expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
 								}
-								if(dateFormatExpenseCreated - yearStartDate > 0) {								
+								if((dateFormatExpenseCreated - yearStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 									expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
 								}
-								expensesTotal = parseInt(expensesTotal) + parseInt(ammountExpense);
+								if(currentTimeE - dateFormatExpenseCreated > 0) {
+									expensesTotal = parseInt(expensesTotal) + parseInt(ammountExpense);
+								}
 							} else {
 								for(var i=0; i<differentDatesExpenses.length; i++) {
 									datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
 									dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-									
-									if(dateFormatExpenseCreated - todayStartDate > 0) {								
+									var currentTimeE = new Date();
+									if((dateFormatExpenseCreated - todayStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 										expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
 									}
-									if(dateFormatExpenseCreated - weekStartDate > 0) {								
+									if((dateFormatExpenseCreated - weekStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 										expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
 									}
-									if(dateFormatExpenseCreated - monthStartDate > 0) {								
+									if((dateFormatExpenseCreated - monthStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 										expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
 									}
-									if(dateFormatExpenseCreated - yearStartDate > 0) {								
+									if((dateFormatExpenseCreated - yearStartDate > 0) && (currentTimeE - dateFormatExpenseCreated > 0)) {
 										expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
 									}
-									expensesTotal = parseInt(expensesTotal) + parseInt(ammountExpense);
+									if(currentTimeE - dateFormatExpenseCreated > 0) {
+										expensesTotal = parseInt(expensesTotal) + parseInt(ammountExpense);
+									}
 								}
 							}
 							cursorEx.continue();
@@ -406,6 +415,7 @@ html5rocks.indexedDB.open = function() {
 								//$('#todayExpenses').html("&nbsp0 MKD");
 							}
 						}
+						$('#todayExpenses').html($('#todayExpenses').html() + " <a href='expensesListSummary.html' onclick='setSummaryType(1)' rel='external'><i><label class='moreLabel'>see all</label></i></a>");						
 
 						$('#past7daysExpenses').text($('#past7daysExpenses').html() + "-" + expenses7days + " MKD");
 						if(expenses7days > 0) {
@@ -416,6 +426,7 @@ html5rocks.indexedDB.open = function() {
 								//$('#past7daysExpenses').html("&nbsp0 MKD");
 							}
 						}
+						$('#past7daysExpenses').html("<a href='expensesListSummary.html' onclick='setSummaryType(2)' rel='external'><i><label class='moreLabel'>see all</label></i></a>  " + $('#past7daysExpenses').html());
 						
 						$('#thisMonthExpenses').text($('#thisMonthExpenses').html() + "-" + expensesThisMonth + " MKD");
 						if(expensesThisMonth > 0) {
@@ -426,6 +437,7 @@ html5rocks.indexedDB.open = function() {
 								//$('#thisMonthExpenses').html("&nbsp0 MKD");
 							}
 						}
+						$('#thisMonthExpenses').html($('#thisMonthExpenses').html() + " <a href='expensesListSummary.html' onclick='setSummaryType(3)' rel='external'><i><label class='moreLabel'>see all</label></i></a>");
 						
 						$('#thisYearExpenses').text($('#thisYearExpenses').html() + "-" + expensesThisYear + " MKD");
 						if(expensesThisYear > 0) {
@@ -436,6 +448,7 @@ html5rocks.indexedDB.open = function() {
 								//$('#thisYearExpenses').html("&nbsp0 MKD");
 							}
 						}
+						$('#thisYearExpenses').html("<a href='expensesListSummary.html' onclick='setSummaryType(4)' rel='external'><i><label class='moreLabel'>see all</label></i></a>  " + $('#thisYearExpenses').html());
 
 						$('#totalExpenses').text($('#totalExpenses').html() + "-" + expensesTotal + " MKD");
 						if(expensesTotal > 0) {

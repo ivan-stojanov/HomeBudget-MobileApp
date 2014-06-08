@@ -234,7 +234,7 @@ String.prototype.replaceBetween = function(start, end, what) {
 };
 
 function changeStatus(comleteStringStatus, statusToChange, currentPosition, dateThisInstance) {
-alert("comleteStringStatus: " + comleteStringStatus + " + statusToChange: " + statusToChange + " + currentPosition: " + currentPosition + " + dateThisInstance: " + dateThisInstance);
+//alert("comleteStringStatus: " + comleteStringStatus + " + statusToChange: " + statusToChange + " + currentPosition: " + currentPosition + " + dateThisInstance: " + dateThisInstance);
 	var originalString = comleteStringStatus;
 	var newOriginalString;
 	var deleteStartPosition8;

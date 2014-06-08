@@ -6,33 +6,33 @@
 	<script src="./internet/jquery.mobile-1.3.2.min.js"></script>
 	<link rel="stylesheet" href="css/styles.css" />	
 	<script type="text/javascript" src="./js/date.js"></script>
-	<script src="js/incomesListSummary.js"></script>	
+	<script src="js/expensesListSummary.js"></script>
 </head>
 <body>
-	<div data-role="page" id="incomesListSummary">
-	
+	<div data-role="page" id="expensesListSummary">
+	 
 		<div data-role="header" id="header" class="header">
 			<h1><span class="titleTXT">Home Budget Manager</span></h1>
 			<a href="#" data-role="button" data-icon="back" data-rel="back" data-theme="c">Go Back</a><!-- -->
 			<div data-role="navbar" id="navBarGoUP" data-iconpos="left">
 			  <ul>
 				<li><a href="main.html" data-icon="home">Home</a></li>
-				<li><a href="incomeAdd.html" data-icon="plus" data-transition="slide" rel="external">Add Income</a></li>
+				<li><a href="expenseAdd.html" data-icon="plus" data-transition="slide" rel="external" >Add Expense</a></li>
 			  </ul>
 			</div>
 		</div>
 
-		<div data-role="content">			
+		<div data-role="content">
 			<div>
-				<div id="noIncomes" align="left"><br><h3>List of Incomes</h3><hr><br>There are no records about incomes!<br><br><hr></div>
-				<ul  data-role="listview" id="incomesListUL" data-inset="false">
-				</ul>
-			</div>
+				<div id="noExpenses" align="left"><br><h3>List of Expenses from Today</h3><hr><br>There are no records about expenses from Today!<br><br><hr></div>
+				<ul data-role="listview" id="expensesListUL" data-inset="false"></ul>
+				<ul data-role="listview" id="billsListULe" data-inset="false"></ul>
+			</div>			
 			<div id="busy">Loading...</div>
 		</div>
-
+		
 		<div data-role="footer" class="footer">
-			<h1><span class="titleTXT">Income List</span></h1>
+			<h1><span class="titleTXT">Expense List</span></h1>
 		</div>
 		
 	</div> 
