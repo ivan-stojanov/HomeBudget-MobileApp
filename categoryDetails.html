@@ -26,50 +26,57 @@
 		</div>		
 		<div data-role="content">
 			<div id="wrapper">
-				<div id="categoryDetails"> 		  		
-					<h3 id="categoryType"></h3>
+				<div id="categoryDetails"> 	
 					<table>
+						<tr>
+							<td class="accTexStyle">Category Type:  &nbsp &nbsp &nbsp </td>
+							<td><h3 id="categoryType"></h3></td>
+						</tr>
+					</table>
+					
+					<!--<table>
 					<tr><td>isIncome</td><td><div id="categoryIsIncome"></div></td></tr>
 					<tr><td>isExpense</td><td><div id="categoryIsExpense"></div></td></tr>
 					<tr><td>isBill</td><td><div id="categoryIsBill"></div></td></tr>
-					</table>
-					<p id="currentDate"></p>
+					</table>-->
+					
+					<hr>	
+					<div for="categoryIsIncomeB"> Mark as Income</div><!--style="margin-top:-20px;"--> 
+					<label id="catIncomeIDinitialYES"><select name="categoryIsIncomeB" class="categoryIsIncomeB" data-role="slider" data-mini="true">
+						<option value="off">No</option>
+						<option value="on" selected="">Yes</option>
+					</select></label>	
+					<label id="catIncomeIDinitialNO"><select name="categoryIsIncomeB" class="categoryIsIncomeB" data-role="slider" data-mini="true">
+						<option value="off" selected="">No</option>
+						<option value="on">Yes</option>
+					</select></label>	
+					<hr>
+					<div for="categoryIsExpenseB"> Mark as Expense</div><!--style="margin-top:-20px;"--> 
+					<label id="catExpenseIDinitialYES"><select name="categoryIsExpenseB" class="categoryIsExpenseB" data-role="slider" data-mini="true">
+						<option value="off"><div>No</div></option>
+						<option value="on" selected=""><div>Yes</div></option>
+					</select></label>
+					<label id="catExpenseIDinitialNO"><select name="categoryIsExpenseB" class="categoryIsExpenseB" data-role="slider" data-mini="true">
+						<option value="off" selected=""><div>No</div></option>
+						<option value="on"><div>Yes</div></option>
+					</select></label>
+					<hr>
+					<div for="categoryIsBillB"> Mark as Bill</div><!--style="margin-top:-20px;"--> 
+					<label id="catBillIDinitialYES"><select name="categoryIsBillB" class="categoryIsBillB" data-role="slider" data-mini="true">
+						<option value="off">No</option>
+						<option value="on" selected="">Yes</option>
+					</select></label>
+					<label id="catBillIDinitialNO"><select name="categoryIsBillB" class="categoryIsBillB" data-role="slider" data-mini="true">
+						<option value="off" selected="">No</option>
+						<option value="on">Yes</option>
+					</select></label>
 				</div> 
 				<ul id="actionList"></ul>					
 			</div>
+			<hr><br>
+			<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
 		</div>
-<p>		
-<label for="categoryIsIncomeB">isIncome:</label>
-<div id="catIncomeIDinitialYES"><select name="categoryIsIncomeB" class="categoryIsIncomeB" data-role="slider" data-mini="true">
-	<option value="off">No</option>
-	<option value="on" selected="">Yes</option>
-</select></div>	
-<div id="catIncomeIDinitialNO"><select name="categoryIsIncomeB" class="categoryIsIncomeB" data-role="slider" data-mini="true">
-	<option value="off" selected="">No</option>
-	<option value="on">Yes</option>
-</select></div>					
-				
-<label for="categoryIsExpenseB">isExpense:</label>
-<div id="catExpenseIDinitialYES"><select name="categoryIsExpenseB" class="categoryIsExpenseB" data-role="slider" data-mini="true">
-	<option value="off"><div>No</div></option>
-	<option value="on" selected=""><div>Yes</div></option>
-</select></div>
-<div id="catExpenseIDinitialNO"><select name="categoryIsExpenseB" class="categoryIsExpenseB" data-role="slider" data-mini="true">
-	<option value="off" selected=""><div>No</div></option>
-	<option value="on"><div>Yes</div></option>
-</select></div>
-
-<label for="categoryIsBillB">isBill:</label>
-<div id="catBillIDinitialYES"><select name="categoryIsBillB" class="categoryIsBillB" data-role="slider" data-mini="true">
-	<option value="off">No</option>
-	<option value="on" selected="">Yes</option>
-</select></div>
-<div id="catBillIDinitialNO"><select name="categoryIsBillB" class="categoryIsBillB" data-role="slider" data-mini="true">
-	<option value="off" selected="">No</option>
-	<option value="on">Yes</option>
-</select></div>
-
-</p>		
+		
 		<div data-role="footer" class="footer">
 			<h1><span class="titleTXT">Category Details</span></h1>
 		</div>
