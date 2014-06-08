@@ -83,25 +83,25 @@ html5rocks.indexedDB.open = function() {
 										{	displayAccoutTo = "<del>" + cursorT.value.transferHistoryToAccount + "</del>(Deleted Account)";		}
 										
 										var stringAdd = "";
-										stringAdd += '<br>Date of Transfer: ' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0];
-										stringAdd += '<br>From Account: ' + displayAccoutFrom;
-										stringAdd += '<br>To Account: ' + displayAccoutTo;
-										stringAdd += '<br>Amount: ' + cursorT.value.transferAmmount + " MKD";
+										stringAdd += '<tr><td>Date of Transfer: </td><td>' + dateArrayForm[2]+'/'+dateArrayForm[1]+'/'+dateArrayForm[0] + "</td></tr>";
+										stringAdd += '<tr><td>From Account: </td><td>' + displayAccoutFrom + "</td></tr>";
+										stringAdd += '<tr><td>To Account: </td><td>' + displayAccoutTo + "</td></tr>";
+										stringAdd += '<tr><td>Amount: </td><td>' + cursorT.value.transferAmmount + " MKD" + "</td></tr>";
 
 										var thisTransferDateArray = (cursorT.value.transferDate).split('-');
 										var thisTransferDate = new Date(thisTransferDateArray[0],parseInt(thisTransferDateArray[1] - 1),thisTransferDateArray[2]);
 										
 										if(today >= thisTransferDate) { //it is in the past 
 											if(cursorT.value.transferStatus == "fail") {	// if it is canceled while upcoming, then there is no transfer
-												stringAdd = "<br><b><label class='canceled'>CANCELED:</label></b>" + stringAdd;
+												stringAdd = "<tr><td><b><label class='canceled'>CANCELED:</label></b></td><td> &nbsp </td></tr>'" + stringAdd;
 											}										
 											numPassed++;
-											stringAdd += '<br><input type="button" value="Remove from list" onclick="removePast(' + cursorT.value.id + ')"/>';
-											stringAdd += '<hr>';
-											$('#pastTransfers').html($('#pastTransfers').html() + stringAdd);							
+											stringAdd += '<tr><td> &nbsp </td><td><input type="button" value="Remove from list" onclick="removePast(' + cursorT.value.id + ')"/>' + '</td></tr>';
+											stringAdd += '<tr><td> &nbsp </td><td> &nbsp </td></tr>';
+											$('#pastTransfersTable').html($('#pastTransfersTable').html() + stringAdd);							
 										} else {						//it is in the future
 											if((!arrayAccountNames[cursorT.value.transferFromAccount]) || (!arrayAccountNames[cursorT.value.transferToAccount]) || (cursorT.value.transferStatus == "fail")) {
-												stringAdd = "<br><b><label class='canceled'>CANCELED:</label></b>" + stringAdd;
+												stringAdd = "<tr><td><br><b><label class='canceled'>CANCELED:</label></b></td><td> &nbsp </td></tr>" + stringAdd;
 											}										
 											numFuture++;											
 							var objTransferCurrent = {
@@ -114,21 +114,22 @@ html5rocks.indexedDB.open = function() {
 								transferStatus: cursorT.value.transferStatus,
 								id: cursorT.value.id
 							};	
-											stringAdd += '<br>';
+											//stringAdd += '<br>';
+											var cancel = "&nbsp";
 											if(objTransferCurrent.transferStatus != "fail") {
-												stringAdd += '<input type="button" value="Cancel" onclick="cancelFuture(' + objTransferCurrent.id + ',' +objTransferCurrent.transferAmmount + ',\'' + objTransferCurrent.transferDate + '\',' + objTransferCurrent.transferFromAccount + ',' + objTransferCurrent.transferToAccount + ',\'' + objTransferCurrent.transferStatus + '\',\'' + objTransferCurrent.transferHistoryFromAccount + '\',\'' + objTransferCurrent.transferHistoryToAccount + '\')"/>';
+												cancel = '<input type="button" value="Cancel" onclick="cancelFuture(' + objTransferCurrent.id + ',' +objTransferCurrent.transferAmmount + ',\'' + objTransferCurrent.transferDate + '\',' + objTransferCurrent.transferFromAccount + ',' + objTransferCurrent.transferToAccount + ',\'' + objTransferCurrent.transferStatus + '\',\'' + objTransferCurrent.transferHistoryFromAccount + '\',\'' + objTransferCurrent.transferHistoryToAccount + '\')"/>';
 											}
-											stringAdd += '<input type="button" value="Remove from list" onclick="removeFuture(' + cursorT.value.id + ')"/>';
-											stringAdd += '<hr>';
-											$('#futureTransfers').html($('#futureTransfers').html() + stringAdd);
+											stringAdd += '<tr><td>' + cancel + '</td><td><input type="button" value="Remove from list" onclick="removeFuture(' + cursorT.value.id + ')"/></td></tr>';
+											stringAdd += '<tr><td> &nbsp </td><td> &nbsp </td></tr>';
+											$('#futureTransfersTable').html($('#futureTransfersTable').html() + stringAdd);
 										}
 										cursorT.continue();
 									} else {
 										if(numPassed == 0) {
-											$('#pastTransfers').html($('#pastTransfers').html() + "<br>There are no records about transfers in the past!");
+											$('#pastTransfersTable').html($('#pastTransfersTable').html() + "<tr><td colspan='2'>There are no records about transfers in the past!</td></tr>");
 										}
 										if(numFuture == 0) {
-											$('#futureTransfers').html($('#futureTransfers').html() + "<br>There are no records about upcoming transfers!");
+											$('#futureTransfersTable').html($('#futureTransfersTable').html() + "<tr><td colspan='2'>There are no records about upcoming transfers!</td></tr>");
 										}
 									}
 								}
