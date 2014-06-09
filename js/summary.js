@@ -68,7 +68,7 @@ html5rocks.indexedDB.open = function() {
 						if((parseFloat(accountsTotal)) > 0) {	
 							$('#accountStatus').css("color","green");
 							$("#accountStatus").html("+" + $("#accountStatus").html());
-						} else if((parseFloat(signToday + totalTodaySum)) < 0) {		
+						} else if((parseFloat(accountsTotal)) < 0) {		
 							$('#accountStatus').css("color","red");	
 						} else {
 							$('#accountStatus').css("color","blue");	
@@ -168,20 +168,59 @@ html5rocks.indexedDB.open = function() {
 						}
 						cursorIn.continue();
 					} else {
-						$('#todayIncomes').text($('#todayIncomes').html() + "+" + incomesToday + " MKD");
-						if(incomesToday > 0) {	$('#todayIncomes').css("color","green");		} else {	$('#todayIncomes').css("color","blue");		}
+						$('#todayIncomes').html($('#todayIncomes').html() + "+" + incomesToday + " MKD");
+						if(incomesToday > 0) {	
+							$('#todayIncomes').css("color","green");		
+						} else {	
+							$('#todayIncomes').css("color","blue");
+							if(($('#todayIncomes').text()[0] == "+") || ($('#todayIncomes').text()[0] == "-")){
+								//$('#todayIncomes').html("&nbsp0 MKD");
+							}
+						}
+						$('#todayIncomes').html($('#todayIncomes').html() + " <a href='incomesListSummary.html' onclick='setSummaryType(1)' rel='external'><i><label class='moreLabel'>see all</label></i></a>");						
 						
-						$('#past7daysIncomes').text($('#past7daysIncomes').html() + "+" + incomes7days + " MKD");
-						if(incomes7days > 0) {	$('#past7daysIncomes').css("color","green");	} else {	$('#past7daysIncomes').css("color","blue");	}
+						$('#past7daysIncomes').html($('#past7daysIncomes').html() + "+" + incomes7days + " MKD");
+						if(incomes7days > 0) {
+							$('#past7daysIncomes').css("color","green");
+						} else {
+							$('#past7daysIncomes').css("color","blue");
+							if(($('#past7daysIncomes').text()[0] == "+") || ($('#past7daysIncomes').text()[0] == "-")){
+								//$('#past7daysIncomes').html("&nbsp0 MKD");
+							}
+						}
+						$('#past7daysIncomes').html("<a href='incomesListSummary.html' onclick='setSummaryType(2)' rel='external'><i><label class='moreLabel'>see all</label></i></a>  " + $('#past7daysIncomes').html());
+
+						$('#thisMonthIncomes').html($('#thisMonthIncomes').html() + "+" + incomesThisMonth + " MKD");
+						if(incomesThisMonth > 0) {
+							$('#thisMonthIncomes').css("color","green");
+						} else {
+							$('#thisMonthIncomes').css("color","blue");
+							if(($('#thisMonthIncomes').text()[0] == "+") || ($('#thisMonthIncomes').text()[0] == "-")){
+								//$('#thisMonthIncomes').html("&nbsp0 MKD");
+							}
+						}
+						$('#thisMonthIncomes').html($('#thisMonthIncomes').html() + " <a href='incomesListSummary.html' onclick='setSummaryType(3)' rel='external'><i><label class='moreLabel'>see all</label></i></a>");
 						
-						$('#thisMonthIncomes').text($('#thisMonthIncomes').html() + "+" + incomesThisMonth + " MKD");
-						if(incomesThisMonth > 0) {	$('#thisMonthIncomes').css("color","green");} else {	$('#thisMonthIncomes').css("color","blue");	}
-						
-						$('#thisYearIncomes').text($('#thisYearIncomes').html() + "+" + incomesThisYear + " MKD");
-						if(incomesThisYear > 0) {	$('#thisYearIncomes').css("color","green");}  else {	$('#thisYearIncomes').css("color","blue");	}
+						$('#thisYearIncomes').html($('#thisYearIncomes').html() + "+" + incomesThisYear + " MKD");
+						if(incomesThisYear > 0) {
+							$('#thisYearIncomes').css("color","green");
+						}  else {
+							$('#thisYearIncomes').css("color","blue");
+							if(($('#thisYearIncomes').text()[0] == "+") || ($('#thisYearIncomes').text()[0] == "-")){
+								//$('#thisYearIncomes').html("&nbsp0 MKD");
+							}
+						}
+						$('#thisYearIncomes').html(" <a href='incomesListSummary.html' onclick='setSummaryType(4)' rel='external'><i><label class='moreLabel'>see all</label></i></a>  " + $('#thisYearIncomes').html());
 						
 						$('#totalIncomes').text($('#totalIncomes').html() + "+" + incomesTotal + " MKD");
-						if(incomesTotal > 0) {	$('#totalIncomes').css("color","green");}	  	  else {	$('#totalIncomes').css("color","blue");		}
+						if(incomesTotal > 0) {
+							$('#totalIncomes').css("color","green");
+						} else {
+							$('#totalIncomes').css("color","blue");
+							if(($('#totalIncomes').text()[0] == "+") || ($('#totalIncomes').text()[0] == "-")){
+								$('#totalIncomes').html("&nbsp0 MKD");
+							}
+						}
 					
 						totalTodaySum = parseInt(totalTodaySum) + parseInt(incomesToday);
 						total7daysSum = parseInt(total7daysSum) + parseInt(incomes7days);
@@ -358,19 +397,54 @@ html5rocks.indexedDB.open = function() {
 						}
 					} else {
 						$('#todayExpenses').text($('#todayExpenses').html() + "-" + expensesToday + " MKD");
-						if(expensesToday > 0) {	$('#todayExpenses').css("color","red");		} else {	$('#todayExpenses').css("color","blue");		}
+						if(expensesToday > 0) {
+							$('#todayExpenses').css("color","red");
+						} else {
+							$('#todayExpenses').css("color","blue");
+							if(($('#todayExpenses').text()[0] == "+") || ($('#todayExpenses').text()[0] == "-")){
+								//$('#todayExpenses').html("&nbsp0 MKD");
+							}
+						}
 
 						$('#past7daysExpenses').text($('#past7daysExpenses').html() + "-" + expenses7days + " MKD");
-						if(expenses7days > 0) {	$('#past7daysExpenses').css("color","red");	} else {	$('#past7daysExpenses').css("color","blue");	}
+						if(expenses7days > 0) {
+							$('#past7daysExpenses').css("color","red");
+						} else {
+							$('#past7daysExpenses').css("color","blue");
+							if(($('#past7daysExpenses').text()[0] == "+") || ($('#past7daysExpenses').text()[0] == "-")){
+								//$('#past7daysExpenses').html("&nbsp0 MKD");
+							}
+						}
 						
 						$('#thisMonthExpenses').text($('#thisMonthExpenses').html() + "-" + expensesThisMonth + " MKD");
-						if(expensesThisMonth > 0) {	$('#thisMonthExpenses').css("color","red");	} else {$('#thisMonthExpenses').css("color","blue");	}
+						if(expensesThisMonth > 0) {
+							$('#thisMonthExpenses').css("color","red");
+						} else {
+							$('#thisMonthExpenses').css("color","blue");
+							if(($('#thisMonthExpenses').text()[0] == "+") || ($('#thisMonthExpenses').text()[0] == "-")){
+								//$('#thisMonthExpenses').html("&nbsp0 MKD");
+							}
+						}
 						
 						$('#thisYearExpenses').text($('#thisYearExpenses').html() + "-" + expensesThisYear + " MKD");
-						if(expensesThisYear > 0) {	$('#thisYearExpenses').css("color","red");	} else {$('#thisYearExpenses').css("color","blue");	}
+						if(expensesThisYear > 0) {
+							$('#thisYearExpenses').css("color","red");
+						} else {
+							$('#thisYearExpenses').css("color","blue");
+							if(($('#thisYearExpenses').text()[0] == "+") || ($('#thisYearExpenses').text()[0] == "-")){
+								//$('#thisYearExpenses').html("&nbsp0 MKD");
+							}
+						}
 
 						$('#totalExpenses').text($('#totalExpenses').html() + "-" + expensesTotal + " MKD");
-						if(expensesTotal > 0) {	$('#totalExpenses').css("color","red");	} else {$('#totalExpenses').css("color","blue");	}
+						if(expensesTotal > 0) {
+							$('#totalExpenses').css("color","red");
+						} else {
+							$('#totalExpenses').css("color","blue");
+							if(($('#totalExpenses').text()[0] == "+") || ($('#totalExpenses').text()[0] == "-")){
+								$('#totalExpenses').html("&nbsp0 MKD");
+							}
+						}
 					
 						totalTodaySum = parseInt(totalTodaySum) - parseInt(expensesToday);
 						total7daysSum = parseInt(total7daysSum) - parseInt(expenses7days);
@@ -385,7 +459,7 @@ html5rocks.indexedDB.open = function() {
 						if(parseInt(totalThisYearSum) >= 0)	{	signYear = "+";		}
 						if(parseInt(totalSum) >= 0)			{	signTotal = "+";	}
 
-						$('#todaySum').text(signToday + totalTodaySum + " MKD");
+						$('#todaySum').html(signToday + totalTodaySum + " MKD");
 						if((parseFloat(signToday + totalTodaySum)) > 0) {	
 							$('#todaySum').css("color","green");
 						} else if((parseFloat(signToday + totalTodaySum)) < 0) {		
@@ -397,7 +471,7 @@ html5rocks.indexedDB.open = function() {
 							}
 						}
 						
-						$('#past7daysSum').text(sign7days + total7daysSum + " MKD");
+						$('#past7daysSum').html(sign7days + total7daysSum + " MKD");
 						if((parseFloat(sign7days + total7daysSum)) > 0) {	
 							$('#past7daysSum').css("color","green");
 						} else if((parseFloat(sign7days + total7daysSum)) < 0) {		
@@ -409,7 +483,7 @@ html5rocks.indexedDB.open = function() {
 							}
 						}
 						
-						$('#thisMonthSum').text(signMonth + totalThisMonthSum + " MKD");
+						$('#thisMonthSum').html(signMonth + totalThisMonthSum + " MKD");
 						if((parseFloat(signMonth + totalThisMonthSum)) > 0) {	
 							$('#thisMonthSum').css("color","green");
 						} else if((parseFloat(signMonth + totalThisMonthSum)) < 0) {		
@@ -421,7 +495,7 @@ html5rocks.indexedDB.open = function() {
 							}
 						}
 						
-						$('#thisYearSum').text(signYear + totalThisYearSum + " MKD");
+						$('#thisYearSum').html(signYear + totalThisYearSum + " MKD");
 						if((parseFloat(signYear + totalThisYearSum)) > 0) {	
 							$('#thisYearSum').css("color","green");
 						} else if((parseFloat(signYear + totalThisYearSum)) < 0) {		
@@ -433,7 +507,7 @@ html5rocks.indexedDB.open = function() {
 							}
 						}
 
-						$('#totalSum').text(signTotal + totalSum + " MKD");
+						$('#totalSum').html(signTotal + totalSum + " MKD");
 						if((parseFloat(signTotal + totalSum)) > 0) {	
 							$('#totalSum').css("color","green");
 						} else if((parseFloat(signTotal + totalSum)) < 0) {		
@@ -460,6 +534,13 @@ html5rocks.indexedDB.open = function() {
 	
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+function setSummaryType(summaryType) {
+	if(summaryType == 1)	sessionStorage.setItem("summaryType", "today");
+	if(summaryType == 2)	sessionStorage.setItem("summaryType", "past7days");
+	if(summaryType == 3)	sessionStorage.setItem("summaryType", "thisMonth");
+	if(summaryType == 4)	sessionStorage.setItem("summaryType", "thisYear");
+}
 
 $( document ).ready(function() {
 	//get today date

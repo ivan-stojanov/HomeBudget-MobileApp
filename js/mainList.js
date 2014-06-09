@@ -29,6 +29,7 @@ var dd = today.getDate();		if(dd<10){dd='0'+dd}
 var mm = today.getMonth()+1;	if(mm<10){mm='0'+mm}	//January is 0!
 var yyyy = today.getFullYear(); 
 today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
+var todayDMY = dd+'/'+mm+'/'+yyyy;
 
 var html5rocks = {};
 html5rocks.indexedDB = {};
@@ -70,9 +71,9 @@ html5rocks.indexedDB.open = function() {
 													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objAccounts = [
-			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
-			{ accountName: "Credit Card", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
-			{ accountName: "Bank Account", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
+			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: "0", accountDate: todayDMY },
+			{ accountName: "Credit Card", accountType: "HomeAccount", accountBalance: "0", accountDate: todayDMY },
+			{ accountName: "Bank Account", accountType: "HomeAccount", accountBalance: "0", accountDate: todayDMY },
 			{ accountName: "Ivan", accountType: "PrivatenIvan2", accountBalance: "0", accountDate: "20/10/2010" },
 			{ accountName: "Zoran", accountType: "PrivatenZoran2", accountBalance: "0", accountDate: "21/11/2011" },
 			{ accountName: "Niko", accountType: "PrivatenNiko2", accountBalance: "0", accountDate: "21/10/2013" },

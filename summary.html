@@ -20,7 +20,6 @@
 <script src="js/jquery.js"></script>
  <script src="js/iscroll.js"></script> -->
 <script src="js/summary.js"></script>
-
 </head>
 
 <body>
@@ -59,22 +58,22 @@
 							<tr><td colspan="2"><hr></td></tr>
 							<tr>
 								<td>							
-									<span class="accTexStyle"><b>Today</b></span>
+									<span class="accTexStyle" ><b>Today</b></span>
 									<p id="todayIncomes"></p><p id="todayExpenses"></p><hr width="50%" align="left"><p id="todaySum"></p>
 								</td>
 								<td align="right">
-									<span class="accTexStyle"><b>Past 7 Days</b></span>
+									<span class="accTexStyle" onclick="setSummaryType('past7days')"><b>Past 7 Days</b></span>
 									<p id="past7daysIncomes"></p><p id="past7daysExpenses"></p><hr width="50%" align="right"><p id="past7daysSum"></p>
 								</td>
 							</tr>
 							<tr><td colspan="2"><hr></td></tr>
 							<tr>
 								<td>
-									<span class="accTexStyle"><b>This Month</b></span>
+									<span class="accTexStyle" onclick="setSummaryType('thisMonth')"><b>This Month</b></span>
 									<p id="thisMonthIncomes"></p><p id="thisMonthExpenses"></p><hr width="50%" align="left"><p id="thisMonthSum"></p>
 								</td>
 								<td align="right">
-									<span class="accTexStyle"><b>This Year</b></span>
+									<span class="accTexStyle" onclick="setSummaryType('thisYear')"><b>This Year</b></span>
 									<p id="thisYearIncomes"></p><p id="thisYearExpenses"></p><hr width="50%" align="right"><p id="thisYearSum"></p>
 								</td>
 							</tr>

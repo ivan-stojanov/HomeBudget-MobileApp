@@ -341,3 +341,10 @@ li .line1 {
 .ui-field-contain label.ui-select {
 	width: 100%;
 }
+
+.moreLabel
+{
+	font-size:10px;
+	color:rgb(163, 163, 163);
+	cursor:pointer;
+}
