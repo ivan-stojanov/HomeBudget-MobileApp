@@ -85,14 +85,15 @@ html5rocks.indexedDB.open = function() {
 						if(differentDatesIncomes.length == 1) {
 							datePartsIterate = dateStringIncomeCreated.split("/");	//	17/04/2014/23/59
 							dateFormatIncomeCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+							var currentTime = new Date();
 							if(conditionItem == "today"){
-								condition = (dateFormatIncomeCreated - todayStartDate > 0);
+								condition = ((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 							} else if(conditionItem == "past7days"){
-								condition = (dateFormatIncomeCreated - weekStartDate > 0);
+								condition = ((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 							} else if(conditionItem == "thisMonth"){
-								condition = (dateFormatIncomeCreated - monthStartDate > 0);
+								condition = ((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 							} else if(conditionItem == "thisYear"){
-								condition = (dateFormatIncomeCreated - yearStartDate > 0);
+								condition = ((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 							} else {
 								condition = true;
 							}
@@ -110,14 +111,15 @@ html5rocks.indexedDB.open = function() {
 							for(var i=0; i<differentDatesIncomes.length; i++) {
 								datePartsIterate = differentDatesIncomes[i].split("/");	//	17/04/2014/23/59
 								dateFormatIncomeCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+								var currentTime = new Date();
 								if(conditionItem == "today"){
-									condition = (dateFormatIncomeCreated - todayStartDate > 0);
+									condition = ((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 								} else if(conditionItem == "past7days"){
-									condition = (dateFormatIncomeCreated - weekStartDate > 0);
+									condition = ((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 								} else if(conditionItem == "thisMonth"){
-									condition = (dateFormatIncomeCreated - monthStartDate > 0);
+									condition = ((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 								} else if(conditionItem == "thisYear"){
-									condition = (dateFormatIncomeCreated - yearStartDate > 0);
+									condition = ((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0));		
 								} else {
 									condition = true;
 								}

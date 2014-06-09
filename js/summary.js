@@ -133,16 +133,17 @@ html5rocks.indexedDB.open = function() {
 						if(differentDatesIncomes.length == 1) {
 							datePartsIterate = dateStringIncomeCreated.split("/");	//	17/04/2014/23/59
 							dateFormatIncomeCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-							if(dateFormatIncomeCreated - todayStartDate > 0) {
+							var currentTime = new Date();
+							if((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 								incomesToday = parseInt(incomesToday) + parseInt(ammountIncome);
 							}
-							if(dateFormatIncomeCreated - weekStartDate > 0) {
+							if((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 								incomes7days = parseInt(incomes7days) + parseInt(ammountIncome);
 							}
-							if(dateFormatIncomeCreated - monthStartDate > 0) {
+							if((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 								incomesThisMonth = parseInt(incomesThisMonth) + parseInt(ammountIncome);
 							}
-							if(dateFormatIncomeCreated - yearStartDate > 0) {
+							if((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 								incomesThisYear = parseInt(incomesThisYear) + parseInt(ammountIncome);
 							}
 							incomesTotal = parseInt(incomesTotal) + parseInt(ammountIncome);
@@ -150,17 +151,17 @@ html5rocks.indexedDB.open = function() {
 							for(var i=0; i<differentDatesIncomes.length; i++) {
 								datePartsIterate = differentDatesIncomes[i].split("/");	//	17/04/2014/23/59
 								dateFormatIncomeCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-								
-								if(dateFormatIncomeCreated - todayStartDate > 0) {								
+								var currentTime = new Date();
+								if((dateFormatIncomeCreated - todayStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 									incomesToday = parseInt(incomesToday) + parseInt(ammountIncome);
 								}
-								if(dateFormatIncomeCreated - weekStartDate > 0) {								
+								if((dateFormatIncomeCreated - weekStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 									incomes7days = parseInt(incomes7days) + parseInt(ammountIncome);
 								}
-								if(dateFormatIncomeCreated - monthStartDate > 0) {								
+								if((dateFormatIncomeCreated - monthStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 									incomesThisMonth = parseInt(incomesThisMonth) + parseInt(ammountIncome);
 								}
-								if(dateFormatIncomeCreated - yearStartDate > 0) {								
+								if((dateFormatIncomeCreated - yearStartDate > 0) && (currentTime - dateFormatIncomeCreated > 0)) {
 									incomesThisYear = parseInt(incomesThisYear) + parseInt(ammountIncome);
 								}
 								incomesTotal = parseInt(incomesTotal) + parseInt(ammountIncome);
