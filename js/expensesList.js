@@ -123,6 +123,7 @@ html5rocks.indexedDB.open = function() {
 				
 					var cursor = evt.target.result;					
 					if (cursor) {
+					
 						var appendToList;						
 						var arrayBillPaidStatus = (cursor.value.expenseBillPaid).split("+");
 						var paidBillStatusYes = false;
@@ -166,10 +167,9 @@ html5rocks.indexedDB.open = function() {
 						cursor.continue();
 					}
 					else { 
-					//append at the end of list
-							/*text1 += 'id="bootomBorder" '; 
-							text6 = ' '; 
-							$('#billsListULe').append(text1 + text2 + text3 + text4 + text5 + text6 + text7); */
+						if(countTest == 0)	{	$('#noExpenses').show();	$('#expensesListUL').hide();	$('#billsListULe').hide();	}
+						else				{	$('#noExpenses').hide();	$('#expensesListUL').show();	$('#billsListULe').show();	}
+						countTest == 0;
 						}
 				}				
 			}	

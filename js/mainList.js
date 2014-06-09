@@ -73,9 +73,9 @@ html5rocks.indexedDB.open = function() {
 			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
 			{ accountName: "Credit Card", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
 			{ accountName: "Bank Account", accountType: "HomeAccount", accountBalance: "0", accountDate: today },
-			{ accountName: "Ivan", accountType: "PrivatenIvan2", accountBalance: "30000", accountDate: "20/10/2010" },
-			{ accountName: "Zoran", accountType: "PrivatenZoran2", accountBalance: "1000", accountDate: "21/11/2011" },
-			{ accountName: "Niko", accountType: "PrivatenNiko2", accountBalance: "60000", accountDate: "21/10/2013" },
+			{ accountName: "Ivan", accountType: "PrivatenIvan2", accountBalance: "0", accountDate: "20/10/2010" },
+			{ accountName: "Zoran", accountType: "PrivatenZoran2", accountBalance: "0", accountDate: "21/11/2011" },
+			{ accountName: "Niko", accountType: "PrivatenNiko2", accountBalance: "0", accountDate: "21/10/2013" },
 			{ accountName: "testIncomes", accountType: "test", accountBalance: "0", accountDate: "20/10/2010" },
 			{ accountName: "testExpenses", accountType: "test", accountBalance: "0", accountDate: "21/11/2011" },
 			{ accountName: "testBills", accountType: "test", accountBalance: "0", accountDate: "21/10/2013" },
@@ -111,13 +111,13 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objIncomes = [
-			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "500", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "100", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 			{ incomeName: "My Payment", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Monthly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "200", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "150", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "26/04/2014/20/30", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Clothes Sell", incomeCategory: "Pay", incomeAmmount: "2000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Weekly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "Other Sources", incomeCategory: "Other", incomeAmmount: "20000", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Ivan", incomeRepeat: "yes", incomeRepeatCycle: "Yearly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
-			{ incomeName: "testIN", incomeCategory: "Other", incomeAmmount: "11", incomeDueDate: "10/10/2015/23/59", incomeAccount: "testIncomes", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Codefu Award", incomeCategory: "Award", incomeAmmount: "100", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Website Visits", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Niko", incomeRepeat: "yes", incomeRepeatCycle: "Hourly", incomeRepeatEndDate: "26/04/2014/20/30", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Clothes Sell", incomeCategory: "Pay", incomeAmmount: "100", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Zoran", incomeRepeat: "yes", incomeRepeatCycle: "Weekly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "Other Sources", incomeCategory: "Other", incomeAmmount: "100", incomeDueDate: "10/10/2015/23/59", incomeAccount: "Ivan", incomeRepeat: "yes", incomeRepeatCycle: "Yearly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
+			{ incomeName: "testIN", incomeCategory: "Other", incomeAmmount: "100", incomeDueDate: "10/10/2015/23/59", incomeAccount: "testIncomes", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 		];	
 		
 													//alert("created objects onupgradeneeded");
@@ -157,14 +157,14 @@ html5rocks.indexedDB.open = function() {
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objExpenses = [
-			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "500", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatCycle: "", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Books", expenseCategory: "Education", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Ivan", expenseRepeat: "no", expenseRepeatCycle: "", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "Pizza", expenseCategory: "Food", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Monthly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "400", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Yearly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "Bus", expenseCategory: "Ride", expenseAmmount: "400", expenseDueDate: "12/05/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/05/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "T-Shirt", expenseCategory: "Clothes", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Yearly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2015/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Bus", expenseCategory: "Ride", expenseAmmount: "100", expenseDueDate: "12/05/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/05/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "Bill: Wi-Fi", expenseCategory: "Bill", expenseAmmount: "100", expenseDueDate: "12/12/2015/23/59", expenseAccount: "Zoran", expenseRepeat: "yes", expenseRepeatCycle: "Hourly", expenseBillPaid: "paidYes", expenseRepeatEndDate: "27/04/2014/04/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "Bill: Laptops", expenseCategory: "Bill", expenseAmmount: "400", expenseDueDate: "12/12/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Weekly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "Bill: testBL", expenseCategory: "Bill", expenseAmmount: "13", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testBills", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
-			{ expenseName: "testEX", expenseCategory: "Clothes", expenseAmmount: "12", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testExpenses", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Bill: Laptops", expenseCategory: "Bill", expenseAmmount: "100", expenseDueDate: "12/12/2014/23/59", expenseAccount: "Niko", expenseRepeat: "yes", expenseRepeatCycle: "Weekly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "Bill: testBL", expenseCategory: "Bill", expenseAmmount: "100", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testBills", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
+			{ expenseName: "testEX", expenseCategory: "Clothes", expenseAmmount: "100", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testExpenses", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 		];	
 													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
@@ -249,8 +249,8 @@ html5rocks.indexedDB.open = function() {
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objTransfers = [
 			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
-			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "200", transferDate: "2014-05-16", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
-			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "300", transferDate: "2014-02-13", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "3", transferAmmount: "100", transferDate: "2014-05-16", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
+			{ transferFromAccount: "1", transferToAccount: "4", transferAmmount: "100", transferDate: "2014-02-13", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
 		];					/* 1 = Cash on hand */  //these numbers are IDs of the accounts, in case their names are changed
 													//alert("created objects onupgradeneeded");
 		storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);

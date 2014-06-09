@@ -42,15 +42,29 @@
 			<div id="wrapper">
 					<div id="incomeDetails"> 		  		
 						<table width="100%">
-							<tr><td colspan="2" align="center"><h3 id="Summary">Summary</h3></td></tr>
-							<tr><td colspan="2"> &nbsp </td></tr>
-							<tr><td>
+							<tr>
+								<td align="center" colspan="2"><h3 id="Summary">Summary</h3></td>
+							</tr>
+							<tr><td colspan="2"><hr></td></tr>
+							<tr>
+								<td>							
+									<span class="accTexStyle"><b>Total Incomes/Expenses</b></span>
+									<p id="totalIncomes"></p><p id="totalExpenses"></p><hr width="50%" align="left"><p id="totalSum"></p>
+								</td>
+								<td align="right">
+									<span class="accTexStyle"><b>Account Balance</b></span>
+									<p id="accountStatus"></p><p> &nbsp </p> <hr style="visibility:hidden;"> <p> &nbsp </p>
+								</td>
+							</tr>
+							<tr><td colspan="2"><hr></td></tr>
+							<tr>
+								<td>							
 									<span class="accTexStyle"><b>Today</b></span>
 									<p id="todayIncomes"></p><p id="todayExpenses"></p><hr width="50%" align="left"><p id="todaySum"></p>
 								</td>
-								<td>
+								<td align="right">
 									<span class="accTexStyle"><b>Past 7 Days</b></span>
-									<p id="past7daysIncomes"></p><p id="past7daysExpenses"></p><hr width="50%" align="left"><p id="past7daysSum"></p>
+									<p id="past7daysIncomes"></p><p id="past7daysExpenses"></p><hr width="50%" align="right"><p id="past7daysSum"></p>
 								</td>
 							</tr>
 							<tr><td colspan="2"><hr></td></tr>
@@ -59,9 +73,9 @@
 									<span class="accTexStyle"><b>This Month</b></span>
 									<p id="thisMonthIncomes"></p><p id="thisMonthExpenses"></p><hr width="50%" align="left"><p id="thisMonthSum"></p>
 								</td>
-								<td>
+								<td align="right">
 									<span class="accTexStyle"><b>This Year</b></span>
-									<p id="thisYearIncomes"></p><p id="thisYearExpenses"></p><hr width="50%" align="left"><p id="thisYearSum"></p>
+									<p id="thisYearIncomes"></p><p id="thisYearExpenses"></p><hr width="50%" align="right"><p id="thisYearSum"></p>
 								</td>
 							</tr>
 							<tr><td colspan="2"><hr></td></tr>

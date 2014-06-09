@@ -337,3 +337,7 @@ li .line1 {
 .ui-field-contain label.ui-input-text {
 	width: auto;
 }
+
+.ui-field-contain label.ui-select {
+	width: 100%;
+}

@@ -93,6 +93,10 @@ html5rocks.indexedDB.open = function() {
 
 						$('#incomesListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="incomeDetails.html" rel="external" onclick="callFunction('+ cursor.value.id +')" class="ui-link-inherit">' + cursor.value.incomeName + '<label style="color:green" class="rightSide ' + currentClass + 'Style">+ ' + parseInt(cursor.value.incomeAmmount) * parseInt(cursor.value.incomeNumItems) + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
+					} else {
+						if(countTest == 0)	{	$('#noIncomes').show();	$('#incomesListUL').hide();	}
+						else				{	$('#noIncomes').hide();	$('#incomesListUL').show();	}
+						countTest == 0;
 					}
 				}
 			}
