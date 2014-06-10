@@ -109,6 +109,7 @@ html5rocks.indexedDB.open = function() {
 			numItemsRequesr.onsuccess = function(evt) {   
 				var numItems = evt.target.result;
 				var dateStringExpenseCreated;	var differentDatesExpenses;	var datePartsIterate;	var dateFormatExpenseCreated;
+				var dateStringExpensePaidStatus;	var differentPaidStatus;
 				var text1, text2, text3, text4, text5, text6, text7;
 				var curCursor = openedIndexPaidBillsCount.openCursor();				
 				curCursor.onsuccess = function(evt) {				
@@ -134,7 +135,11 @@ html5rocks.indexedDB.open = function() {
 								}
 							} else {
 								appendToList = "#expensesListUL";
-							}		
+							}	
+							
+dateStringExpensePaidStatus = cursor.value.expenseBillPaid;
+differentPaidStatus = dateStringExpensePaidStatus.split("+");
+							
 dateStringExpenseCreated = cursor.value.expenseCreated;
 differentDatesExpenses = dateStringExpenseCreated.split("+");						
 if(differentDatesExpenses.length == 1) {
@@ -163,14 +168,13 @@ if(differentDatesExpenses.length == 1) {
 		var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
 
 		var numMultiple;
-		if(cursor.value.expenseAmmount == "Bill") {
-			numMultiple = countPaidBills;
+		if(cursor.value.expenseBillPaid == "paidYes") {
+			numMultiple = 1;
+			if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
+			if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
 		} else {
-			numMultiple = countPaidBills;//cursor.value.expenseNumItems;
-		}
-		
-		if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
-		if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
+			numMultiple = 0;
+		}		
 		
 		text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
 		text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
@@ -183,6 +187,7 @@ if(differentDatesExpenses.length == 1) {
 		$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
 	}
 }else {
+	var countMoreInstances = 0;
 	for(var i=0; i<differentDatesExpenses.length; i++) {
 		datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
 		dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
@@ -200,9 +205,17 @@ if(differentDatesExpenses.length == 1) {
 		}
 		if(condition){
 			countTest++;
+			if(cursor.value.expenseCategory == "Bill"){
+				if(differentPaidStatus[i] == "paidYes"){
+					countMoreInstances++;
+				}
+			} else {
+				countMoreInstances++;
+			}
 		}
 	}
-	if(countTest > 0){
+	
+	if(countMoreInstances > 0){
 	
 		if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
 		if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
@@ -217,9 +230,9 @@ if(differentDatesExpenses.length == 1) {
 
 		var numMultiple;
 		if(cursor.value.expenseAmmount == "Bill") {
-			numMultiple = countPaidBills;
+			numMultiple = countMoreInstances;//countPaidBills;
 		} else {
-			numMultiple = countPaidBills;//cursor.value.expenseNumItems;
+			numMultiple = countMoreInstances;//countPaidBills;//cursor.value.expenseNumItems;
 		}
 		
 		text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
