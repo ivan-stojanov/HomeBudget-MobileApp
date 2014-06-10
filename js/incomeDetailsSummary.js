@@ -204,7 +204,7 @@ function deleteIncome(comleteStringDate, dateToDelete, currentPosition, totalPos
 	//var completeString = comleteStringDate;
 	
 	if(totalPositions == 1) {
-		if(confirm("Are you sure you want to completely delete this income?")){		
+		if(confirm("This will delete all of instances of the income in the system. Are you sure you want to completely delete this income?")){		
 			var html5rocks = {};
 			html5rocks.indexedDB = {};
 			html5rocks.indexedDB.db = null;
@@ -218,7 +218,7 @@ function deleteIncome(comleteStringDate, dateToDelete, currentPosition, totalPos
 				var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
 				store.delete(parseInt(getIncomeID));
 				alert("This income is deleted!");
-				window.location.href = "incomesList.html";
+				window.location.href = "incomesListSummary.html";
 				return true;				
 			}			
 			requestDelete.onerror = function(e) {
@@ -284,7 +284,7 @@ function deleteIncome(comleteStringDate, dateToDelete, currentPosition, totalPos
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
-		if(confirm("Are you sure you want to delete this income?")){
+		if(confirm("This will delete all of instances of the income in the system. Are you sure you want to delete this income?")){
 		
 			var html5rocks = {};
 			html5rocks.indexedDB = {};
