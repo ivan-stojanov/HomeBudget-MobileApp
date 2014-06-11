@@ -108,7 +108,7 @@ html5rocks.indexedDB.open = function() {
 			$('#currentDate').text(todayDMY);
 			
 			if(result.expenseCategory == "Bill"){
-				if(numPaidItemsAmount > 1){
+				if(numPaidItemsAmount > 1){	//if more then one bill is paid
 					$('.expenseTotalAmount').show();
 					$('.exCreatedTXT').hide();
 					var listDates = (result.expenseCreated).split("+");
@@ -135,7 +135,7 @@ html5rocks.indexedDB.open = function() {
 					} else {
 						$('#expenseCreated').show();
 					}
-				} else {
+				} else {	//if one bill is paid but now sure which one
 					var indexPaidItemAmount = 0;
 					var listPaidStatusAmount1 = (result.expenseBillPaid).split("+");
 					for(var countPaidStatusAmount1 = 0; countPaidStatusAmount1 < listPaidStatusAmount1.length; countPaidStatusAmount1++) {

@@ -41,6 +41,9 @@ html5rocks.indexedDB.db = null;
 //var message;
 //var status;
 var currentObj;	
+var numPaidItemsAmount = 0;
+var numUnPaidItemsAmount = 0;
+var numPaidItems = 0;
 
 html5rocks.indexedDB.open = function() {	
 
@@ -70,10 +73,29 @@ html5rocks.indexedDB.open = function() {
 			currentObj = result;
 			//$("#billPaid").text(message);
 			$('#billCategory').text(result.expenseName);			
-			$('#billAmmount').text(result.expenseAmmount);
+			$('#billAmmount').html("<b><label style='color:red;'>" + result.expenseAmmount + " MKD</label></b>");
+			var listPaidStatusAmount = (result.expenseBillPaid).split("+");
+			for(var countPaidStatusAmount = 0; countPaidStatusAmount < listPaidStatusAmount.length; countPaidStatusAmount++) {
+				if(listPaidStatusAmount[countPaidStatusAmount] == "paidYes"){
+					numPaidItemsAmount++;
+				} else if(listPaidStatusAmount[countPaidStatusAmount] == "paidNoo"){
+					numUnPaidItemsAmount++;
+				}
+			}
+			
+			updateStatusLabel(result.expenseBillPaid, result.expenseAmmount);
+			
+			$('#billTotalAmmount').html("<b> <label style='color:red;'>" + parseFloat(numPaidItemsAmount) * parseFloat(result.expenseAmmount) + " MKD</label></b> (<b>" + numPaidItemsAmount + " * <label style='color:red;'>" + result.expenseAmmount + " MKD</label></b>)");
 			$('#billAccount').text(result.expenseAccount);
-			$('#billRepeatCycle').text(result.expenseRepeatCycle);
-			$('#billRepeatEndDate').text(result.expenseRepeatEndDate);
+			if(result.expenseRepeat == "yes"){
+				$('#billRepeatCycle').text(result.expenseRepeatCycle);
+				var arrayRepeatEndDate = (result.expenseRepeatEndDate).split("/");
+				var printRepeatEndDate = arrayRepeatEndDate[0] + "/" + arrayRepeatEndDate[1] + "/" + arrayRepeatEndDate[2] + " at " + arrayRepeatEndDate[3] + ":" + arrayRepeatEndDate[4];
+				$('#billRepeatEndDate').text(printRepeatEndDate);
+				$('.repeatTXT').show();
+			} else {
+				$('.repeatTXT').hide();
+			}			
 				//get today date
 				var today = new Date();
 				var min = today.getMinutes();	if(min<10){min='0'+min}
@@ -85,25 +107,37 @@ html5rocks.indexedDB.open = function() {
 				var todayDMY = dd+'/'+mm+'/'+yyyy;
 			$('#currentDate').text(todayDMY);
 			
+			//if we have only one instance of the bill then don't show list, show only slide
 			if(result.expenseNumItems == 1){
 				$('#changeBillLabel').show();
 				if(result.expenseBillPaid == "paidYes") {
 					$('#changeBillIDinitialPAID').show();
 					$('#changeBillIDinitialUNPAID').hide();
-					var numPaidItems = 1;
+					numPaidItems = 1;
 				} else {
 					$('#changeBillIDinitialUNPAID').show();
 					$('#changeBillIDinitialPAID').hide();
-					var numPaidItems = 0;
+					numPaidItems = 0;
 				}
-			} else {
+				$('.billTotalAmount').hide();
+				var arrayCreationDate = (result.expenseCreated).split("/");
+				var printCreationDate = arrayCreationDate[0] + "/" + arrayCreationDate[1] + "/" + arrayCreationDate[2] + " at " + arrayCreationDate[3] + ":" + arrayCreationDate[4];
+				$('#billCreated').text(printCreationDate);
+			} else { //if we have more instances of the bill then show the list
+				//alert(numPaidItemsAmount);
+				if(numPaidItemsAmount > 1) {
+					$('.billTotalAmount').show();
+				} else {
+					$('.billTotalAmount').hide();
+				}
 				$('#changeBillIDinitialPAID').hide();
 				$('#changeBillIDinitialUNPAID').hide();
-				$('#changeBillLabel').hide();				
-				
+				$('#changeBillLabel').hide();	
+
+				$('.billCreatedTXT').hide();
 				var listDates = (result.expenseCreated).split("+");
 				var listPaidStatus = (result.expenseBillPaid).split("+");
-				var numPaidItems = 0;
+				$('#billCreatedList').html("<hr>List of Bills (by Date):<br>");
 				for(var countDates = 0; countDates < listDates.length; countDates++) {
 					var selectPaid = "";	var selectUnPaid = "";
 					if(listPaidStatus[countDates] == "paidYes"){
@@ -112,9 +146,16 @@ html5rocks.indexedDB.open = function() {
 					} else if(listPaidStatus[countDates] == "paidNoo"){
 						selectUnPaid = "selected=''";
 					}
-					$('#billCreated').html($('#billCreated').html() + "<br><br>Date of bill: " + listDates[countDates]);
-					$('#billCreated').html($('#billCreated').html() + "<select name='changeBill1' class='changeBill1' onchange=changeStatus('" + result.expenseBillPaid + "','" + listPaidStatus[countDates] + "','" + countDates + "','" + listDates[countDates] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select><input type='submit' value='Delete This' onclick=deleteDate('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + listPaidStatus[countDates] + "','" + result.expenseBillPaid + "')>");	
+					var arrayCreationInstanceDate = (listDates[countDates]).split("/");
+					var printCreationInstanceDate = arrayCreationInstanceDate[0] + "/" + arrayCreationInstanceDate[1] + "/" + arrayCreationInstanceDate[2] + " at " + arrayCreationInstanceDate[3] + ":" + arrayCreationInstanceDate[4];
+					$('#billCreatedList').html($('#billCreatedList').html() + "<br>" + printCreationInstanceDate + "&nbsp&nbsp&nbsp <-> &nbsp&nbsp&nbsp");
+					$('#billCreatedList').html($('#billCreatedList').html() + "<select name='changeBill' class='changeBill' onchange=changeStatus('" + result.expenseBillPaid + "','" + listPaidStatus[countDates] + "','" + countDates + "','" + listDates[countDates] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select><input type='submit' value='Delete This' onclick=deleteDate('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + listPaidStatus[countDates] + "','" + result.expenseBillPaid + "')>");	
 				}
+				/*if(numPaidItems == 1){
+					$('#billCreated').hide();
+				} else {
+					$('#billCreated').show();
+				}*/					
 			}
 			//this informations we need in case user delete this bill, then we need to update the account that is related to the bill
 			thisBillAccount = result.expenseAccount;
@@ -171,12 +212,29 @@ html5rocks.indexedDB.open = function() {
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+//update label with status (when change slider)
+function updateStatusLabel(objExpenseBillPaid, objExpenseAmmount) {
+	var numPaidItemsAmount = 0; var numUnPaidItemsAmount = 0;
+	var listPaidStatusAmount = (objExpenseBillPaid).split("+");
+	for(var countPaidStatusAmount = 0; countPaidStatusAmount < listPaidStatusAmount.length; countPaidStatusAmount++) {
+		if(listPaidStatusAmount[countPaidStatusAmount] == "paidYes"){
+			numPaidItemsAmount++;
+		} else if(listPaidStatusAmount[countPaidStatusAmount] == "paidNoo"){
+			numUnPaidItemsAmount++;
+		}
+	}			
+	var labelaText = "";
+	labelaText += 'paid: <label style="color:red">' + parseInt(objExpenseAmmount) * parseInt(numPaidItemsAmount) + ' MKD. &nbsp</label>';
+	labelaText += 'pending: <label style="color:blue">' + parseInt(objExpenseAmmount) * parseInt(numUnPaidItemsAmount) + ' MKD. </label>';	
+	$('#billStatusAmount').html(labelaText);
+}
 
 String.prototype.replaceBetween = function(start, end, what) {
 	return this.substring(0, start) + what + this.substring(end);
 };
 
 function changeStatus(comleteStringStatus, statusToChange, currentPosition, dateThisInstance) {
+alert("comleteStringStatus: " + comleteStringStatus + " + statusToChange: " + statusToChange + " + currentPosition: " + currentPosition + " + dateThisInstance: " + dateThisInstance);
 	var originalString = comleteStringStatus;
 	var newOriginalString;
 	var deleteStartPosition8;
@@ -390,6 +448,7 @@ $( document ).ready(function() {
 	});
 	
 	$(".changeBill").change(function(){
+		
 		var html5rocks = {};
 		html5rocks.indexedDB = {};
 		html5rocks.indexedDB.db = null;
@@ -445,7 +504,8 @@ $( document ).ready(function() {
 							}
 							cursorA.continue();
 						} else {
-							//window.location.href = "./billsDetails.html";						
+							//window.location.href = "./billsDetails.html";	
+							updateStatusLabel(currentObj.expenseBillPaid, currentObj.expenseAmmount);
 						}
 					}
 					
