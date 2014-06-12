@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../internet/jquery.mobile-1.3.2.min.css">
+	<script src="../internet/jquery-1.8.3.min.js"></script>
+	<script src="../internet/jquery.mobile-1.3.2.min.js"></script>
+	<link rel="stylesheet" href="./css/styles.css" />	
+</head>
+
+<body>
+	<div data-role="page" id="help1" data-dialog="true">	
+		<div data-role="header" id="header" class="header">
+			<a href="main.html" data-role="button" data-icon="home" data-transition="flip" data-theme="c">Home</a>
+			<h1><span class="titleTXT">Home Budget Manager</span></h1>
+		</div>		
+		<div data-role="content">
+			<table width="100%" style="margin-top:-15px;">
+				<tr><td colspan="2" align="center"><h2>Transfers</h2></td></tr>
+			</table>
+			<p><u>Adding Transfer</u><br> Home -> Transfer -> Add Bill</p>
+			<p><u>See list of all Transfers in the system</u><br> Home -> Transfer -> Transfer List</p>
+			<p><u>Cancel upcoming Transfer</u><br> Home -> Transfer -> Transfer List -> Cancel <br><i>Note:</i> Only upcoming transfers can be canceled.</p>
+			<p><u>Remove Transfer from List</u><br> Home -> Transfer -> Transfer List -> Remove from List <br><i>Note:</i> This will only remove transfer from list, but will not cancel it</p>
+			<p>* If user defined Account is deleted, the amount from that account is transferred into Cash on Hand Account.</p>
+
+			<div id="busy">Loading...</div>
+		</div>
+		<div data-role="footer" class="footer">
+			<h1><span class="titleTXT">Help Desk</span></h1>
+		</div>			
+	</div>
+</body>
+</html>

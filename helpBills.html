@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../internet/jquery.mobile-1.3.2.min.css">
+	<script src="../internet/jquery-1.8.3.min.js"></script>
+	<script src="../internet/jquery.mobile-1.3.2.min.js"></script>
+	<link rel="stylesheet" href="./css/styles.css" />	
+</head>
+
+<body>
+	<div data-role="page" id="help1" data-dialog="true">	
+		<div data-role="header" id="header" class="header">
+			<a href="main.html" data-role="button" data-icon="home" data-transition="flip" data-theme="c">Home</a>
+			<h1><span class="titleTXT">Home Budget Manager</span></h1>
+		</div>		
+		<div data-role="content">
+			<table width="100%" style="margin-top:-15px;">
+				<tr><td colspan="2" align="center"><h2>Bills</h2></td></tr>
+			</table>
+			<p><u>Adding Bill</u><br> Home -> Bills -> Add Bill</p>
+			<p><u>Mark Bill as Paid</u><br> Home -> Bills -> Click on certain Bill -> Change the slider to "Paid" if there is one instance of the Bill / Choose "Paid" from dropdown menu for certain instance, if there is a list of instances.</p>
+			<p><u>Mark Bill as UnPaid</u><br> Home -> Bills -> Click on certain Bill -> Change the slider to "UnPaid" if there is one instance of the Bill / Choose "UnPaid" from dropdown menu for certain instance, if there is a list of instances.</p>
+			<p><u>Delete Bill</u><br> Home -> Bills -> Click on certain Bill -> "Delete This Bill" will delete all instances of the Bill from the system, if there are more than one / "Delete" button from the list will delete one instance of the Bill that is at the same line with the button, if there is a list of instances.</p>
+			<p>* Paid Bills are count as Expenses.<br>
+			* UnPaid Bills are pending and are not count as Expenses.<br>
+			* User can define repeat cycle for the Bill that he is entering, so that certain Bill is added after chosen Repeat Period by the system.<br>
+			* With deletion, amount for the Bill is add from the Account balance, if Bill was Paid.</p>
+
+			<div id="busy">Loading...</div>
+		</div>
+		<div data-role="footer" class="footer">
+			<h1><span class="titleTXT">Help Desk</span></h1>
+		</div>			
+	</div>
+</body>
+</html>
