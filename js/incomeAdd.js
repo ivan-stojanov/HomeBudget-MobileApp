@@ -75,8 +75,6 @@ function addAccountsDropDown() {
 					}
 				}	
 			}			
-			//$('#drop-down-list-account').append('<option value="test1">Test1: 1 day</option>');
-			/*alert('request.onsuccess!');*/
 		};
 		
 		request.onupgradeneeded = function(e) {  
@@ -128,7 +126,6 @@ function addCategoriesDropDown() {
 					}
 				}	
 			}			
-			/*alert('request.onsuccess!');*/
 		};
 		
 		request.onupgradeneeded = function(e) {  
@@ -249,11 +246,6 @@ function funcIncomeAdd() {
 		numItemsRequest.onerror = function(evt) { 
 			alert("numItemsRequest.onerror"); 
 		}
-		// now let's close the database again!
-		/*var dbCLOSE;
-		dbCLOSE = request.result;
-		dbCLOSE.close();*/
-//		window.location.href = "./incomesList.html";
 	};
 	
 	request.onupgradeneeded = function(e) {  
@@ -275,9 +267,4 @@ function formatDate(enteredDate){
 }
 
 $( document ).ready(function() {
-	/*var currentURLhaveAccountURLarray = (document.URL).split("?accountIncomeStart=");
-	var codedAccount = "";
-	if(currentURLhaveAccountURLarray.length == 2) {
-		codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
-	}*/
 });

@@ -12,11 +12,8 @@ if ('webkitIndexedDB' in window) {
 // Hook up the errors to the console so we could see it. In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
   console.log(e);
-  //alert('Error:' + e);
 };
-//alert("in");
 function init() {
-												//alert("initMain");
 	html5rocks.indexedDB.open();	// open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -43,32 +40,21 @@ var storeTransfers;
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
-//												alert("html5rocks.indexedDB.open mainList.js");
 	var openedDB = localStorage["openedDB"];	
 	var request = indexedDB.open(openedDB, version);  
-												//alert("opened MyTest Main");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
-											   //alert("request onupgradeneeded Main"); 
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
 
-		//var storeAccounts;
 		if(dbS.objectStoreNames.contains("accounts")) {
 			//dbS.deleteObjectStore("accounts");
 			//storeAccounts = dbS.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
 			storeAccounts = request.transaction.objectStore("accounts");//html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
-													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
-													////alert("before create objectStore onupgradeneeded"); 
 			storeAccounts = html5rocks.indexedDB.db.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
 		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
-													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objAccounts = [
 			{ accountName: "Cash on hand", accountType: "HomeAccount", accountBalance: "0", accountDate: todayDMY },
@@ -81,11 +67,9 @@ html5rocks.indexedDB.open = function() {
 			{ accountName: "testExpenses", accountType: "test", accountBalance: "0", accountDate: "21/11/2011" },
 			{ accountName: "testBills", accountType: "test", accountBalance: "0", accountDate: "21/10/2013" },
 		];	
-													//alert("created objects onupgradeneeded");
 		storeAccounts.add(objAccounts[0]);storeAccounts.add(objAccounts[1]);storeAccounts.add(objAccounts[2]);
 		storeAccounts.add(objAccounts[3]);storeAccounts.add(objAccounts[4]);storeAccounts.add(objAccounts[5]);
 		storeAccounts.add(objAccounts[6]);storeAccounts.add(objAccounts[7]);storeAccounts.add(objAccounts[8]);
-													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the accounts													
 		storeAccounts.createIndex( "by_accountName", "accountName", { unique: false } );
 		storeAccounts.createIndex( "by_accountType", "accountType", { unique: false } );
@@ -93,23 +77,14 @@ html5rocks.indexedDB.open = function() {
 		storeAccounts.createIndex( "by_accountDate", "accountDate", { unique: false } );
 		storeAccounts.createIndex( "by_id", "id", { unique: false } );			
 
-		//var storeIncomes;
 		if(dbS.objectStoreNames.contains("incomes")) {
 			//dbS.deleteObjectStore("incomes");
 			//storeIncomes = dbS.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
 			storeIncomes = request.transaction.objectStore("incomes");//html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
-													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
-													////alert("before create objectStore onupgradeneeded"); 
 			storeIncomes = html5rocks.indexedDB.db.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
 		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
-													 //alert("after get objectStore onupgradeneeded"); 
-	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objIncomes = [
 			{ incomeName: "Party Income", incomeCategory: "Party", incomeAmmount: "100", incomeDueDate: "10/10/2014/23/59", incomeAccount: "Ivan", incomeRepeat: "no", incomeRepeatCycle: "", incomeRepeatEndDate: "", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
@@ -121,10 +96,8 @@ html5rocks.indexedDB.open = function() {
 			{ incomeName: "testIN", incomeCategory: "Other", incomeAmmount: "100", incomeDueDate: "10/10/2015/23/59", incomeAccount: "testIncomes", incomeRepeat: "yes", incomeRepeatCycle: "Dayly", incomeRepeatEndDate: "12/12/2017/23/59", incomeRepeatLastUpdate: today, incomeCreated: today, incomeNumItems: "1" },
 		];	
 		
-													//alert("created objects onupgradeneeded");
 		storeIncomes.add(objIncomes[0]);storeIncomes.add(objIncomes[1]);storeIncomes.add(objIncomes[2]);
 		storeIncomes.add(objIncomes[3]);storeIncomes.add(objIncomes[4]);storeIncomes.add(objIncomes[5]);storeIncomes.add(objIncomes[6]);
-													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the incomes			
 		storeIncomes.createIndex( "by_incomeName", "incomeName", { unique: false } );
 		storeIncomes.createIndex( "by_incomeCategory", "incomeCategory", { unique: false } );
@@ -139,22 +112,14 @@ html5rocks.indexedDB.open = function() {
 		storeIncomes.createIndex( "by_incomeNumItems", "incomeNumItems", { unique: false } );
 		storeIncomes.createIndex( "by_id", "id", { unique: false } );	
 
-		//var storeExpenses;
 		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("expenses");
 			//storeExpenses = dbS.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
 			storeExpenses = request.transaction.objectStore("expenses");//html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
-													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
-													////alert("before create objectStore onupgradeneeded"); 
 			storeExpenses = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
 		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeExpenses = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
-													 //alert("after get objectStore onupgradeneeded"); 
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objExpenses = [
@@ -167,11 +132,9 @@ html5rocks.indexedDB.open = function() {
 			{ expenseName: "Bill: testBL", expenseCategory: "Bill", expenseAmmount: "100", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testBills", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 			{ expenseName: "testEX", expenseCategory: "Clothes", expenseAmmount: "100", expenseDueDate: "12/12/2014/23/59", expenseAccount: "testExpenses", expenseRepeat: "yes", expenseRepeatCycle: "Dayly", expenseBillPaid: "paidNoo", expenseRepeatEndDate: "12/12/2014/23/59", expenseRepeatLastUpdate: today, expenseCreated: today, expenseNumItems: "1" },
 		];	
-													//alert("created objects onupgradeneeded");
 		storeExpenses.add(objExpenses[0]);storeExpenses.add(objExpenses[1]);storeExpenses.add(objExpenses[2]);
 		storeExpenses.add(objExpenses[3]);storeExpenses.add(objExpenses[4]);storeExpenses.add(objExpenses[5]);
 		storeExpenses.add(objExpenses[6]);storeExpenses.add(objExpenses[7]);
-													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the expenses			
 		storeExpenses.createIndex( "by_expenseName", "expenseName", { unique: false } );
 		storeExpenses.createIndex( "by_expenseCategory", "expenseCategory", { unique: false } );
@@ -188,22 +151,14 @@ html5rocks.indexedDB.open = function() {
 		storeExpenses.createIndex( "by_id", "id", { unique: false } );
 		storeExpenses.createIndex( "paid_Bills_Only", ['expenseName','expenseCategory','expenseBillPaid'], { unique: false } );
 			
-		//var storeCategories;
 		if(dbS.objectStoreNames.contains("categories")) {
 			//dbS.deleteObjectStore("categories");
 			//storeExpenses = dbS.createObjectStore('categories', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
 			storeCategories = request.transaction.objectStore("categories");//html5rocks.indexedDB.db.transaction(["categories"], "readwrite").objectStore("categories");
-													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
-													////alert("before create objectStore onupgradeneeded"); 
 			storeCategories = html5rocks.indexedDB.db.createObjectStore('categories', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
 		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeCategories = html5rocks.indexedDB.db.transaction(["categories"], "readwrite").objectStore("categories");
-													 //alert("after get objectStore onupgradeneeded"); 
 	
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objCategories = [ //if (isBill == 1) then (isExpense == 1) byDefault, no matter what is in the object
@@ -218,35 +173,23 @@ html5rocks.indexedDB.open = function() {
 			{ categoryType: "Food", isIncome: "0", isExpense: "1", isBill: "0" },
 			{ categoryType: "Clothes", isIncome: "1", isExpense: "1", isBill: "0" },
 		];	
-													//alert("created objects onupgradeneeded");
 		for (var ind = 0; ind < objCategories.length; ++ind) {
 			storeCategories.add(objCategories[ind]);
-			//alert(objCategories[ind].categoryType);
 		}
-		//storeCategories.add(objExpenses[0]);storeCategories.add(objExpenses[1]);storeCategories.add(objExpenses[2]);
-													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the categories			
 		storeCategories.createIndex( "by_categoryType", "categoryType", { unique: false } );
 		storeCategories.createIndex( "by_isIncome", "isIncome", { unique: false } );
 		storeCategories.createIndex( "by_isExpense", "isExpense", { unique: false } );
 		storeCategories.createIndex( "by_isBill", "isBill", { unique: false } );
-												////alert("end opened");
 		//var storeTransfers;
 		if(dbS.objectStoreNames.contains("transfers")) {
 			//dbS.deleteObjectStore("transfers");
 			//storeTransfers = dbS.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
 			storeTransfers = request.transaction.objectStore("transfers");//html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
-													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
-													////alert("before create objectStore onupgradeneeded"); 
 			storeTransfers = html5rocks.indexedDB.db.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
 		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeTransfers = html5rocks.indexedDB.db.transaction(["transfers"], "readwrite").objectStore("transfers");
-													 //alert("after get objectStore onupgradeneeded"); 
 //this part is to add items in the account objectStore (when app is first Installed)
 		const objTransfers = [
 			{ transferFromAccount: "1", transferToAccount: "2", transferAmmount: "100", transferDate: "2014-08-16", transferHistoryFromAccount: "", transferHistoryToAccount: "", transferStatus: "no" },
@@ -256,7 +199,6 @@ html5rocks.indexedDB.open = function() {
 													//alert("created objects onupgradeneeded");
 		storeTransfers.add(objTransfers[0]);storeTransfers.add(objTransfers[1]);storeTransfers.add(objTransfers[2]);
 
-													//alert("add created objects onupgradeneeded");
 //this part is for creating indexes for each attribute in the transfers													
 		storeTransfers.createIndex( "by_transferFromAccount", "transferFromAccount", { unique: false } );
 		storeTransfers.createIndex( "by_transferToAccount", "transferToAccount", { unique: false } );
@@ -265,44 +207,6 @@ html5rocks.indexedDB.open = function() {
 		storeTransfers.createIndex( "by_transferHistoryFromAccount", "transferHistoryFromAccount", { unique: false } );
 		storeTransfers.createIndex( "by_transferHistoryToAccount", "transferHistoryToAccount", { unique: false } );
 		storeTransfers.createIndex( "by_transferStatus", "transferStatus", { unique: false } );
-		
-		/*
-		//var storeBills;
-		if(dbS.objectStoreNames.contains("bills")) {
-			//dbS.deleteObjectStore("bills");
-			//storeBills = dbS.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
-			storeBills = request.transaction.objectStore("bills");
-													////alert("after get objectStore onupgradeneeded"); 
-		}
-		else {
-													////alert("before create objectStore onupgradeneeded"); 
-			storeBills = html5rocks.indexedDB.db.createObjectStore('bills', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
-		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var storeBills = html5rocks.indexedDB.db.transaction(["bills"], "readwrite").objectStore("bills");
-													 //alert("after get objectStore onupgradeneeded"); 
-	
-//this part is to add items in the account objectStore (when app is first Installed)
-		const objBills = [
-			{ billCategory: "Education", billAmmount: 520, billDueDate: "10/10/2010", billAccount: "Ivan", billRepeat: "no", billRepeatPeriod: "" },
-			{ billCategory: "Food", billAmmount: 170, billDueDate: "10/10/2010", billAccount: "Zoran", billRepeat: "yes", billRepeatPeriod: "1 Month" },
-			{ billCategory: "Clothes", billAmmount: 400, billDueDate: "10/10/2010", billAccount: "Niko", billRepeat: "yes", billRepeatPeriod: "1 Year" },
-		];	
-													//alert("created objects onupgradeneeded");
-		storeBills.add(objBills[0]);storeBills.add(objBills[1]);storeBills.add(objBills[2]);
-													//alert("add created objects onupgradeneeded");
-//this part is for creating indexes for each attribute in the bills			
-		storeBills.createIndex( "by_billCategory", "billCategory", { unique: false } );
-		storeBills.createIndex( "by_billAmmount", "billAmmount", { unique: false } );
-		storeBills.createIndex( "by_billDueDate", "billDueDate", { unique: false } );
-		storeBills.createIndex( "by_billAccount", "billAccount", { unique: false } );
-		storeBills.createIndex( "by_billRepeat", "billRepeat", { unique: false } );
-		storeBills.createIndex( "by_billRepeatCycle", "billRepeatCycle", { unique: false } );
-		storeBills.createIndex( "by_billRepeatEndDate", "billRepeatEndDate", { unique: false } );
-		storeBills.createIndex( "by_id", "id", { unique: false } );	
-	*/	
 	};
 
 	request.onsuccess = function(e) {
@@ -515,7 +419,6 @@ html5rocks.indexedDB.open = function() {
 									if(monthss == -1) {
 										monthss = 0;
 									}
-									//alert(monthss);
 						/*	END - HERE WE NEED TO CALCULATE NUMBER OF MONTHS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(monthss > 0) {
 										var numberUpdates = monthss;
@@ -563,13 +466,11 @@ html5rocks.indexedDB.open = function() {
 									while(currentDayDate - lastUpdateDateTest >= 0) {
 										yearss++;
 										lastUpdateDateTest = lastUpdateDateTest.add(1).years();
-										//alert(lastUpdateDateTest);
 									}
 									yearss--;
 									if(yearss == -1) {
 										yearss = 0;
 									}
-									//alert(yearss);
 						/*	END - HERE WE NEED TO CALCULATE NUMBER OF YEARS BETWEEN TWO DATES: currentDayDate - lastUpdateDate		*/
 									if(yearss > 0) {
 										var numberUpdates = yearss;
@@ -614,17 +515,13 @@ html5rocks.indexedDB.open = function() {
 							}
 							cursorIncome.continue();
 						} else {
-							//window.location.href = "./incomesList.html";
-							//alert(howMany);
 						}
 					}
 					
 					curCursorIncomesRepeated.onerror = function(evt) {
 						alert("curCursorIncomesRepeated.onerror");					
 					}
-					
 				}
-				//alert(numIncomes);
 			}
 			
 			numIncomesRepeated.onerror = function(evt) { 
@@ -947,21 +844,13 @@ html5rocks.indexedDB.open = function() {
 							}
 							cursorExpense.continue();
 						} else {
-							//window.location.href = "./incomesList.html";
-							//alert(howMany);
-			/*var dbCLOSE;
-			dbCLOSE = request.result;
-			dbCLOSE.close();*/
-
 						}
 					}
 					
 					curCursorExpensesRepeated.onerror = function(evt) {
 						alert("curCursorExpensesRepeated.onerror");					
 					}
-					
 				}
-				//alert(numExpenses);
 			}
 			
 			numExpensesRepeated.onerror = function(evt) { 

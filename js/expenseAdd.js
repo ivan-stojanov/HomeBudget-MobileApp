@@ -249,11 +249,6 @@ function funcExpenseAdd() {
 		numItemsRequest.onerror = function(evt) { 
 			alert("numItemsRequest.onerror"); 
 		}
-		// now let's close the database again!
-		/*var dbCLOSE;
-		dbCLOSE = request.result;
-		dbCLOSE.close();*/
-//		window.location.href = "./expensesList.html";
 	};
 	
 	request.onupgradeneeded = function(e) {  

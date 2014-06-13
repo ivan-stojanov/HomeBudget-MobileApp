@@ -1,4 +1,3 @@
-															// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -11,7 +10,6 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
 //var idGET = getUrlVars()["id"];
@@ -20,9 +18,7 @@ var getBillID = sessionStorage.getItem("billClickedID");
 if(getBillID == null) {
 	getBillID = 1;
 }
-															//alert(idGET);
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -124,7 +120,6 @@ html5rocks.indexedDB.open = function() {
 				var printCreationDate = arrayCreationDate[0] + "/" + arrayCreationDate[1] + "/" + arrayCreationDate[2] + " at " + arrayCreationDate[3] + ":" + arrayCreationDate[4];
 				$('#billCreated').text(printCreationDate);
 			} else { //if we have more instances of the bill then show the list
-				//alert(numPaidItemsAmount);
 				if(numPaidItemsAmount > 1) {
 					$('.billTotalAmount').show();
 				} else {
@@ -151,11 +146,6 @@ html5rocks.indexedDB.open = function() {
 					$('#billCreatedList').html($('#billCreatedList').html() + "<br>" + printCreationInstanceDate + "&nbsp&nbsp&nbsp <-> &nbsp&nbsp&nbsp");
 					$('#billCreatedList').html($('#billCreatedList').html() + "<select name='changeBill' class='changeBill' onchange=changeStatus('" + result.expenseBillPaid + "','" + listPaidStatus[countDates] + "','" + countDates + "','" + listDates[countDates] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select><input type='submit' value='Delete This' onclick=deleteDate('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "','" + listPaidStatus[countDates] + "','" + result.expenseBillPaid + "')>");	
 				}
-				/*if(numPaidItems == 1){
-					$('#billCreated').hide();
-				} else {
-					$('#billCreated').show();
-				}*/					
 			}
 			//this informations we need in case user delete this bill, then we need to update the account that is related to the bill
 			thisBillAccount = result.expenseAccount;
@@ -234,7 +224,6 @@ String.prototype.replaceBetween = function(start, end, what) {
 };
 
 function changeStatus(comleteStringStatus, statusToChange, currentPosition, dateThisInstance) {
-//alert("comleteStringStatus: " + comleteStringStatus + " + statusToChange: " + statusToChange + " + currentPosition: " + currentPosition + " + dateThisInstance: " + dateThisInstance);
 	var originalString = comleteStringStatus;
 	var newOriginalString;
 	var deleteStartPosition8;
@@ -252,7 +241,6 @@ function changeStatus(comleteStringStatus, statusToChange, currentPosition, date
 	}	
 
 	newOriginalString = originalString.replaceBetween(deleteStartPosition8, parseInt(deleteStartPosition8) + 7, newStatus);
-	//alert(newOriginalString);	
 	var html5rocks = {};
 	html5rocks.indexedDB = {};
 	html5rocks.indexedDB.db = null;
@@ -281,8 +269,6 @@ function changeStatus(comleteStringStatus, statusToChange, currentPosition, date
 				curCursorA.onsuccess = function(evt) {
 					var cursorA = evt.target.result;
 					if (cursorA) {
-						//alert((cursorA.value.accountName).toString() + " + " + (currentObj.expenseAccount).toString());
-					
 						if((cursorA.value.accountName).toString() == (currentObj.expenseAccount).toString()) {
 							var newAccountAmmount;
 							if(newStatus == "paidNoo") {
@@ -330,8 +316,6 @@ function changeStatus(comleteStringStatus, statusToChange, currentPosition, date
 }
 
 function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPositions, payedStatus, comleteStringPaidStatus) {
-  	//alert(comleteStringDate);
-  	//var completeString = comleteStringDate;
   	if(totalPositions == 1) {
   		if(confirm("Are you sure you want to completely delete this bill?")){		
   			var html5rocks = {};
@@ -376,13 +360,11 @@ function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPosit
   				var allWithoutDeletedDate = allStringDates.replace(dateToDelete + "+", "");
   				replaceDeletedInstance.expenseCreated = allWithoutDeletedDate;
 				replaceDeletedInstance.expenseBillPaid = newOriginalPaidStatusString;
-  				//alert(allWithoutDeletedDate);
   			} else {									//if the other then first instance of the bill is deleted
   				var allStringDates = comleteStringDate;
   				var allWithoutDeletedDate = allStringDates.replace("+" + dateToDelete, "");
   				replaceDeletedInstance.expenseCreated = allWithoutDeletedDate;
 				replaceDeletedInstance.expenseBillPaid = newOriginalPaidStatusString;
-  				//alert(allWithoutDeletedDate);
   			}
   			
   			var html5rocks = {};
@@ -412,7 +394,6 @@ function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPosit
   			return false;
   		}
   	}
-  	//completeString.replace(dateToDelete, "");
   }
  
 $( document ).ready(function() {
@@ -467,8 +448,6 @@ $( document ).ready(function() {
 			storeReplace.delete(parseInt(currentObj.id));
 			storeReplace.add(newCurrentBill);
 
-			//window.location.href = "billDetails.html";
-			
 			var modifyAccountObject;	
 		  //we need to loop throught all accounts, to find the chosen one and to update accountBalance via billAmmount
 			var storeAccount = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");
@@ -504,7 +483,6 @@ $( document ).ready(function() {
 							}
 							cursorA.continue();
 						} else {
-							//window.location.href = "./billsDetails.html";	
 							updateStatusLabel(currentObj.expenseBillPaid, currentObj.expenseAmmount);
 						}
 					}
@@ -527,7 +505,3 @@ $( document ).ready(function() {
 	});
 	
 });
-
-//$('#testSlider').html('<select name="changeBill1 class="changeBill1"><option value="off">UnPaid</option><option value="on" selected="">Paid</option></select>');
-//$('#testSlider').html('<select name="changeBill1" class="changeBill1 ui-slider-switch" data-role="slider" data-mini="true"><option value="off">UnPaid</option><option value="on" selected="">Paid</option></select><div role="application" class="ui-slider ui-slider-switch ui-btn-down-c ui-btn-corner-all ui-mini"><span class="ui-slider-label ui-slider-label-a ui-btn-active ui-btn-corner-all" role="img" style="width: 100%;">Paid3</span><span class="ui-slider-label ui-slider-label-b ui-btn-down-c ui-btn-corner-all" role="img" style="width: 0%;">UnPaid</span><div class="ui-slider-inneroffset"><a href="#" class="ui-slider-handle ui-slider-handle-snapping ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" role="slider" aria-valuemin="0" aria-valuemax="1" aria-valuenow="on" aria-valuetext="Paid" title="Paid" aria-labelledby="undefined-label" style="left: 100%;"><span class="ui-btn-inner"><span class="ui-btn-text"></span></span></a></div></div>');			
-

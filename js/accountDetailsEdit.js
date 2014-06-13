@@ -1,4 +1,3 @@
-															// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -11,7 +10,6 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
 //var getAccountID = getUrlVars()["id"];
@@ -22,12 +20,10 @@ if(getAccountID == null) {
 }
 
 var getAccountName = sessionStorage.getItem("accountClickedName");
-															//alert(getAccountID);
 //if(getAccountID == 1) 
 //{ $("#deleteAcc").hide(); } 
 												
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -194,11 +190,8 @@ html5rocks.indexedDB.open = function() {
 											if(todayDate < currentTransferDate) {
 												objTransferTo.transferStatus = "fail";
 											}
-											//alert("update transfer to: " + objTransferTo.id);
 											ArrayObjectsTo[indexAarraysTo] = objTransferTo;
 											indexAarraysTo++;						
-											//storeTransfer.delete(parseInt(objTransferTo.id));
-											//storeTransfer.add(objTransferTo);								
 										}
 										cursorTransAccTo.continue();										
 									}
@@ -410,7 +403,6 @@ $( document ).ready(function() {
 						storeEdit.add(modifyAccountObject);
 						
 						if(getAccountName != $("#accNameValue").val()) {
-							//alert("name changed we should update this account name at all places");
 							//update all incomes
 							var storeEditIncomes = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
 							var openedIndexIncomes = storeEditIncomes.index("by_incomeAccount");
@@ -493,7 +485,6 @@ $( document ).ready(function() {
 							}	
 							numItemsIncomes.onerror = function(evt) { var numItemsIn = 0; }
 						} else {
-							//alert("name no changed");
 							sessionStorage.setItem("accountClickedName", $("#accNameValue").val());
 							alert("This account is updated!");
 							window.location.href = "accountDetails.html";

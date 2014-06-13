@@ -20,14 +20,7 @@ function funcCategoryAdd() {
 	if(categoryIsIncomeText == "on") { categoryIsIncome = "1"; } else { categoryIsIncome = "0"; }
 	if(categoryIsExpenseText == "on") { categoryIsExpense = "1"; } else { categoryIsExpense = "0"; }
 	if(categoryIsBillText == "on") { categoryIsBill = "1"; } else { categoryIsBill = "0"; }
-/*
-	alert(
-		categoryType 			+ " : " + 
-		categoryIsIncome 		+ " : " + 
-		categoryIsExpense 		+ " : " + 
-		categoryIsBill 				
-	);
-*/
+
 	var openedDB;
 	var request;
 	var obj =  { 

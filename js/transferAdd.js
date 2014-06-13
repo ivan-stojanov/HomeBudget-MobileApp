@@ -27,7 +27,6 @@ function addAccountsDropDowns() {
 	//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
 		numItemsRequesr.onsuccess = function(evt) {   
 			var numItems = evt.target.result;	
-			/*alert(numItems);*/
 			if (openedIndex) {
 				var deletePoints = 0;
 				var haveCashOnHand = false; var haveCreditCard = false; var haveBankAccount = false;
@@ -204,9 +203,4 @@ function formatDate(enteredDate){
 }
 
 $( document ).ready(function() {
-	/*var currentURLhaveAccountURLarray = (document.URL).split("?accountIncomeStart=");
-	var codedAccount = "";
-	if(currentURLhaveAccountURLarray.length == 2) {
-		codedAccount = decodeURIComponent(currentURLhaveAccountURLarray[1]);		
-	}*/
 });

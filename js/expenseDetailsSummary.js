@@ -1,4 +1,3 @@
-
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -11,16 +10,13 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
 var getExpenseID = sessionStorage.getItem("expenseClickedID");
 if(getExpenseID == null) {
 	getExpenseID = 1;
 }
-															//alert(idGET);
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -185,7 +181,6 @@ html5rocks.indexedDB.open = function() {
 							var printCreationInstanceDate = arrayCreationInstanceDate[0] + "/" + arrayCreationInstanceDate[1] + "/" + arrayCreationInstanceDate[2] + " at " + arrayCreationInstanceDate[3] + ":" + arrayCreationInstanceDate[4];
 							$('#expenseCreatedList').html($('#expenseCreatedList').html() + "<br>" + printCreationInstanceDate + "&nbsp&nbsp&nbsp <-> &nbsp&nbsp&nbsp");
 							$('#expenseCreatedList').html($('#expenseCreatedList').html() + "<select name='changeBill1' class='changeBill1' onchange=changeStatus('" + result.expenseBillPaid + "','" + array1UseForChangeStatus[findIndexCounter/*countDates*/] + "','" + findIndexCounter/*countDates*/ + "','" + array2UseForChangeStatus[findIndexCounter/*countDates*/] + "')><option value='off' " + selectUnPaid + ">UnPaid</option><option value='on' " + selectPaid + ">Paid</option></select>");
-							//changeStatus(comleteStringStatus, statusToChange, currentPosition, dateThisInstance)
 						}
 					}
 					if(numPaidItems == 1){
@@ -272,7 +267,6 @@ html5rocks.indexedDB.open = function() {
 					}
 					cursorThisAccount.continue();
 				} else {
-					//alert("finish");
 				}
 			}
 			replaceDeletedInstance =  {
@@ -395,9 +389,6 @@ function changeStatus(comleteStringStatus, statusToChange, currentPosition, date
 }
 
 function deleteExpense(comleteStringDate, dateToDelete, currentPosition, totalPositions, comleteStringPaidStatus) {
-	//alert(comleteStringDate);
- 	//var completeString = comleteStringDate;
- 	
  	if(totalPositions == 1) {
  		if(confirm("This will delete all of instances of the expense in the system. Are you sure you want to completely delete this expense?")){		
  			var html5rocks = {};

@@ -1,6 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
 //var version = 4;
-													// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -12,9 +11,7 @@ if ('webkitIndexedDB' in window) {
 // Hook up the errors to the console so we could see it. In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
   console.log(e);
-  //alert('Error:' + e);
 };
-//alert("in");
 function init() {
 	html5rocks.indexedDB.open();	// open displays the data previously saved
 }
@@ -177,6 +174,3 @@ function setStyleColor(currentBalance) {
 		return "blue";
 	}
 }
-
-
-

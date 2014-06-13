@@ -1,4 +1,3 @@
-															// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -21,12 +20,10 @@ if(getAccountID == null) {
 	getAccountID = 1;
 }
 var getAccountName = sessionStorage.getItem("accountClickedName");
-															//alert(getAccountID);
 //if(getAccountID == 1) 
 //{ $("#deleteAcc").hide(); } 
 												
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -49,7 +46,6 @@ var store;
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
-//												alert("html5rocks.indexedDB.open accountDetails.js");
 	var openedDB = localStorage["openedDB"];	
 	var request = indexedDB.open(openedDB);
 

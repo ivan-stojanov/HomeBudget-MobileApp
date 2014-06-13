@@ -1,6 +1,5 @@
 localStorage["openedDB"] = "MyTestDatabase";
 //var version = 4;
-													// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -12,11 +11,8 @@ if ('webkitIndexedDB' in window) {
 // Hook up the errors to the console so we could see it. In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
   console.log(e);
-  //alert('Error:' + e);
 };
-//alert("in");
 function init() {
-												//alert("init");
 	html5rocks.indexedDB.open();	// open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -27,38 +23,25 @@ var store;
 html5rocks.indexedDB.db = null;
 
 html5rocks.indexedDB.open = function() {	
-												//alert("opened");
 	var openedDB = localStorage["openedDB"];	
 	var request = indexedDB.open(openedDB/*, version*/);  
-												////alert("opened MyTest");
 	// We can only create Object stores in a versionchange transaction.
 	request.onupgradeneeded = function(e) {  
-											   //alert("request onupgradeneeded"); 
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
-												////alert("before create objectStoreS onupgradeneeded"); 
 		//var store;
 		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("incomes");
 			//store = dbS.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
-													////alert("before get objectStore onupgradeneeded"); 
 			store = request.transaction.objectStore("expenses");/*html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");*/
-													////alert("after get objectStore onupgradeneeded"); 
 		}
 		else {
-													////alert("before create objectStore onupgradeneeded"); 
 			store = html5rocks.indexedDB.db.createObjectStore('expenses', { keyPath: 'id', autoIncrement: true });
-													////alert("after create objectStore onupgradeneeded"); 
 		}
-													////alert("after objectStoreS onupgradeneeded"); 		
-		//var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");
-													 //alert("after get objectStore onupgradeneeded"); 
 	};
 	request.onsuccess = function(e) {
-													//alert("request onsuccess"); 
 		html5rocks.indexedDB.db = e.target.result;
 		var dbS = e.target.result;
-													////alert("before store");  
 		if(dbS.objectStoreNames.contains("expenses")) {
 			//dbS.deleteObjectStore("incomes");
 			//store = dbS.createObjectStore('incomes', { keyPath: 'id', autoIncrement: true });
@@ -68,24 +51,7 @@ html5rocks.indexedDB.open = function() {
 		}
 			
 		var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");
-													////alert("after store"); 
-													//alert("created objects");
-													//alert("add created objects");
-		// Get everything in the store;
-		//var keyRange = IDBKeyRange.lowerBound(0);		
 //DA SE ZEMAT SAMO ONIE SO IMAT ZA EXPENSE-BILL POSTAVENO YES - neuspesno
-	/*	var lowerBound = ['AAAAA','Bill','paidYes'];
-		var upperBound = ['ZZZZZ','Bill','paidYes'];
-		var range = IDBKeyRange.bound(lowerBound,upperBound);
-		var openedIndexPaidBills = store.index('paid_Bills_Only');
-		var numItemsPaidBills = openedIndexPaidBills.count();	
-		numItemsPaidBills.onsuccess = function(evt) {
-			var loopPaindBillsOnly = openedIndexPaidBills.openCursor(range);
-			loopPaindBillsOnly.onsuccess = function (event){
-				alert(evt.target.result);
-			}
-		}
-	*/
 		var openedIndexPaidBillsCount = store.index("by_expenseName");
 		var countPaidBills = 0;		var countNotPaidBills = 0;
 		if (openedIndexPaidBillsCount) {			
@@ -105,9 +71,6 @@ html5rocks.indexedDB.open = function() {
 							countNotPaidBills++;
 						}
 					}
-					/*if(cursorPaidBills.value["expenseCategory"] == "Bill"){	// && cursorPaidBills.value["expenseBillPaid"] == "paidNoo"){
-						countNotPaidBills++;
-					}*/
 					cursorPaidBills['continue']();
 				}
 			};
@@ -192,13 +155,3 @@ function setStyleColor(currentBalance) {
 		return "blue";
 	}
 }
-/* 
-//deleting database
-var dbreq = window.indexedDB.deleteDatabase("MyTest");
-dbreq.onsuccess = function (event) {
-	 // Database deleted
-}
-dbreq.onerror = function (event) {
-	// Log or show the error message
-}
-*/

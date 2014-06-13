@@ -1,4 +1,3 @@
-															// alert("start");	
 window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;	
@@ -11,7 +10,6 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
 //var idGET = getUrlVars()["id"];
@@ -20,9 +18,7 @@ var getIncomeID = sessionStorage.getItem("incomeClickedID");
 if(getIncomeID == null) {
 	getIncomeID = 1;
 }
-															//alert(idGET);
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -164,9 +160,6 @@ String.prototype.replaceBetween = function(start, end, what) {
 };
 
 function deleteIncome(comleteStringDate, dateToDelete, currentPosition, totalPositions, comleteStringPaidStatus) {
-	//alert(comleteStringDate);
-	//var completeString = comleteStringDate;
-	
 	if(totalPositions == 1) {
 		if(confirm("Are you sure you want to completely delete this income?")){		
 			var html5rocks = {};

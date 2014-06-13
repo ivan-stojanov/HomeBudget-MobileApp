@@ -10,11 +10,9 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -42,7 +40,6 @@ html5rocks.indexedDB.open = function() {
 		else {
 			var storeS = html5rocks.indexedDB.db.createObjectStore('transfers', { keyPath: 'id', autoIncrement: true });
 		}		
-		
 		//get today date
 		var today1 = new Date();
 		var min1 = today1.getMinutes();	if(min1<10){min1='0'+min1}

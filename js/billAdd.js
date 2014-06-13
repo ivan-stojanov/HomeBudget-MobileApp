@@ -28,7 +28,6 @@ function addAccountsDropDown() {
 		//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
 			numItemsRequesr.onsuccess = function(evt) {
 				var numItems = evt.target.result;	
-				/*alert(numItems);*/
 				if (openedIndex) {
 					var deletePoints = 0;
 					var haveCashOnHand = false; var haveCreditCard = false; var haveBankAccount = false;
@@ -66,8 +65,6 @@ function addAccountsDropDown() {
 					}
 				}	
 			}			
-			//$('#drop-down-list-account').append('<option value="test1">Test1: 1 day</option>');
-			/*alert('request.onsuccess!');*/
 		};
 		
 		request.onupgradeneeded = function(e) {  
@@ -98,7 +95,6 @@ function addBillCategoriesDropDown() {
 		//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
 			numItemsRequesr.onsuccess = function(evt) {   
 				var numItems = evt.target.result;	
-				/*alert(numItems);*/
 				if (openedIndex) {
 					var curCursor = openedIndex.openCursor(range/*null, "prev"*/);				
 					curCursor.onsuccess = function(evt) {					
@@ -110,7 +106,6 @@ function addBillCategoriesDropDown() {
 					}
 				}	
 			}			
-			/*alert('request.onsuccess!');*/
 		};
 		
 		request.onupgradeneeded = function(e) {  

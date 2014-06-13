@@ -10,11 +10,9 @@ if ('webkitIndexedDB' in window) {
 // In the future, we need to push these messages to the user.
 indexedDB.onerror = function(e) {
 	console.log(e);
-	//alert('Error:' + e);
 };
 
 function init() {
-															//  alert("init");
   html5rocks.indexedDB.open(); // open displays the data previously saved
 }
 window.addEventListener("DOMContentLoaded", init, false);
@@ -102,7 +100,6 @@ html5rocks.indexedDB.open = function() {
 		var monthTestDate = new Date().add((-1) * new Date().getDate() + 1).days();
 		var yearTestDate = new Date().add((-1) * new Date().getMonth()).months().add((-1) * new Date().getDate() + 1).days();
 
-		//alert(yearTestDate);
 	//we need numItemsIncomesCount so that we can iterate with coursor if there are items that are found
 		numItemsIncomes.onsuccess = function(evt) {   
 			var numItemsIncomesCount = evt.target.result;			
@@ -116,16 +113,9 @@ html5rocks.indexedDB.open = function() {
 						
 						dateFormatToday = new Date();
 						todayStartDate = new Date(dateFormatToday.getFullYear(),dateFormatToday.getMonth(),dateFormatToday.getDate());
-					//	alert(todayStartDate);
 						weekStartDate = new Date(weekTestDate.getFullYear(),weekTestDate.getMonth(),weekTestDate.getDate());		
-					//	alert(weekStartDate);
 						monthStartDate = new Date(monthTestDate.getFullYear(),monthTestDate.getMonth(),monthTestDate.getDate());		
-					//	alert(monthStartDate);
 						yearStartDate = new Date(yearTestDate.getFullYear(),yearTestDate.getMonth(),yearTestDate.getDate());		
-					//	alert(yearStartDate);
-	//alert(dateFormatIncomeCreated + " ooooo " + dateFormatIncomeCreated.add(1).months());						
-	//alert(dateFormatToday);
-	//alert(dateFormatToday.getDate() + "/" + (dateFormatToday.getMonth()+1) + "/" + dateFormatToday.getFullYear());
 						dateStringIncomeCreated = cursorIn.value.incomeCreated;
 						ammountIncome = cursorIn.value.incomeAmmount;
 						//loop throught all dates on creation so that we compare and sum the summary
@@ -293,16 +283,9 @@ html5rocks.indexedDB.open = function() {
 						
 						dateFormatToday = new Date();
 						todayStartDate = new Date(dateFormatToday.getFullYear(),dateFormatToday.getMonth(),dateFormatToday.getDate());
-					//	alert(todayStartDate);
 						weekStartDate = new Date(weekTestDate.getFullYear(),weekTestDate.getMonth(),weekTestDate.getDate());		
-					//	alert(weekStartDate);
 						monthStartDate = new Date(monthTestDate.getFullYear(),monthTestDate.getMonth(),monthTestDate.getDate());		
-					//	alert(monthStartDate);
 						yearStartDate = new Date(yearTestDate.getFullYear(),yearTestDate.getMonth(),yearTestDate.getDate());		
-					//	alert(yearStartDate);
-	//alert(dateFormatExpenseCreated + " ooooo " + dateFormatExpenseCreated.add(1).months());						
-	//alert(dateFormatToday);
-	//alert(dateFormatToday.getDate() + "/" + (dateFormatToday.getMonth()+1) + "/" + dateFormatToday.getFullYear());
 						dateStringExpenseCreated = cursorEx.value.expenseCreated;
 						ammountExpense = cursorEx.value.expenseAmmount;
 						
@@ -536,10 +519,7 @@ html5rocks.indexedDB.open = function() {
 				}
 			}
 			
-			if (countTestExpenses == numItemsExpensesCount)   {
-																/*var dbCLOSE;
-																dbCLOSE = request.result;
-																dbCLOSE.close();*/
+			if (countTestExpenses == numItemsExpensesCount) {
 															}
 		}
 			
