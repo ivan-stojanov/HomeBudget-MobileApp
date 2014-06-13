@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--<meta name="viewport" content="width=device-width, initial-scale=2.5, maximum-scale=2.5">-->
-<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>-->
 <link rel="stylesheet" href="./internet/jquery.mobile-1.3.2.min.css">
 <script src="./internet/jquery-1.8.3.min.js"></script>
 <script src="./internet/jquery.mobile-1.3.2.min.js"></script>
@@ -13,19 +9,6 @@
 <script>
 
 $(document).ready(function() {
-/*
-	$('#repeat').change(
-		function()
-			if(this.value == "on") {				
-					$("#repeatPeriod").show();
-			} else {
-					$("#repeatPeriod").hide();
-			}
-		}
-	);
-*/
-
-
 	$("#save").on("click", function(event){ 
 		var condition = (($('#categoryType').val().length > 0) /*&& ($('#categoryIsIncome').val() == "on") || ($('#categoryIsExpense').val() == "on") || ($('#categoryIsBill').val() == "on")*/);
 		
