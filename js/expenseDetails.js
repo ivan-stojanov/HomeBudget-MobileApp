@@ -30,6 +30,7 @@ html5rocks.indexedDB = {};
 var store;
 var storeAccounts;
 var replaceAccount = new Object;
+var replaceAccountComplete = new Object;
 var thisExpenseAccount = "";
 var thisExpenseAmmount = "";
 var replaceDeletedInstance;
@@ -104,7 +105,13 @@ html5rocks.indexedDB.open = function() {
 						replaceAccount.accountType = cursorThisAccount.value.accountType;
 						replaceAccount.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) + parseFloat(thisExpenseAmmount));
 						replaceAccount.accountDate = cursorThisAccount.value.accountDate;
-						replaceAccount.id = cursorThisAccount.value.id;									
+						replaceAccount.id = cursorThisAccount.value.id;					
+						//this is when delete by button from header, then we need to extract sum for all instances
+						replaceAccountComplete.accountName = cursorThisAccount.value.accountName;
+						replaceAccountComplete.accountType = cursorThisAccount.value.accountType;
+						replaceAccountComplete.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) + (parseFloat(thisExpenseAmmount) * parseFloat(result.expenseNumItems)));
+						replaceAccountComplete.accountDate = cursorThisAccount.value.accountDate;
+						replaceAccountComplete.id = cursorThisAccount.value.id;
 					}
 					cursorThisAccount.continue();
 				} else {
@@ -122,7 +129,7 @@ html5rocks.indexedDB.open = function() {
 				expenseRepeat: result.expenseRepeat,
 				expenseRepeatLastUpdate: result.expenseRepeatLastUpdate,
 				expenseCreated: result.expenseCreated,
-				expenseNumItems: parseInt(result.expenseNumItems) - 1,
+				expenseNumItems: (parseInt(result.expenseNumItems) - 1).toString(),
 				expenseBillPaid: result.expenseBillPaid,
 				id: result.id
  			};
@@ -252,8 +259,8 @@ $( document ).ready(function() {
 						if(confirm("Are you sure you want to delete this expense?")){
 							//first update the account balance that is connected with this expense
 							var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-							storeAccounts.delete(parseInt(replaceAccount.id));
-							storeAccounts.add(replaceAccount);
+							storeAccounts.delete(parseInt(replaceAccountComplete.id));
+							storeAccounts.add(replaceAccountComplete);
 							//then delete the expense
 							storeDelete.delete(parseInt(getExpenseID));
 							alert("This expense is deleted!");

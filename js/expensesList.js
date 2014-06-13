@@ -93,12 +93,21 @@ html5rocks.indexedDB.open = function() {
 			cursorPaidBillsCount.onsuccess = function (event){
 				var cursorPaidBills = event.target.result;
 				if (cursorPaidBills){
-					if(cursorPaidBills.value["expenseCategory"] == "Bill" && cursorPaidBills.value["expenseBillPaid"] == "paidYes"){
-						countPaidBills++;
+					if(cursorPaidBills.value["expenseCategory"] == "Bill"){	// && cursorPaidBills.value["expenseBillPaid"] == "paidYes"){
+						var arrayStatusPaid = (cursorPaidBills.value["expenseBillPaid"]).split("+");
+						var paidStatusYes = false;
+						for(var countPaidStatus = 0; countPaidStatus < arrayStatusPaid.length; countPaidStatus++){
+							if(arrayStatusPaid[countPaidStatus] == "paidYes") { paidStatusYes = true; }
+						}
+						if(paidStatusYes == true){
+							countPaidBills++;
+						} else {
+							countNotPaidBills++;
+						}
 					}
-					if(cursorPaidBills.value["expenseCategory"] == "Bill" && cursorPaidBills.value["expenseBillPaid"] == "paidNoo"){
+					/*if(cursorPaidBills.value["expenseCategory"] == "Bill"){	// && cursorPaidBills.value["expenseBillPaid"] == "paidNoo"){
 						countNotPaidBills++;
-					}
+					}*/
 					cursorPaidBills['continue']();
 				}
 			};
@@ -116,9 +125,16 @@ html5rocks.indexedDB.open = function() {
 					var cursor = evt.target.result;					
 					if (cursor) {
 						var appendToList;
+						
+						var arrayBillPaidStatus = (cursor.value.expenseBillPaid).split("+");
+						var paidBillStatusYes = false;
+						for(var countBillPaidStatus = 0; countBillPaidStatus < arrayBillPaidStatus.length; countBillPaidStatus++){
+							if(arrayBillPaidStatus[countBillPaidStatus] == "paidYes") { paidBillStatusYes = true; }
+						}
+						
 						if(countPaidBills == 0) { $('#billsListUL').hide(); } else { $('#billsListUL').show(); }
-						if((cursor.value.expenseCategory != "Bill") || (cursor.value.expenseCategory == "Bill" && cursor.value.expenseBillPaid == "paidYes")){
-							if (cursor.value.expenseCategory == "Bill" && cursor.value.expenseBillPaid == "paidYes") 
+						if((cursor.value.expenseCategory != "Bill") || (cursor.value.expenseCategory == "Bill" && paidBillStatusYes == true/*cursor.value.expenseBillPaid == "paidYes"*/)){
+							if (cursor.value.expenseCategory == "Bill" && paidBillStatusYes == true/*cursor.value.expenseBillPaid == "paidYes"*/) 
 									{ appendToList = "#billsListULe"; countTestBill++;}	
 							else	{ appendToList = "#expensesListUL"; }
 							countTest++;
@@ -130,18 +146,18 @@ html5rocks.indexedDB.open = function() {
 								//alert(/*countTestBill /*+ */" " + (countNotPaidBills));
 								if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 							}
-						var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
-						var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
+							var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
+							var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
 
-								text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
-								text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
-								text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
-								text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetails.html" ';
-								text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
-								text6 = cursor.value.id + "." + cursor.value.expenseName + " - " + cursor.value.expenseBillPaid; ;
-								text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * parseInt(cursor.value.expenseNumItems) + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
-								
-								$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
+							text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
+							text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
+							text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
+							text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetails.html" ';
+							text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
+							text6 = cursor.value.id + "." + cursor.value.expenseName + " - " + cursor.value.expenseBillPaid; ;
+							text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * parseInt(cursor.value.expenseNumItems) + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+							
+							$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
 						}
 						cursor.continue();
 					}

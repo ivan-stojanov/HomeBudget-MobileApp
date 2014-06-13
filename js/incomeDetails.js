@@ -32,6 +32,7 @@ html5rocks.indexedDB = {};
 var store;
 var storeAccounts;
 var replace = new Object;
+var replaceAccountComplete = new Object;
 var thisIncomeAccount = "";
 var thisIncomeAmmount = "";
 var replaceDeletedInstance;
@@ -104,7 +105,13 @@ html5rocks.indexedDB.open = function() {
 						replace.accountType = cursorThisAccount.value.accountType;
 						replace.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) - parseFloat(thisIncomeAmmount));
 						replace.accountDate = cursorThisAccount.value.accountDate;
-						replace.id = cursorThisAccount.value.id;									
+						replace.id = cursorThisAccount.value.id;						
+						//this is when delete by button from header, then we need to extract sum for all instances
+						replaceAccountComplete.accountName = cursorThisAccount.value.accountName;
+						replaceAccountComplete.accountType = cursorThisAccount.value.accountType;
+						replaceAccountComplete.accountBalance = (parseFloat(cursorThisAccount.value.accountBalance) - (parseFloat(thisIncomeAmmount) * parseFloat(result.incomeNumItems)));
+						replaceAccountComplete.accountDate = cursorThisAccount.value.accountDate;
+						replaceAccountComplete.id = cursorThisAccount.value.id;
 					}
 					cursorThisAccount.continue();
 				} else {
@@ -122,7 +129,7 @@ html5rocks.indexedDB.open = function() {
 				incomeRepeat: result.incomeRepeat,
 				incomeRepeatLastUpdate: result.incomeRepeatLastUpdate,
 				incomeCreated: result.incomeCreated,
-				incomeNumItems: parseInt(result.incomeCreated) - 1,
+				incomeNumItems: (parseInt(result.incomeNumItems) - 1).toString(),
 				id: result.id
 			};			
 		}
@@ -217,8 +224,8 @@ $( document ).ready(function() {
 				html5rocks.indexedDB.db = e.target.result;
 
 				var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
-				storeAccounts.delete(parseInt(replace.id));
-				storeAccounts.add(replace);
+				storeAccounts.delete(parseInt(replaceAccountComplete.id));
+				storeAccounts.add(replaceAccountComplete);
 				var store = html5rocks.indexedDB.db.transaction(["incomes"], "readwrite").objectStore("incomes");	
 				store.delete(parseInt(getIncomeID));
 				alert("This income is deleted!");
@@ -235,20 +242,3 @@ $( document ).ready(function() {
 		}
 	});
 });
-
-/*
-	replace.incomeName = cursorThisID.value.incomeName;
-	replace.incomeAmmount = cursorThisID.value.incomeAmmount;
-	replace.incomeAccount = cursorThisID.value.incomeAccount;
-	replace.incomeCategory = cursorThisID.value.incomeCategory;
-	replace.incomeDueDate = cursorThisID.value.incomeDueDate;
-	if(cursorThisID.value.incomeRepeatCycle == '') 	{ replace.incomeRepeatCycle = ''; } 
-	else 			 { replace.incomeRepeatCycle = cursorThisID.value.incomeRepeatCycle; }
-	if(cursorThisID.value.incomeRepeatEndDate == '')	{ replace.incomeRepeatEndDate = ''; }
-	else			 { replace.incomeRepeatEndDate = cursorThisID.value.incomeRepeatEndDate; }
-	replace.incomeRepeat = cursorThisID.value.incomeRepeat;
-	replace.incomeRepeatLastUpdate = cursorThisID.value.incomeRepeatLastUpdate;
-	replace.incomeCreated = cursorThisID.value.incomeCreated;
-	replace.incomeNumItems = cursorThisID.value.incomeNumItems;
-	replace.id = cursorThisID.value.id;
-*/

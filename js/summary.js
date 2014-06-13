@@ -248,8 +248,15 @@ html5rocks.indexedDB.open = function() {
 								}
 							}
 							cursorEx.continue();
-						} else {
-							if(cursorEx.value.expenseBillPaid == "paidYes") {
+						} else {	
+							//if we sum ammounts from bills then first find which bills have paidYes status inside their status
+							var arrayStatusPaid = (cursorEx.value.expenseBillPaid).split("+");
+							var paidStatusYes = false;
+							for(var countPaidStatus = 0; countPaidStatus < arrayStatusPaid.length; countPaidStatus++){
+								if(arrayStatusPaid[countPaidStatus] == "paidYes") { paidStatusYes = true; }
+							}
+							
+							if(paidStatusYes == true) {//if(cursorEx.value.expenseBillPaid == "paidYes") {
 								//loop throught all dates on creation so that we compare and sum the summary
 								var differentDatesExpenses = dateStringExpenseCreated.split("+");
 								if(differentDatesExpenses.length == 1) {
@@ -269,20 +276,23 @@ html5rocks.indexedDB.open = function() {
 									}
 								} else {
 									for(var i=0; i<differentDatesExpenses.length; i++) {
-										datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
-										dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-										
-										if(dateFormatExpenseCreated - todayStartDate > 0) {								
-											expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
-										}
-										if(dateFormatExpenseCreated - weekStartDate > 0) {								
-											expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
-										}
-										if(dateFormatExpenseCreated - monthStartDate > 0) {								
-											expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
-										}
-										if(dateFormatExpenseCreated - yearStartDate > 0) {								
-											expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
+										//we will count in the summary only the ones instances that are paid
+										if(arrayStatusPaid[i] == "paidYes") {
+											datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
+											dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);										
+											
+											if(dateFormatExpenseCreated - todayStartDate > 0) {								
+												expensesToday = parseInt(expensesToday) + parseInt(ammountExpense);
+											}
+											if(dateFormatExpenseCreated - weekStartDate > 0) {								
+												expenses7days = parseInt(expenses7days) + parseInt(ammountExpense);
+											}
+											if(dateFormatExpenseCreated - monthStartDate > 0) {								
+												expensesThisMonth = parseInt(expensesThisMonth) + parseInt(ammountExpense);
+											}
+											if(dateFormatExpenseCreated - yearStartDate > 0) {								
+												expensesThisYear = parseInt(expensesThisYear) + parseInt(ammountExpense);
+											}
 										}
 									}
 								}

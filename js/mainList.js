@@ -711,6 +711,7 @@ html5rocks.indexedDB.open = function() {
 											
 											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
 												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseBillPaid = obj.expenseBillPaid + "+paidNoo";
 												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
 												obj.expenseRepeatLastUpdate = currentDayStringFormat;
 												storeExpence.delete(parseInt(obj.id));
@@ -724,8 +725,10 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-										//when updating in repeat cycle, then also update account balance
-										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										//when updating in repeat cycle, then also update account balance (bills are pending for start)
+										if(obj.expenseCategory != "Bill") {
+											updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										}
 									}								
 								} else if (repeatPeriodExpense == "Dayly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
@@ -751,6 +754,7 @@ html5rocks.indexedDB.open = function() {
 											
 											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
 												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseBillPaid = obj.expenseBillPaid + "+paidNoo";
 												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
 												obj.expenseRepeatLastUpdate = currentDayStringFormat;
 												storeExpence.delete(parseInt(obj.id));
@@ -764,8 +768,10 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-										//when updating in repeat cycle, then also update account balance
-										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										//when updating in repeat cycle, then also update account balance (bills are pending for start)
+										if(obj.expenseCategory != "Bill") {
+											updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										}
 									}								
 								} else if (repeatPeriodExpense == "Weekly") {
 									//alert(days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds');
@@ -795,6 +801,7 @@ html5rocks.indexedDB.open = function() {
 											
 											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
 												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseBillPaid = obj.expenseBillPaid + "+paidNoo";								
 												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
 												obj.expenseRepeatLastUpdate = currentDayStringFormat;
 												storeExpence.delete(parseInt(obj.id));
@@ -808,8 +815,10 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-										//when updating in repeat cycle, then also update account balance
-										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										//when updating in repeat cycle, then also update account balance (bills are pending for start)
+										if(obj.expenseCategory != "Bill") {
+											updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										}
 									}								
 								} else if (repeatPeriodExpense == "Monthly") {
 									var monthss = 0;
@@ -849,6 +858,7 @@ html5rocks.indexedDB.open = function() {
 											
 											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
 												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseBillPaid = obj.expenseBillPaid + "+paidNoo";
 												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
 												obj.expenseRepeatLastUpdate = currentDayStringFormat;
 												storeExpence.delete(parseInt(obj.id));
@@ -862,8 +872,10 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-										//when updating in repeat cycle, then also update account balance
-										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										//when updating in repeat cycle, then also update account balance (bills are pending for start)
+										if(obj.expenseCategory != "Bill") {
+											updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										}
 									}								
 								} else if (repeatPeriodExpense == "Yearly") {
 									var yearss = 0;
@@ -903,6 +915,7 @@ html5rocks.indexedDB.open = function() {
 											
 											if((currentDayDate - nextExpenseCreatedDayDate >= 0) && (endRepeatDayDate - nextExpenseCreatedDayDate >= 0)) {
 												obj.expenseCreated = obj.expenseCreated + "+" + nextExpenseDayStringFormat;
+												obj.expenseBillPaid = obj.expenseBillPaid + "+paidNoo";
 												obj.expenseNumItems = (parseInt(obj.expenseNumItems) + 1).toString();
 												obj.expenseRepeatLastUpdate = currentDayStringFormat;
 												storeExpence.delete(parseInt(obj.id));
@@ -916,8 +929,10 @@ html5rocks.indexedDB.open = function() {
 											var datePartsNextUp = nextExpenseDayStringFormat.split("/");//	17/04/2014/23/59
 											lastCreatedDayDate = new Date(datePartsNextUp[2],datePartsNextUp[1] - 1,datePartsNextUp[0],datePartsNextUp[3],datePartsNextUp[4]);											
 										}
-										//when updating in repeat cycle, then also update account balance
-										updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										//when updating in repeat cycle, then also update account balance (bills are pending for start)
+										if(obj.expenseCategory != "Bill") {
+											updateAccountBalanceRepeat(numberTimesExpenseAdded,obj.expenseAmmount,obj.expenseAccount,"expense");
+										}
 									}								
 								}
 								//howMany++;
