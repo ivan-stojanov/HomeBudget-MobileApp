@@ -17,7 +17,7 @@ $(document).ready(function() {
 	addAccountsDropDowns();
 	$("#transferBtn").on("click", function(event){
 		var condition;
-		condition = (($('#transferAmmount').val().length > 0) && ($('#drop-down-list-from-account').val().length > 0) && ($('#drop-down-list-from-account').val() != "points") && ($('#drop-down-list-to-account').val() != "points") && ($('#drop-down-list-to-account').val().length > 0) && ($('#drop-down-list-from-account').val() != $('#drop-down-list-to-account').val()) && (parseFloat($('#transferAmmount').val()) != 0) && ($('#transferDate').val().length > 0));
+		condition = (($('#transferAmmount').val().length > 0) && ($('#drop-down-list-from-account').val().length > 0) && ($('#drop-down-list-from-account').val() != "points") && ($('#drop-down-list-to-account').val() != "points") && ($('#drop-down-list-to-account').val().length > 0) && ($('#drop-down-list-from-account').val() != $('#drop-down-list-to-account').val()) && (parseFloat($('#transferAmmount').val()) != 0) && ($('#transferDate').val().length > 0) && (parseFloat($('#transferAmmount').val()) > 0));
 		
 		if(condition == true) {
 			if(confirm("Are you sure you want to create this transfer?")){											
@@ -91,10 +91,10 @@ $(document).ready(function() {
 						</tr>
 						<tr><td colspan="2"><hr></td></tr>
 					</table>	
-					<div id="resultLog"></div>
+					<!--<div id="resultLog"></div>-->
 				</div>	
 			</form> 			
-			<div id="busy">Loading...</div>	
+			<!--<div id="busy">Loading...</div>	-->
 				<br>
 				<p class="fantasyStyle" align="right">Current Date:  <span id="currentDate"></span></p>
 		</div>
