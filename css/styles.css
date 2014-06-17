@@ -361,10 +361,6 @@ li .line1 {
 
 	.ui-btn-text > span
 	{
-		font-size: 6px;
-	}
-	.ui-link-inherit
-	{
-		font-size: 6px;
+		/*font-size: 6px;*/
 	}
 }
