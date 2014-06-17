@@ -114,7 +114,6 @@ html5rocks.indexedDB.open = function() {
 	
 			var numItemsRequesr = openedIndexPaidBillsCount.count();	
 			var countTest = 0;	var classUnderline = "";
-			var countTestBill = 0;
 			//we need numItems because we need to find last item in the cursor and add the class "last child" so that is underlined
 			numItemsRequesr.onsuccess = function(evt) {   
 				var numItems = evt.target.result;
@@ -124,26 +123,31 @@ html5rocks.indexedDB.open = function() {
 				
 					var cursor = evt.target.result;					
 					if (cursor) {
-						var appendToList;
-						
+						var appendToList;						
 						var arrayBillPaidStatus = (cursor.value.expenseBillPaid).split("+");
 						var paidBillStatusYes = false;
 						for(var countBillPaidStatus = 0; countBillPaidStatus < arrayBillPaidStatus.length; countBillPaidStatus++){
 							if(arrayBillPaidStatus[countBillPaidStatus] == "paidYes") { paidBillStatusYes = true; }
-						}
-						
+						}						
 						if(countPaidBills == 0) { $('#billsListUL').hide(); } else { $('#billsListUL').show(); }
 						if((cursor.value.expenseCategory != "Bill") || (cursor.value.expenseCategory == "Bill" && paidBillStatusYes == true/*cursor.value.expenseBillPaid == "paidYes"*/)){
-							if (cursor.value.expenseCategory == "Bill" && paidBillStatusYes == true/*cursor.value.expenseBillPaid == "paidYes"*/) 
-									{ appendToList = "#billsListULe"; countTestBill++;}	
-							else	{ appendToList = "#expensesListUL"; }
+							var numItemsCount = parseInt(cursor.value.expenseNumItems);
+							if (cursor.value.expenseCategory == "Bill" && paidBillStatusYes == true/*cursor.value.expenseBillPaid == "paidYes"*/) { 
+								appendToList = "#billsListULe";
+								numItemsCount = 0;
+								var arrayNumPaidBills = (cursor.value.expenseBillPaid).split("+");
+								for(var countBills = 0; countBills < arrayNumPaidBills.length; countBills++){
+									if(arrayNumPaidBills[countBills] == "paidYes"){
+										numItemsCount++;
+									}
+								}
+							} else {
+								appendToList = "#expensesListUL";
+							}
 							countTest++;
 							if (countPaidBills == 0) {
 								if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 							} else {
-								//if (appendToList == "#billsListULe" && (countTest) == numItems - (numItems - countNotPaidBills - countPaidBills) - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-								//if (countTestBill == (numItems - countNotPaidBills) && appendToList == "#billsListULe") { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-								//alert(/*countTestBill /*+ */" " + (countNotPaidBills));
 								if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
 							}
 							var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
@@ -155,7 +159,7 @@ html5rocks.indexedDB.open = function() {
 							text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetails.html" ';
 							text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
 							text6 = cursor.value.id + "." + cursor.value.expenseName + " - " + cursor.value.expenseBillPaid; ;
-							text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * parseInt(cursor.value.expenseNumItems) + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+							text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * numItemsCount + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
 							
 							$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
 						}
