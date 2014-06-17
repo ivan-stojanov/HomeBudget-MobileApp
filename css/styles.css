@@ -348,3 +348,23 @@ li .line1 {
 	color:rgb(163, 163, 163);
 	cursor:pointer;
 }
+
+@media only screen and (max-width: 767px) {
+	.titleTXT
+	{
+		font-size: 8px;
+	}
+	.ui-btn-text
+	{
+		font-size: 6px;
+	}
+
+	.ui-btn-text > span
+	{
+		font-size: 6px;
+	}
+	.ui-link-inherit
+	{
+		font-size: 6px;
+	}
+}
