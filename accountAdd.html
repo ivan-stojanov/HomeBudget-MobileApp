@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function() {
 	$("#save").on("click", function(event){
-		if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) && (parseFloat($('#accountBalance').val()) > 0) && ($('#accountDate').val().length > 0)){   
+		if(($('#accountName').val().length > 0) && ($('#accountType').val().length > 0) && ($('#accountBalance').val().length > 0) /*&& (parseFloat($('#accountBalance').val()) > 0)*/ && ($('#accountDate').val().length > 0)){   
 
 			if(confirm("Are you sure you want to create this account?")){	
 				funcAccountAdd();				

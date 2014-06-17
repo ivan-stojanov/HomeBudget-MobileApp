@@ -374,7 +374,7 @@ $( document ).ready(function() {
 	});
 	
 	$("#saveAcc").on("click", function(event){
-		var condition = (($("#accNameValue").val().length > 0) && ($("#accNameValue").val().length > 0) && ($("#accTypeValue").val().length > 0) && ($("#accBalanceValue").val().length > 0) && (parseFloat($('#accBalanceValue').val()) > 0) && ($("#accDate").html().length > 0));
+		var condition = (($("#accNameValue").val().length > 0) && ($("#accNameValue").val().length > 0) && ($("#accTypeValue").val().length > 0) && ($("#accBalanceValue").val().length > 0) /*&& (parseFloat($('#accBalanceValue').val()) > 0)*/ && ($("#accDate").html().length > 0));
 		if(!condition) {
 			alert("Please fill all the fields with corresponding informations!");
 			return false;
