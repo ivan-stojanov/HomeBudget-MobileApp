@@ -137,115 +137,115 @@ html5rocks.indexedDB.open = function() {
 								appendToList = "#expensesListUL";
 							}	
 							
-dateStringExpensePaidStatus = cursor.value.expenseBillPaid;
-differentPaidStatus = dateStringExpensePaidStatus.split("+");
-							
-dateStringExpenseCreated = cursor.value.expenseCreated;
-differentDatesExpenses = dateStringExpenseCreated.split("+");						
-if(differentDatesExpenses.length == 1) {
-	datePartsIterate = dateStringExpenseCreated.split("/");	//	17/04/2014/23/59
-	dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-	var currentTime = new Date();
-	if(conditionItem == "today"){
-		condition = ((dateFormatExpenseCreated - todayStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-	} else if(conditionItem == "past7days"){
-		condition = ((dateFormatExpenseCreated - weekStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-	} else if(conditionItem == "thisMonth"){
-		condition = ((dateFormatExpenseCreated - monthStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-	} else if(conditionItem == "thisYear"){
-		condition = ((dateFormatExpenseCreated - yearStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-	} else {
-		condition = true;
-	}
-	if(condition){
-		countTest++;
-		if (countPaidBills == 0) {
-			if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-		} else {
-			if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-		}
-		var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
-		var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
+							dateStringExpensePaidStatus = cursor.value.expenseBillPaid;
+							differentPaidStatus = dateStringExpensePaidStatus.split("+");
+														
+							dateStringExpenseCreated = cursor.value.expenseCreated;
+							differentDatesExpenses = dateStringExpenseCreated.split("+");						
+							if(differentDatesExpenses.length == 1) {
+								datePartsIterate = dateStringExpenseCreated.split("/");	//	17/04/2014/23/59
+								dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+								var currentTime = new Date();
+								if(conditionItem == "today"){
+									condition = ((dateFormatExpenseCreated - todayStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+								} else if(conditionItem == "past7days"){
+									condition = ((dateFormatExpenseCreated - weekStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+								} else if(conditionItem == "thisMonth"){
+									condition = ((dateFormatExpenseCreated - monthStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+								} else if(conditionItem == "thisYear"){
+									condition = ((dateFormatExpenseCreated - yearStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+								} else {
+									condition = true;
+								}
+								if(condition){
+									countTest++;
+									if (countPaidBills == 0) {
+										if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+									} else {
+										if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+									}
+									var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
+									var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
 
-		var numMultiple;
-		if(cursor.value.expenseBillPaid == "paidYes") {
-			numMultiple = 1;
-			if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
-			if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
-		} else {
-			numMultiple = 0;
-		}		
-		
-		text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
-		text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
-		text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
-		text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetails.html" ';
-		text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
-		text6 = /*cursor.value.id + "." +*/ cursor.value.expenseName/*+ " - " + cursor.value.expenseBillPaid*/;
-		text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * numMultiple + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
-		
-		$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
-	}
-}else {
-	var countMoreInstances = 0;
-	for(var i=0; i<differentDatesExpenses.length; i++) {
-		datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
-		dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
-		var currentTime = new Date();
-		if(conditionItem == "today"){
-			condition = ((dateFormatExpenseCreated - todayStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-		} else if(conditionItem == "past7days"){
-			condition = ((dateFormatExpenseCreated - weekStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-		} else if(conditionItem == "thisMonth"){
-			condition = ((dateFormatExpenseCreated - monthStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-		} else if(conditionItem == "thisYear"){
-			condition = ((dateFormatExpenseCreated - yearStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
-		} else {
-			condition = true;
-		}
-		if(condition){
-			countTest++;
-			if(cursor.value.expenseCategory == "Bill"){
-				if(differentPaidStatus[i] == "paidYes"){
-					countMoreInstances++;
-				}
-			} else {
-				countMoreInstances++;
-			}
-		}
-	}
-	
-	if(countMoreInstances > 0){
-	
-		if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
-		if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
-		
-		if (countPaidBills == 0) {
-			if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-		} else {
-			if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
-		}
-		var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
-		var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
+									var numMultiple;
+									if(cursor.value.expenseBillPaid == "paidYes") {
+										numMultiple = 1;
+										if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
+										if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
+									} else {
+										numMultiple = 0;
+									}		
+									
+									text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
+									text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
+									text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
+									text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetailsSummary.html" ';
+									text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
+									text6 = /*cursor.value.id + "." +*/ cursor.value.expenseName/*+ " - " + cursor.value.expenseBillPaid*/;
+									text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * numMultiple + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+									
+									$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
+								}
+							}else {
+								var countMoreInstances = 0;
+								for(var i=0; i<differentDatesExpenses.length; i++) {
+									datePartsIterate = differentDatesExpenses[i].split("/");	//	17/04/2014/23/59
+									dateFormatExpenseCreated = new Date(datePartsIterate[2],datePartsIterate[1] - 1,datePartsIterate[0],datePartsIterate[3],datePartsIterate[4]);
+									var currentTime = new Date();
+									if(conditionItem == "today"){
+										condition = ((dateFormatExpenseCreated - todayStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+									} else if(conditionItem == "past7days"){
+										condition = ((dateFormatExpenseCreated - weekStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+									} else if(conditionItem == "thisMonth"){
+										condition = ((dateFormatExpenseCreated - monthStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+									} else if(conditionItem == "thisYear"){
+										condition = ((dateFormatExpenseCreated - yearStartDate > 0) && (currentTime - dateFormatExpenseCreated > 0));
+									} else {
+										condition = true;
+									}
+									if(condition){
+										countTest++;
+										if(cursor.value.expenseCategory == "Bill"){
+											if(differentPaidStatus[i] == "paidYes"){
+												countMoreInstances++;
+											}
+										} else {
+											countMoreInstances++;
+										}
+									}
+								}
+								
+								if(countMoreInstances > 0){
+								
+									if(cursor.value.expenseCategory == "Bill") countBillsOnly++;
+									if(cursor.value.expenseCategory != "Bill") countExpensesOnly++;
+									
+									if (countPaidBills == 0) {
+										if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+									} else {
+										if (countTest == numItems - countNotPaidBills) { classUnderline = " ui-last-child"; } else { classUnderline = ""; }
+									}
+									var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
+									var currentColor = setStyleColor(cursor.value.expenseAmmount);	//function defined below
 
-		var numMultiple;
-		if(cursor.value.expenseAmmount == "Bill") {
-			numMultiple = countMoreInstances;//countPaidBills;
-		} else {
-			numMultiple = countMoreInstances;//countPaidBills;//cursor.value.expenseNumItems;
-		}
-		
-		text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
-		text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
-		text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
-		text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetails.html" ';
-		text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
-		text6 = /*cursor.value.id + "." +*/ cursor.value.expenseName/*+ " - " + cursor.value.expenseBillPaid*/;
-		text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * numMultiple + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
-		
-		$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
-	}
-}
+									var numMultiple;
+									if(cursor.value.expenseAmmount == "Bill") {
+										numMultiple = countMoreInstances;//countPaidBills;
+									} else {
+										numMultiple = countMoreInstances;//countPaidBills;//cursor.value.expenseNumItems;
+									}
+									
+									text1 = '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" ';
+									text2 = 'data-icon="arrow-r" data-iconpos="right" data-theme="c" ';
+									text3 = 'class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '">';
+									text4 = '<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="expenseDetailsSummary.html" ';
+									text5 = 'onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">';
+									text6 = /*cursor.value.id + "." +*/ cursor.value.expenseName/*+ " - " + cursor.value.expenseBillPaid*/;
+									text7 = '<label style="color:red" class="rightSide ' + currentClass + 'Style">-' + parseInt(cursor.value.expenseAmmount) * numMultiple + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+									
+									$(appendToList).append(text1 + text2 + text3 + text4 + text5 + text6 + text7);
+								}
+							}
 						}
 						cursor.continue();
 					}
