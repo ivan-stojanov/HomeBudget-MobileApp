@@ -349,7 +349,7 @@ li .line1 {
 	cursor:pointer;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 480px) {
 	.titleTXT
 	{
 		font-size: 8px;
@@ -357,10 +357,5 @@ li .line1 {
 	.ui-btn-text
 	{
 		font-size: 6px;
-	}
-
-	.ui-btn-text > span
-	{
-		/*font-size: 6px;*/
 	}
 }
