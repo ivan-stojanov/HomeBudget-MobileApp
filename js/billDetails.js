@@ -67,7 +67,7 @@ html5rocks.indexedDB.open = function() {
 				status = "paidYes";
 			} else {
 				message = "Mark as Paid";
-				status = "paidNo";
+				status = "paidNoo";
 			}
 			
 			if(result.expenseBillPaid == "paidYes") {
@@ -138,7 +138,7 @@ $( document ).ready(function() {
 		requestChange.onsuccess = function(e) {
 			html5rocks.indexedDB.db = e.target.result;
 			if(currentObj.expenseBillPaid == "paidYes") {
-				newCurrentBill.expenseBillPaid = "paidNo";
+				newCurrentBill.expenseBillPaid = "paidNoo";
 			} else { 
 				newCurrentBill.expenseBillPaid = "paidYes";
 			}
@@ -166,7 +166,7 @@ $( document ).ready(function() {
 						
 							if((cursorA.value.accountName).toString() == (currentObj.expenseAccount).toString()) {
 								var newAccountAmmount;
-								if(newCurrentBill.expenseBillPaid == "paidNo") {
+								if(newCurrentBill.expenseBillPaid == "paidNoo") {
 									newAccountAmmount = (parseInt(cursorA.value.accountBalance) + parseInt(currentObj.expenseAmmount)).toString();
 								}else if(newCurrentBill.expenseBillPaid == "paidYes") {
 									newAccountAmmount = (parseInt(cursorA.value.accountBalance) - parseInt(currentObj.expenseAmmount)).toString();
@@ -241,8 +241,8 @@ $( document ).ready(function() {
 							replace.id = cursor.value.id;
 							replace.expenseAccount = cursor.value.expenseAccount;
 							replace.expenseAmmount = cursor.value.expenseAmmount;
-							if( cursor.value.expenseBillPaid == "paidNo" )  	{ replace.expenseBillPaid = "paidYes"; }
-							else												{ replace.expenseBillPaid = "paidNo"; }
+							if( cursor.value.expenseBillPaid == "paidNoo" )  	{ replace.expenseBillPaid = "paidYes"; }
+							else												{ replace.expenseBillPaid = "paidNoo"; }
 							replace.expenseCategory = cursor.value.expenseCategory;
 							replace.expenseDueDate = cursor.value.expenseDueDate;
 							replace.expenseName = cursor.value.expenseName;

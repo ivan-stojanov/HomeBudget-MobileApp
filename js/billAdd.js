@@ -148,7 +148,7 @@ function funcBillAdd() {
 			expenseDueDate: billDueDate,
 			expenseRepeatCycle: billRepeatCycle,
 			expenseRepeatEndDate: billRepeatEndDate,
-			expenseBillPaid: billPaid,	//paidNo OR paidYes
+			expenseBillPaid: billPaid,	//paidNoo OR paidYes
 			expenseRepeat: billRepeat,
 			expenseRepeatLastUpdate: today,
 			expenseCreated: today,

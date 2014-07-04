@@ -96,7 +96,7 @@ html5rocks.indexedDB.open = function() {
 					if(cursorPaidBills.value["expenseCategory"] == "Bill" && cursorPaidBills.value["expenseBillPaid"] == "paidYes"){
 						countPaidBills++;
 					}
-					if(cursorPaidBills.value["expenseCategory"] == "Bill" && cursorPaidBills.value["expenseBillPaid"] == "paidNo"){
+					if(cursorPaidBills.value["expenseCategory"] == "Bill" && cursorPaidBills.value["expenseBillPaid"] == "paidNoo"){
 						countNotPaidBills++;
 					}
 					cursorPaidBills['continue']();

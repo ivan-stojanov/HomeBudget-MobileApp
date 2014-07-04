@@ -32,6 +32,7 @@ var storeAccounts;
 var replaceAccount = new Object;
 var thisExpenseAccount = "";
 var thisExpenseAmmount = "";
+var replaceDeletedInstance;
 
 html5rocks.indexedDB.db = null;
 
@@ -68,8 +69,6 @@ html5rocks.indexedDB.open = function() {
 			$('#expenseAmmount').text(result.expenseAmmount);
 			$('#expenseAccount').text(result.expenseAccount);
 			$('#expenseCategory').text(result.expenseCategory);			
-			//$('#expenseDueDate').text(result.expenseDueDate);
-			$('#expenseDueDate').text(result.expenseCreated);
 			$('#expenseRepeatCycle').text(result.expenseRepeatCycle);
 			$('#expenseRepeatEndDate').text(result.expenseRepeatEndDate);
 				//get today date
@@ -81,6 +80,12 @@ html5rocks.indexedDB.open = function() {
 				var yyyy = today.getFullYear(); 
 				today = dd+'/'+mm+'/'+yyyy+'/'+h+'/'+min;
 			$('#currentDate').text(today);
+			
+			var listDates = (result.expenseCreated).split("+");
+ 			for(var countDates = 0; countDates < listDates.length; countDates++) {
+ 				$('#expenseCreated').html($('#expenseCreated').html() + "<br><br>Date of expense: " + listDates[countDates]);
+ 				$('#expenseCreated').html($('#expenseCreated').html() + "<input type='submit' value='Delete This' onclick=deleteDate('" + result.expenseCreated + "','" + listDates[countDates] + "','" + countDates + "','" + listDates.length + "')>");				
+ 			}
 			
 			//this informations we need in case user delete this expense, then we need to update the account that is related to the expense
 			thisExpenseAccount = result.expenseAccount;
@@ -106,11 +111,97 @@ html5rocks.indexedDB.open = function() {
 					//alert("finish");
 				}
 			}
-		}
-		
+			replaceDeletedInstance =  {
+				expenseName: result.expenseName,
+				expenseAmmount: result.expenseAmmount,
+				expenseAccount: result.expenseAccount,
+				expenseCategory: result.expenseCategory,
+				expenseDueDate: result.expenseDueDate,
+				expenseRepeatCycle: result.expenseRepeatCycle,
+				expenseRepeatEndDate: result.expenseRepeatEndDate,
+				expenseRepeat: result.expenseRepeat,
+				expenseRepeatLastUpdate: result.expenseRepeatLastUpdate,
+				expenseCreated: result.expenseCreated,
+				expenseNumItems: parseInt(result.expenseNumItems) - 1,
+				expenseBillPaid: result.expenseBillPaid,
+				id: result.id
+ 			};
+		}		
 	};
 	request.onerror = html5rocks.indexedDB.onerror;
 };
+
+function deleteDate(comleteStringDate, dateToDelete, currentPosition, totalPositions) {
+ 	//alert(comleteStringDate);
+ 	//var completeString = comleteStringDate;
+ 	
+ 	if(totalPositions == 1) {
+ 		if(confirm("Are you sure you want to completely delete this expense?")){		
+ 			var html5rocks = {};
+ 			html5rocks.indexedDB = {};
+ 			html5rocks.indexedDB.db = null;
+ 			var openedDB = localStorage["openedDB"];	
+ 			var requestDelete = indexedDB.open(openedDB);			
+ 			requestDelete.onsuccess = function(e) {
+ 				html5rocks.indexedDB.db = e.target.result;
+ 				var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+ 				storeAccounts.delete(parseInt(replaceAccount.id));
+ 				storeAccounts.add(replaceAccount);
+ 				var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");	
+ 				store.delete(parseInt(getExpenseID));
+ 				alert("This expense is deleted!");
+ 				window.location.href = "expensesList.html";
+ 				return true;				
+ 			}			
+ 			requestDelete.onerror = function(e) {
+ 				alert('request.onerror!');
+ 			}				
+ 		} else {
+ 			event.preventDefault();
+ 			return false;
+ 		}
+ 	} else {
+ 		if(confirm("Are you sure you want to delete this instance of the expense created at " + dateToDelete + " ?")){
+ 			if (currentPosition == 0) {					//if the first instance of the expense is deleted
+ 				var allStringDates = comleteStringDate;
+ 				var allWithoutDeletedDate = allStringDates.replace(dateToDelete + "+", "");
+ 				replaceDeletedInstance.expenseCreated = allWithoutDeletedDate;
+ 				//alert(allWithoutDeletedDate);
+ 			} else {									//if the other then first instance of the expense is deleted
+ 				var allStringDates = comleteStringDate;
+ 				var allWithoutDeletedDate = allStringDates.replace("+" + dateToDelete, "");
+ 				replaceDeletedInstance.expenseCreated = allWithoutDeletedDate;
+ 				//alert(allWithoutDeletedDate);
+ 			}
+ 			
+ 			var html5rocks = {};
+ 			html5rocks.indexedDB = {};
+ 			html5rocks.indexedDB.db = null;
+ 			var openedDB = localStorage["openedDB"];	
+ 			var requestDelete = indexedDB.open(openedDB);			
+ 			requestDelete.onsuccess = function(e) {
+ 				html5rocks.indexedDB.db = e.target.result;
+ 				var storeAccounts = html5rocks.indexedDB.db.transaction(["accounts"], "readwrite").objectStore("accounts");	
+ 				storeAccounts.delete(parseInt(replaceAccount.id));
+ 				storeAccounts.add(replaceAccount);
+ 				var store = html5rocks.indexedDB.db.transaction(["expenses"], "readwrite").objectStore("expenses");				
+ 				store.delete(parseInt(getExpenseID));
+ 				store.add(replaceDeletedInstance);
+ 				alert("This instance of the expense is deleted!");
+ 				window.location.href = "expenseDetails.html";
+ 				return true;				
+ 			}			
+ 			requestDelete.onerror = function(e) {
+ 				alert('request.onerror!');
+ 			}		
+ 		} else {
+ 			event.preventDefault();
+ 			return false;
+ 		}
+ 	}
+ 	//completeString.replace(dateToDelete, "");
+ }
+ +
 
 $( document ).ready(function() {
 	$(".confirmDelete").on("click", function(event){
@@ -151,8 +242,8 @@ $( document ).ready(function() {
 						replace.expenseRepeatLastUpdate = cursorThisID.value.expenseRepeatLastUpdate;
 						replace.expenseCreated = cursorThisID.value.expenseCreated;
 						replace.expenseNumItems = cursorThisID.value.expenseNumItems;
-						if( cursorThisID.value.expenseBillPaid == "paidNo" ){ replace.expenseBillPaid = "paidYes"; }
-						else			 									{ replace.expenseBillPaid = "paidNo";  }
+						if( cursorThisID.value.expenseBillPaid == "paidNoo" ){ replace.expenseBillPaid = "paidYes"; }
+						else			 									{ replace.expenseBillPaid = "paidNoo";  }
 						replace.id = cursorThisID.value.id;
 					}
 					cursorThisID.continue();

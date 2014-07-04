@@ -165,7 +165,7 @@ function funcExpenseAdd() {
 			expenseDueDate: expenseDueDate,
 			expenseRepeatCycle: expenseRepeatCycle,
 			expenseRepeatEndDate: expenseRepeatEndDate,
-			expenseBillPaid: "paidNo",
+			expenseBillPaid: "paidNoo",
 			expenseRepeat: expenseRepeat,
 			expenseRepeatLastUpdate: today,
 			expenseCreated: today,

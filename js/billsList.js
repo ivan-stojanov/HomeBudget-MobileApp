@@ -121,7 +121,7 @@ html5rocks.indexedDB.open = function() {
 						var currentClass = (cursor.value.expenseName).toLowerCase().replace(" ","");
 						var currentColor = setStyleColor(cursor.value.expenseBillPaid);	//function defined below
 						var sign = "-";
-						if(cursor.value.expenseBillPaid == "paidNo") {	sign = "pending: ";	}
+						if(cursor.value.expenseBillPaid == "paidNoo") {	sign = "pending: ";	}
 
 						$('#billsListUL').append('<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c' + classUnderline + '"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="billDetails.html" onclick="callFunction('+ cursor.value.id +')" rel="external" class="ui-link-inherit">' + cursor.value.id + "." + cursor.value.expenseName /*+ " - " + cursor.value.expenseBillPaid*/ + '<label style="color:' + currentColor + '" class="rightSide ' + currentClass + 'Style">' + sign + cursor.value.expenseAmmount + ' MKD</label></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
 						cursor.continue();
@@ -177,7 +177,7 @@ function callFunction(getBillID) {
 function setStyleColor(currentPaidStatus) {												
 	if(currentPaidStatus == "paidYes") {
 		return "red";
-	} else { 	//if(currentPaidStatus == "paidNo")
+	} else { 	//if(currentPaidStatus == "paidNoo")
 		return "blue";
 	}
 }
